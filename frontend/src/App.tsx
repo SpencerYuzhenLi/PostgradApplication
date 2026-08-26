@@ -440,26 +440,13 @@ function App() {
                         setProgrammeDraft(null)
                     }}
                     onUpdated={updatedProgramme => {
-                        setProgrammes(current => {
-                            const next =
-                                current.map(programme =>
-                                    programme.id === updatedProgramme.id
-                                        ? updatedProgramme
-                                        : programme
-                                )
-
-                            console.log(
-                                'programmes after update',
-                                next.map(programme => ({
-                                    id: programme.id,
-                                    name:
-                                        programme.programmeShortName,
-                                    links: programme.links,
-                                }))
+                        setProgrammes(current =>
+                            current.map(programme =>
+                                programme.id === updatedProgramme.id
+                                    ? updatedProgramme
+                                    : programme
                             )
-
-                            return next
-                        })
+                        )
                     }}
                     onDeleted={programmeId => {
                         setProgrammes(current =>
