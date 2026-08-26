@@ -6,7 +6,7 @@
     "programmeName": "DPhil in Mathematics",
     "applicationOpens": null,
     "deadline": null,
-    "referenceSubmission": "Email invitation",
+    "referenceSubmission": "Email invitation after applicant registers referees",
     "informationForRefereesUrl": "https://www.ox.ac.uk/admissions/graduate/application-guide/references/information-for-referees",
     "refereeNotes": null
   },
@@ -19,7 +19,7 @@
     "deadline": "2026-12-18",
     "referenceSubmission": "Via the online application system",
     "informationForRefereesUrl": null,
-    "refereeNotes": null
+    "refereeNotes": "Courant's admissions policies webpage only mentions that \"letters must be submitted using the online application system\". Presumably there will be email invitations sent to referees. It's unknown whether such invitations will be sent once the applicant has registered the referees, or once the applicant has submitted the application"
   },
   {
     "id": 3,
@@ -50,9 +50,9 @@
     "programmeName": "MSc in Mathematics",
     "applicationOpens": "2026-11-01",
     "deadline": "2026-11-30",
-    "referenceSubmission": "Email invitation",
+    "referenceSubmission": "Email invitation after applicant submits application",
     "informationForRefereesUrl": null,
-    "refereeNotes": null
+    "refereeNotes": "The application deadline is 30 Nov 2026; reference letters may be submitted until two weeks after the application deadline."
   },
   {
     "id": 6,
@@ -61,7 +61,7 @@
     "programmeName": "PhD in Mathematics",
     "applicationOpens": "2026-09-24",
     "deadline": "2026-12-01",
-    "referenceSubmission": "Email invitation",
+    "referenceSubmission": "Email invitation after applicant registers referees",
     "informationForRefereesUrl": null,
     "refereeNotes": null
   },
@@ -72,7 +72,7 @@
     "programmeName": "M1 Mathématiques Jacques Hadamard",
     "applicationOpens": "2026-10-29",
     "deadline": "2027-01-08",
-    "referenceSubmission": "Email invitation",
+    "referenceSubmission": "Email invitation after applicant submits application",
     "informationForRefereesUrl": null,
     "refereeNotes": null
   },
@@ -83,9 +83,9 @@
     "programmeName": "MSc in Mathematics",
     "applicationOpens": "2026-11-15",
     "deadline": "2026-12-15",
-    "referenceSubmission": "Email invitation",
+    "referenceSubmission": "Email invitation after applicant submits application",
     "informationForRefereesUrl": null,
-    "refereeNotes": null
+    "refereeNotes": "The application deadline is 15 Dec 2026; reference letters may be submitted until one week after the application deadline."
   },
   {
     "id": 4,
@@ -94,7 +94,7 @@
     "programmeName": "MASt in Mathematics (Mathematical Statistics)",
     "applicationOpens": null,
     "deadline": "2027-01-07",
-    "referenceSubmission": "Email invitation",
+    "referenceSubmission": "Email invitation after applicant registers referees",
     "informationForRefereesUrl": "https://www.postgraduate.study.cam.ac.uk/apply/how/academic-referees",
     "refereeNotes": null
   },
@@ -105,7 +105,7 @@
     "programmeName": "PhD in Mathematics",
     "applicationOpens": null,
     "deadline": "2026-12-01",
-    "referenceSubmission": "Email invitation",
+    "referenceSubmission": "Email invitation after applicant registers referees",
     "informationForRefereesUrl": null,
     "refereeNotes": null
   },
@@ -118,7 +118,7 @@
     "deadline": "2026-12-02",
     "referenceSubmission": "Email invitation",
     "informationForRefereesUrl": null,
-    "refereeNotes": "An email will be sent from gsas-admissions@columbia.edu with instructions for reference submission; they may wish to add gsas-admissions@columbia.edu to their address book or list of contacts to ensure that the message is routed to their inbox.\n\nColumbia GSAS has contracted with Re Vera Services to assist with the verification of letters of recommendation as part of the credentials verification process required by the University. Please tell your recommenders that a representative from Re Vera Services may contact them and confirm that they are able and willing to respond promptly.\n\nPlease inform your recommenders of your program’s application deadline. Letters should be submitted no later than two weeks after this date."
+    "refereeNotes": "The application deadline is 2 Dec 2026; reference letters may be submitted until two weeks after the application deadline. It's not specified whether the invitation links will be sent once the applicant has registered the referees, or once the applicant has submitted the application.\n\nThe following is pasted from Columbia GSAS website:\n\nAn email will be sent from gsas-admissions@columbia.edu with instructions for reference submission; they may wish to add gsas-admissions@columbia.edu to their address book or list of contacts to ensure that the message is routed to their inbox.\n\nColumbia GSAS has contracted with Re Vera Services to assist with the verification of letters of recommendation as part of the credentials verification process required by the University. Please tell your recommenders that a representative from Re Vera Services may contact them and confirm that they are able and willing to respond promptly.\n\nPlease inform your recommenders of your program’s application deadline. Letters should be submitted no later than two weeks after this date."
   },
   {
     "id": 17,
@@ -127,7 +127,7 @@
     "programmeName": "PhD in Mathematics",
     "applicationOpens": null,
     "deadline": "2026-12-20",
-    "referenceSubmission": "Email invitation",
+    "referenceSubmission": "Email invitation after applicant registers referees",
     "informationForRefereesUrl": null,
     "refereeNotes": null
   },
@@ -138,7 +138,7 @@
     "programmeName": "PhD in Mathematics",
     "applicationOpens": "2026-10-01",
     "deadline": "2027-03-31",
-    "referenceSubmission": "By referee",
+    "referenceSubmission": "Email invitation after submission of application",
     "informationForRefereesUrl": null,
     "refereeNotes": null
   },
