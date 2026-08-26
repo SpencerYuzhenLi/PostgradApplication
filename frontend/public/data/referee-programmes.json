@@ -8,7 +8,7 @@
     "deadline": null,
     "referenceSubmission": "Email invitation after applicant registers referees",
     "informationForRefereesUrl": "https://www.ox.ac.uk/admissions/graduate/application-guide/references/information-for-referees",
-    "refereeNotes": null
+    "refereeNotes": "Application timeline details are to be announced."
   },
   {
     "id": 2,
@@ -138,9 +138,9 @@
     "programmeName": "PhD in Mathematics",
     "applicationOpens": "2026-10-01",
     "deadline": "2027-03-31",
-    "referenceSubmission": "Email invitation after submission of application",
+    "referenceSubmission": "Email invitation after applicant submits application",
     "informationForRefereesUrl": null,
-    "refereeNotes": null
+    "refereeNotes": "Imperial has a loose application timeline. Reference letters should ideally be submitted before the end of March to receive full consideration for funding opportunities."
   },
   {
     "id": 10,
@@ -149,7 +149,7 @@
     "programmeName": "PhD in Mathematics",
     "applicationOpens": "2026-10-01",
     "deadline": "2026-12-01",
-    "referenceSubmission": "By referee",
+    "referenceSubmission": "Email invitation after applicant registers referees",
     "informationForRefereesUrl": null,
     "refereeNotes": null
   },
@@ -160,9 +160,9 @@
     "programmeName": "PhD in Mathematics",
     "applicationOpens": null,
     "deadline": "2027-08-02",
-    "referenceSubmission": "By referee",
+    "referenceSubmission": "Email invitation after applicant submits application",
     "informationForRefereesUrl": null,
-    "refereeNotes": null
+    "refereeNotes": "Warwick has a loose application timeline. Reference letters should be submitted early-ish to receive full consideration for funding opportunities."
   },
   {
     "id": 13,
@@ -171,9 +171,9 @@
     "programmeName": "MSc in Mathematics",
     "applicationOpens": "2026-12-01",
     "deadline": "2027-01-15",
-    "referenceSubmission": "By referee",
+    "referenceSubmission": "Email invitation",
     "informationForRefereesUrl": null,
-    "refereeNotes": null
+    "refereeNotes": "It's not specified whether invitation links will be sent once the applicant has registered the referees, or once the applicant has submitted the application."
   },
   {
     "id": 18,
@@ -182,7 +182,7 @@
     "programmeName": "PhD in Mathematics",
     "applicationOpens": null,
     "deadline": "2026-12-10",
-    "referenceSubmission": "By referee",
+    "referenceSubmission": "Email invitation after applicant registers referees",
     "informationForRefereesUrl": null,
     "refereeNotes": null
   },
@@ -193,9 +193,9 @@
     "programmeName": "PhD in Mathematics",
     "applicationOpens": "2026-10-01",
     "deadline": null,
-    "referenceSubmission": "By referee",
+    "referenceSubmission": "Email invitation after applicant registers referees",
     "informationForRefereesUrl": null,
-    "refereeNotes": null
+    "refereeNotes": "The deadline for submitting reference letters, which is the same as the application deadline, is to be announced."
   },
   {
     "id": 19,
@@ -204,9 +204,9 @@
     "programmeName": "PhD in Mathematics",
     "applicationOpens": null,
     "deadline": "2027-01-01",
-    "referenceSubmission": "By referee",
+    "referenceSubmission": "Email invitation",
     "informationForRefereesUrl": null,
-    "refereeNotes": null
+    "refereeNotes": "It's not specified whether the invitation links are sent once the applicant has registered the referees, or once the applicant has submitted the application."
   },
   {
     "id": 8,
@@ -215,7 +215,7 @@
     "programmeName": "PhD in Mathematics",
     "applicationOpens": null,
     "deadline": "2026-12-03",
-    "referenceSubmission": "By referee",
+    "referenceSubmission": "Email invitation after applicant registers referees",
     "informationForRefereesUrl": null,
     "refereeNotes": null
   },
@@ -226,9 +226,9 @@
     "programmeName": "PhD in Mathematics",
     "applicationOpens": null,
     "deadline": "2026-12-05",
-    "referenceSubmission": "By referee",
+    "referenceSubmission": "Email invitation after applicant registers referees",
     "informationForRefereesUrl": null,
-    "refereeNotes": null
+    "refereeNotes": "The application deadline is 5 Dec 2026; reference letters may be submitted until one week after the application deadline."
   },
   {
     "id": 37,
@@ -237,7 +237,7 @@
     "programmeName": "PhD in Mathematics",
     "applicationOpens": null,
     "deadline": "2026-12-10",
-    "referenceSubmission": "By referee",
+    "referenceSubmission": "Email invitation after applicant registers referees",
     "informationForRefereesUrl": null,
     "refereeNotes": null
   },
@@ -248,7 +248,7 @@
     "programmeName": "PhD in Mathematics",
     "applicationOpens": "2026-09-21",
     "deadline": "2026-12-04",
-    "referenceSubmission": "By referee",
+    "referenceSubmission": "Email invitation after applicant registers referees",
     "informationForRefereesUrl": null,
     "refereeNotes": null
   },
@@ -259,9 +259,9 @@
     "programmeName": "MSc in Mathematical Sciences",
     "applicationOpens": null,
     "deadline": null,
-    "referenceSubmission": "By referee",
+    "referenceSubmission": "Email invitation after applicant registers referees",
     "informationForRefereesUrl": null,
-    "refereeNotes": null
+    "refereeNotes": "Application timeline details are to be announced."
   },
   {
     "id": 35,
@@ -270,7 +270,7 @@
     "programmeName": "PhD Track in Mathematics",
     "applicationOpens": "2026-10-14",
     "deadline": "2027-01-20",
-    "referenceSubmission": "By referee",
+    "referenceSubmission": "Email invitation after applicant submits application",
     "informationForRefereesUrl": null,
     "refereeNotes": null
   },
@@ -281,7 +281,7 @@
     "programmeName": "M1 Applied Mathematics and Statistics",
     "applicationOpens": "2026-10-29",
     "deadline": "2027-01-08",
-    "referenceSubmission": "By referee",
+    "referenceSubmission": "Email invitation after applicant submits application",
     "informationForRefereesUrl": null,
     "refereeNotes": null
   }
