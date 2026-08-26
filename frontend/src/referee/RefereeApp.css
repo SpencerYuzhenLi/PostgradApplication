@@ -25,6 +25,9 @@
     overflow-y: auto;
 
     overscroll-behavior-y: contain;
+
+    container-type: inline-size;
+    container-name: referee-pane;
 }
 
 .referee-header {
@@ -130,5 +133,18 @@
 
         width: 100%;
         height: auto;
+    }
+}
+
+@container referee-pane (max-width: 450px) {
+    .referee-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    .referee-actions {
+        width: 100%;
+        justify-content: flex-end;
     }
 }
