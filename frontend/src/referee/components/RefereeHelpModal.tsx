@@ -128,7 +128,10 @@ export function RefereeHelpModal({
                 <div className="referee-help-content">
                     <p>
                         This page lists the postgraduate
-                        programmes I intend to apply for.
+                        programmes I intend to apply for,
+                        as well as any information relevant
+                        to references. The information may
+                        be updated from time to time.
                     </p>
 
                     <section className="referee-help-section">
