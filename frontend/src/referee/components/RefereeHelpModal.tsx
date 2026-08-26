@@ -148,12 +148,14 @@ export function RefereeHelpModal({
                             <strong>Opens</strong> is the
                             date the application opens.{' '}
                             <strong>Deadline</strong> is the
-                            earlier of the application
-                            deadline and the reference
-                            deadline. and is therefore the
-                            date by which the reference should
-                            be submitted. A blank cell means
-                            that no information is available.
+                            date by which the reference
+                            letters must be submitted: for
+                            some programmes this is the same
+                            as the application deadline, while
+                            for others this might be later
+                            than the application deadline. A
+                            blank cell means that no
+                            information is available.
                         </p>
                     </section>
 

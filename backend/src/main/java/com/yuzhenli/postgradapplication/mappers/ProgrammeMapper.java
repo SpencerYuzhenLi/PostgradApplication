@@ -30,22 +30,8 @@ public interface ProgrammeMapper {
     default LocalDate getRefereeDeadline(
             Programme programme
     ) {
-        LocalDate applicationDeadline =
-                programme.getApplicationDeadline();
-
-        LocalDate referenceDeadline =
-                programme.getReferenceDeadline();
-
-        if (applicationDeadline == null) {
-            return referenceDeadline;
-        }
-
-        if (referenceDeadline == null) {
-            return applicationDeadline;
-        }
-
-        return applicationDeadline.isBefore(referenceDeadline)
-                ? applicationDeadline
-                : referenceDeadline;
+        return programme.getReferenceDeadline() != null
+                ? programme.getReferenceDeadline()
+                : programme.getApplicationDeadline();
     }
 }

@@ -40,6 +40,7 @@ export function ProgrammeDetailsPanel({
     const hasReferences = Boolean(
         programme.referenceCount !== null ||
         programme.referenceSubmission ||
+        programme.referenceDeadline ||
         programme.informationForRefereesUrl
     )
 
@@ -159,6 +160,11 @@ export function ProgrammeDetailsPanel({
                         <ProgrammeDetailRow
                             label="Submission"
                             value={programme.referenceSubmission}
+                        />
+
+                        <ProgrammeDetailRow
+                            label="Deadline"
+                            value={programme.referenceDeadline}
                         />
 
                         {programme.informationForRefereesUrl && (
