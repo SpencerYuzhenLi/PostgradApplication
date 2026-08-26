@@ -158,13 +158,13 @@ export function ProgrammeDetailsPanel({
                         />
 
                         <ProgrammeDetailRow
-                            label="Submission"
-                            value={programme.referenceSubmission}
+                            label="Deadline"
+                            value={programme.referenceDeadline}
                         />
 
                         <ProgrammeDetailRow
-                            label="Deadline"
-                            value={programme.referenceDeadline}
+                            label="Submission"
+                            value={programme.referenceSubmission}
                         />
 
                         {programme.informationForRefereesUrl && (
