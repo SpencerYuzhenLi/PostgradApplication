@@ -6,9 +6,20 @@
     "programmeName": "DPhil in Mathematics",
     "applicationOpens": null,
     "deadline": null,
-    "referenceSubmission": "Online reference system",
+    "referenceSubmission": "Email invitation",
     "informationForRefereesUrl": "https://www.ox.ac.uk/admissions/graduate/application-guide/references/information-for-referees",
-    "refereeNotes": "Here are some example notes for testing. More notes, and more notes."
+    "refereeNotes": null
+  },
+  {
+    "id": 2,
+    "programmeShortName": "NYU PhD",
+    "institutionName": "New York University",
+    "programmeName": "PhD in Mathematics",
+    "applicationOpens": null,
+    "deadline": "2026-12-18",
+    "referenceSubmission": "Via the online application system",
+    "informationForRefereesUrl": null,
+    "refereeNotes": null
   },
   {
     "id": 3,
@@ -17,9 +28,9 @@
     "programmeName": "M1 Mathématiques et Applications Parcours Jacques Hadamard",
     "applicationOpens": "2027-02-17",
     "deadline": "2027-03-16",
-    "referenceSubmission": "Upload PDF",
+    "referenceSubmission": "Uploaded by applicant in a PDF format",
     "informationForRefereesUrl": null,
-    "refereeNotes": null
+    "refereeNotes": "There's a separate admissions scheme for the Sophie Germain scholarship, which is open from October to the end of January. Under this scheme, referees will receive an email invitation to submit a reference."
   },
   {
     "id": 27,
@@ -28,9 +39,9 @@
     "programmeName": "M1 Mathématiques et Applications",
     "applicationOpens": "2026-10-16",
     "deadline": "2026-12-15",
-    "referenceSubmission": "Filling out a form",
+    "referenceSubmission": "Referees fill out a form and send it to applicant",
     "informationForRefereesUrl": null,
-    "refereeNotes": null
+    "refereeNotes": "The reference letter form for the previous application cycle may be found in the following link:\n\nhttps://www.ens.psl.eu/sites/default/files/modele-lettre-recommandation-selection-internationale-2026_vf_.pdf"
   },
   {
     "id": 5,
@@ -39,7 +50,7 @@
     "programmeName": "MSc in Mathematics",
     "applicationOpens": "2026-11-01",
     "deadline": "2026-11-30",
-    "referenceSubmission": null,
+    "referenceSubmission": "Email invitation",
     "informationForRefereesUrl": null,
     "refereeNotes": null
   },
@@ -50,7 +61,7 @@
     "programmeName": "PhD in Mathematics",
     "applicationOpens": "2026-09-24",
     "deadline": "2026-12-01",
-    "referenceSubmission": null,
+    "referenceSubmission": "Email invitation",
     "informationForRefereesUrl": null,
     "refereeNotes": null
   },
@@ -61,7 +72,7 @@
     "programmeName": "M1 Mathématiques Jacques Hadamard",
     "applicationOpens": "2026-10-29",
     "deadline": "2027-01-08",
-    "referenceSubmission": "Online by the referees",
+    "referenceSubmission": "Email invitation",
     "informationForRefereesUrl": null,
     "refereeNotes": null
   },
@@ -72,7 +83,7 @@
     "programmeName": "MSc in Mathematics",
     "applicationOpens": "2026-11-15",
     "deadline": "2026-12-15",
-    "referenceSubmission": "By referee",
+    "referenceSubmission": "Email invitation",
     "informationForRefereesUrl": null,
     "refereeNotes": null
   },
@@ -83,8 +94,8 @@
     "programmeName": "MASt in Mathematics (Mathematical Statistics)",
     "applicationOpens": null,
     "deadline": "2027-01-07",
-    "referenceSubmission": "By referee",
-    "informationForRefereesUrl": null,
+    "referenceSubmission": "Email invitation",
+    "informationForRefereesUrl": "https://www.postgraduate.study.cam.ac.uk/apply/how/academic-referees",
     "refereeNotes": null
   },
   {
@@ -94,7 +105,7 @@
     "programmeName": "PhD in Mathematics",
     "applicationOpens": null,
     "deadline": "2026-12-01",
-    "referenceSubmission": "By referee",
+    "referenceSubmission": "Email invitation",
     "informationForRefereesUrl": null,
     "refereeNotes": null
   },
@@ -105,9 +116,9 @@
     "programmeName": "PhD in Mathematics",
     "applicationOpens": null,
     "deadline": "2026-12-02",
-    "referenceSubmission": "By referee",
+    "referenceSubmission": "Email invitation",
     "informationForRefereesUrl": null,
-    "refereeNotes": null
+    "refereeNotes": "An email will be sent from gsas-admissions@columbia.edu with instructions for reference submission; they may wish to add gsas-admissions@columbia.edu to their address book or list of contacts to ensure that the message is routed to their inbox.\n\nColumbia GSAS has contracted with Re Vera Services to assist with the verification of letters of recommendation as part of the credentials verification process required by the University. Please tell your recommenders that a representative from Re Vera Services may contact them and confirm that they are able and willing to respond promptly.\n\nPlease inform your recommenders of your program’s application deadline. Letters should be submitted no later than two weeks after this date."
   },
   {
     "id": 17,
@@ -116,7 +127,7 @@
     "programmeName": "PhD in Mathematics",
     "applicationOpens": null,
     "deadline": "2026-12-20",
-    "referenceSubmission": "By referee",
+    "referenceSubmission": "Email invitation",
     "informationForRefereesUrl": null,
     "refereeNotes": null
   },
@@ -271,17 +282,6 @@
     "applicationOpens": "2026-10-29",
     "deadline": "2027-01-08",
     "referenceSubmission": "By referee",
-    "informationForRefereesUrl": null,
-    "refereeNotes": null
-  },
-  {
-    "id": 2,
-    "programmeShortName": "NYU PhD",
-    "institutionName": "New York University",
-    "programmeName": "PhD in Mathematics",
-    "applicationOpens": null,
-    "deadline": "2026-12-18",
-    "referenceSubmission": "Via the online application system",
     "informationForRefereesUrl": null,
     "refereeNotes": null
   }
