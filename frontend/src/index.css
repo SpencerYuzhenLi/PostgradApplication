@@ -1,0 +1,191 @@
+:root {
+    --text: #6b6375;
+    --text-h: #08060d;
+    --bg: #faf9f6;
+    --border: #e4e2dd;
+    --code-bg: #f4f3ec;
+    --accent: #16803c;
+    --accent-bg: rgba(22, 128, 60, 0.10);
+    --accent-border: rgba(22, 128, 60, 0.50);
+    --danger: #e06c75;
+    --danger-border: #a84f58;
+    --danger-bg: rgba(224, 108, 117, 0.12);
+    --social-bg: rgba(244, 243, 236, 0.5);
+
+    --shadow:
+        rgba(0, 0, 0, 0.1) 0 10px 15px -3px,
+        rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+
+    --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+    --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
+    --mono: ui-monospace, Consolas, monospace;
+
+    font: 16px/145% var(--sans);
+    letter-spacing: 0.18px;
+
+    color-scheme: light dark;
+    color: var(--text);
+    background: var(--bg);
+
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+:root[data-theme='dark'] {
+    --text: #9ca3af;
+    --text-h: #f3f4f6;
+    --bg: #16171d;
+    --border: #2e303a;
+    --code-bg: #1f2028;
+    --accent: #c084fc;
+    --accent-bg: rgba(192, 132, 252, 0.15);
+    --accent-border: rgba(192, 132, 252, 0.5);
+    --social-bg: rgba(47, 48, 58, 0.5);
+
+    --shadow:
+        rgba(0, 0, 0, 0.4) 0 10px 15px -3px,
+        rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+
+    color-scheme: dark;
+}
+
+:root[data-theme='light'] {
+    color-scheme: light;
+}
+
+
+/* ---------- Global layout ---------- */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    background: var(--bg);
+
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+body {
+    margin: 0;
+    min-width: 320px;
+    min-height: 100vh;
+
+    background: var(--bg);
+    color: var(--text);
+}
+
+#root {
+    width: 100%;
+    min-height: 100vh;
+}
+
+
+/* ---------- Typography ---------- */
+
+h1,
+h2 {
+    font-family: var(--heading);
+    color: var(--text-h);
+}
+
+h1 {
+    margin: 0;
+    font-size: 2rem;
+    line-height: 1.2;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+}
+
+h2 {
+    margin: 0 0 0.5rem;
+
+    font-size: 1.25rem;
+    line-height: 1.2;
+    font-weight: 600;
+}
+
+p {
+    margin: 0;
+}
+
+
+/* ---------- Form elements ---------- */
+
+input,
+button,
+select,
+textarea {
+    font: inherit;
+}
+
+input[type='text'],
+input[type='search'],
+select,
+textarea {
+    color: var(--text);
+    background: var(--code-bg);
+
+    border: 1px solid var(--border);
+    border-radius: 0.3rem;
+}
+
+input[type='checkbox'] {
+    accent-color: var(--accent);
+}
+
+
+/* ---------- Miscellaneous ---------- */
+
+code {
+    padding: 0.2rem 0.4rem;
+
+    border-radius: 0.25rem;
+
+    font-family: var(--mono);
+    font-size: 0.875rem;
+
+    color: var(--text-h);
+    background: var(--code-bg);
+}
+
+
+/* ---------- Neutral action ---------- */
+
+.neutral-action {
+    appearance: none;
+
+    padding: 0.2rem 0.4rem;
+
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+
+    background: transparent;
+    color: var(--text);
+
+    font: inherit;
+    font-size: 0.8rem;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.neutral-action:hover:not(:disabled) {
+    border-color: var(--accent-border);
+    color: var(--accent);
+}
+
+.neutral-action:focus-visible {
+    border-color: var(--accent);
+
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+}
+
+.neutral-action:disabled {
+    opacity: 0.5;
+    cursor: default;
+}

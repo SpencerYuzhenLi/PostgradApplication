@@ -1,0 +1,92 @@
+.settings-button {
+    appearance: none;
+
+    padding: 0.25rem 0.45rem;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+
+    border: 1px solid transparent;
+    border-radius: 0.35rem;
+
+    background: transparent;
+    color: var(--text);
+
+    font: inherit;
+    font-size: 0.8rem;
+    font-weight: 600;
+
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.settings-button:hover {
+    border-color: var(--accent-border);
+    color: var(--text-h);
+}
+
+.settings-button:focus-visible {
+    border-color: var(--accent);
+
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+}
+
+.settings-icon {
+    flex: 0 0 auto;
+
+    width: 1rem;
+    height: 1rem;
+
+    color: var(--accent);
+}
+
+.settings {
+    position: relative;
+    flex: 0 0 auto;
+}
+
+.settings-popover {
+    position: absolute;
+
+    top: calc(100% + 0.4rem);
+    right: 0;
+
+    z-index: 100;
+
+    min-width: 14rem;
+    padding: 0.75rem;
+
+    border: 1px solid var(--border);
+    border-radius: 0.4rem;
+
+    background: var(--bg);
+    box-shadow: var(--shadow);
+}
+
+.settings-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.settings-section-title {
+    color: var(--text-h);
+
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.settings-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+
+    color: var(--text);
+
+    font-size: 0.8rem;
+
+    white-space: nowrap;
+}

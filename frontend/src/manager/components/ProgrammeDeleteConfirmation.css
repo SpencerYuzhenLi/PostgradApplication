@@ -1,0 +1,89 @@
+/* ---------- Delete confirmation ----------  */
+
+.delete-confirmation-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 300;
+
+    padding: 1rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(0, 0, 0, 0.35);
+
+    overscroll-behavior: contain;
+}
+
+.delete-confirmation {
+    width: min(24rem, 100%);
+    padding: 1rem;
+
+    border: 1px solid var(--danger-border);
+    border-radius: 0.5rem;
+
+    background: var(--bg);
+    box-shadow: var(--shadow);
+}
+
+.delete-confirmation h2 {
+    margin: 0 0 0.75rem;
+
+    color: var(--text-h);
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.delete-confirmation p {
+    margin: 0;
+
+    color: var(--text);
+    font-size: 0.8rem;
+    line-height: 1.5;
+}
+
+.delete-confirmation-error {
+    margin-top: 0.75rem !important;
+
+    color: var(--danger) !important;
+    font-weight: 600;
+}
+
+.delete-confirmation-actions {
+    margin-top: 1rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}
+
+/* ---------- Final delete ---------- */
+
+.confirm-delete {
+    appearance: none;
+
+    padding: 0.25rem 0.5rem;
+
+    border: 1px solid var(--danger-border);
+    border-radius: 0.3rem;
+
+    background: var(--danger-bg);
+    color: var(--danger);
+
+    font: inherit;
+    font-size: 0.8rem;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.confirm-delete:hover {
+    border-color: var(--danger);
+}
+
+.confirm-delete:focus-visible {
+    outline: 2px solid var(--danger);
+    outline-offset: 1px;
+}

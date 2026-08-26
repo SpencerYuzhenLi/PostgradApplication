@@ -1,0 +1,125 @@
+/* ---------- Links editor ---------- */
+
+.programme-links-editor {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.programme-link-editor {
+    padding: 0.75rem;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+
+    border: 1px solid var(--border);
+    border-radius: 0.4rem;
+}
+
+.programme-link-add {
+    appearance: none;
+
+    align-self: flex-start;
+
+    padding: 0.25rem 0.4rem;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+
+    background: transparent;
+    color: var(--text);
+
+    font: inherit;
+    font-size: 0.8rem;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.programme-link-add span {
+    color: var(--accent);
+}
+
+.programme-link-add:hover {
+    border-color: var(--accent-border);
+    color: var(--text-h);
+}
+
+.programme-link-add:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+}
+
+
+/* ---------- Action buttons ---------- */
+
+.programme-link-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.35rem;
+}
+
+.programme-link-move,
+.programme-link-remove {
+    appearance: none;
+
+    padding: 0.2rem 0.35rem;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+
+    background: transparent;
+
+    font: inherit;
+    font-size: 0.8rem;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.programme-link-move {
+    color: var(--text);
+}
+
+.programme-link-move:hover:not(:disabled) {
+    border-color: var(--accent-border);
+    color: var(--accent);
+}
+
+.programme-link-move:focus-visible {
+    border-color: var(--accent);
+
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+}
+
+.programme-link-move:disabled {
+    color: var(--text);
+    opacity: 0.35;
+
+    cursor: default;
+}
+
+.programme-link-remove {
+    color: var(--danger);
+}
+
+.programme-link-remove:hover {
+    border-color: var(--danger-border);
+    background: var(--danger-bg);
+}
+
+.programme-link-remove:focus-visible {
+    outline: 2px solid var(--danger);
+    outline-offset: 1px;
+}

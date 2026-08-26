@@ -1,0 +1,807 @@
+main {
+    min-height: 100dvh;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.programme-table {
+    flex: 1 1 auto;
+    min-height: 0;
+    margin: 0 1rem;
+
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* =========================================================
+   Search and filters
+   ========================================================= */
+
+.find-controls {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    padding: 0.5rem 0;
+
+    background: var(--bg);
+
+    flex-wrap: wrap;
+}
+
+.find-clear {
+    appearance: none;
+
+    flex: 0 0 auto;
+
+    padding: 0.2rem 0.55rem;
+
+    border: none;
+    border-left: 1px solid var(--border);
+
+    background: var(--code-bg);
+    color: var(--text);
+
+    font: inherit;
+    font-size: 0.8rem;
+    font-weight: 600;
+
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.find-clear:hover:not(:disabled) {
+    background: var(--accent-bg);
+    color: var(--accent);
+}
+
+.find-clear:focus-visible {
+    position: relative;
+    z-index: 1;
+
+    outline: 2px solid var(--accent);
+    outline-offset: -2px;
+}
+
+.find-clear:disabled {
+    opacity: 0.35;
+    cursor: default;
+}
+
+.find-clear:not(:disabled) {
+    color: var(--text-h);
+}
+
+
+/* ---------- Shared group labels ---------- */
+
+.search-label,
+.filter-label {
+    box-sizing: border-box;
+    width: 4rem;
+
+    justify-content: center;
+
+    padding: 0.2rem 0.55rem;
+
+    display: flex;
+    align-items: center;
+
+    background: var(--accent-bg);
+    color: var(--accent);
+
+    font-size: 0.8rem;
+    font-weight: 600;
+
+    white-space: nowrap;
+}
+
+
+/* ---------- Search ---------- */
+
+.search {
+    flex: 1 1 0;
+    min-width: 0;
+
+    display: flex;
+    align-items: stretch;
+
+    border: 1px solid var(--border);
+    border-radius: 0.35rem;
+
+    overflow: hidden;
+}
+
+.search-label {
+    border-right: 1px solid var(--border);
+}
+
+.search input {
+    appearance: none;
+
+    flex: 1;
+    min-width: 10rem;
+
+    padding: 0.2rem 0.45rem;
+
+    border: none;
+    border-radius: 0;
+
+    background: var(--code-bg);
+    color: var(--text-h);
+
+    font: inherit;
+    font-size: 0.8rem;
+}
+
+.search input::-webkit-search-cancel-button {
+    display: none;
+}
+
+.search:hover {
+    border-color: var(--accent-border);
+}
+
+.search:focus-within {
+    border-color: var(--accent);
+
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+}
+
+.search input:focus {
+    outline: none;
+}
+
+
+/* ---------- Filter toolbar ---------- */
+
+.filters {
+    flex: 1 1 0;
+    min-width: 0;
+
+    display: flex;
+    align-items: stretch;
+
+    border: 1px solid var(--border);
+    border-radius: 0.35rem;
+}
+
+.filter-label {
+    border-right: 1px solid var(--border);
+    border-radius: 0.3rem 0 0 0.3rem;
+}
+
+.filters {
+    flex-wrap: nowrap;
+}
+
+.filter-controls {
+    flex: 1 1 auto;
+    min-width: 0;
+
+    display: flex;
+    align-items: stretch;
+    flex-wrap: nowrap;
+}
+
+
+/* =========================================================
+   Table status
+   ========================================================= */
+
+.table-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    padding: 0.5rem 0 0.5rem 0.5rem;
+}
+
+.programme-count {
+    padding: 0;
+    margin: 0;
+
+    color: var(--text);
+    font-size: 0.8rem;
+}
+
+
+/* =========================================================
+   Column visibility / filtering menus
+   ========================================================= */
+
+/*
+ * Each trigger + popup pair needs a positioned ancestor.
+ * The popup is positioned relative to this container.
+ */
+.column-menu,
+.filter-dropdown {
+    position: relative;
+}
+
+.filter-dropdown {
+    flex: 0 0 auto;
+}
+
+
+/* ---------- Floating menus ---------- */
+
+.column-menu-popover,
+.filter-dropdown-menu {
+    position: absolute;
+    z-index: 50;
+
+    top: calc(100% + 0.35rem);
+
+    padding: 0.4rem;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+
+    border: 1px solid var(--border);
+    border-radius: 0.4rem;
+
+    background: var(--bg);
+    box-shadow: var(--shadow);
+
+    font-size: 0.8rem;
+}
+
+/*
+ * Columns opens below and to the right of its trigger.
+ */
+.column-menu-popover {
+    left: 0;
+    min-width: 11rem;
+}
+
+/*
+ * Filters are at the right side of the find toolbar,
+ * so open them towards the left to reduce the chance
+ * of overflowing the viewport.
+ */
+.filter-dropdown-menu {
+    left: 0;
+}
+
+.filter-dropdown:last-child
+.filter-dropdown-menu {
+    right: 0;
+    left: auto;
+}
+
+.column-menu-trigger {
+    appearance: none;
+
+    padding: 0.15rem 0.25rem;
+
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+
+    background: transparent;
+    color: var(--text);
+
+    font: inherit;
+    font-size: 0.8rem;
+
+    cursor: pointer;
+}
+
+.column-menu-trigger:hover {
+    border-color: var(--accent-border);
+    color: var(--accent);
+}
+
+.column-menu-trigger:focus-visible {
+    border-color: var(--accent);
+
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+}
+
+.column-menu-trigger[aria-expanded='true'] {
+    color: var(--accent);
+}
+
+.filter-dropdown-trigger {
+    appearance: none;
+
+    width: auto;
+    height: 100%;
+    justify-content: center;
+    padding: 0.2rem 0.55rem;
+
+    border: none;
+    border-right: 1px solid var(--border);
+    border-radius: 0;
+
+    background: var(--code-bg);
+    color: var(--text);
+
+    font: inherit;
+    font-size: 0.8rem;
+
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+
+
+.filter-dropdown-trigger:hover {
+    background: var(--accent-bg);
+    color: var(--accent);
+}
+
+.filter-dropdown-trigger:focus-visible {
+    position: relative;
+    z-index: 1;
+
+    outline: 2px solid var(--accent);
+    outline-offset: -2px;
+}
+
+.filter-dropdown-trigger.active {
+    color: var(--text-h);
+}
+
+.filter-dropdown-trigger[aria-expanded='true'] {
+    background: var(--accent-bg);
+    color: var(--accent);
+}
+
+
+.column-menu-option,
+.filter-dropdown-menu label {
+    padding: 0.2rem 0.3rem;
+
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+
+    border-radius: 0.25rem;
+
+    color: var(--text);
+    font-size: 0.8rem;
+
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.column-menu-option:hover,
+.filter-dropdown-menu label:hover {
+    background: var(--accent-bg);
+    color: var(--text-h);
+}
+
+.column-menu-option input,
+.filter-dropdown-menu input {
+    margin: 0;
+    accent-color: var(--accent);
+}
+
+
+/* =========================================================
+   Table area
+   ========================================================= */
+
+
+.table-area {
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    touch-action: pan-y;
+}
+
+.table-container {
+    --table-scroll-left: 0px;
+
+    flex: 0 0 auto;
+
+    width: 100%;
+    min-width: 0;
+
+    overflow-x: clip;
+    overflow-y: clip;
+}
+
+.table-container::-webkit-scrollbar {
+    display: none;
+}
+
+.programme-table table {
+    transform: translateX(
+        calc(-1 * var(--table-scroll-left))
+    );
+
+    width: max-content;
+    min-width: 100%;
+
+    border-collapse: separate;
+    border-spacing: 0;
+
+    text-align: left;
+}
+
+.programme-table th,
+.programme-table td {
+    padding: 0.2rem 0.45rem;
+
+    text-align: left;
+    white-space: nowrap;
+}
+
+
+/* ---------- Parent headers ---------- */
+
+.parent-header-row th {
+
+    padding: 0 0 0.25rem;
+
+    background: var(--bg);
+
+    color: var(--text);
+    font-size: 0.7rem;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.parent-header-label {
+    margin-right: 0.5rem;
+
+    padding:
+        0.4rem
+        0.45rem
+        0
+        0.45rem;
+
+    border-bottom: 1px solid var(--text);
+}
+
+.parent-header-row th:last-child
+.parent-header-label {
+    margin-right: 0;
+}
+
+
+/* ---------- Child headers ---------- */
+
+.column-header-row {
+    background: var(--bg);
+}
+
+.column-header-row th {
+
+    padding-top: 0.25rem;
+    padding-bottom: 0.5rem;
+
+    background: var(--bg);
+
+    color: var(--text-h);
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.programme-table thead {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+}
+
+.parent-header-row,
+.column-header-row {
+    position: static;
+}
+
+.header-boundary-row th {
+    height: 1px;
+    padding: 0;
+
+    background: var(--text);
+}
+
+/* .header-boundary-row th {
+    position: relative;
+
+    height: 1px;
+    padding: 0;
+
+    background: var(--text);
+}
+
+.header-boundary-row th::after {
+    content: '';
+
+    position: absolute;
+    z-index: 1;
+
+    top: 100%;
+    left: 0;
+    right: 0;
+
+    height: 0.5rem;
+
+    background: var(--bg);
+
+    pointer-events: none;
+} */
+
+
+/* =========================================================
+   Table action icons
+   ========================================================= */
+
+.programme-details-chevron-area,
+.sort-indicator-area {
+    flex: 0 0 auto;
+
+    margin-left: auto;
+    padding-right: 0.2rem;
+
+    display: flex;
+    align-items: center;
+}
+
+.programme-details-chevron,
+.sort-indicator {
+    width: 1rem;
+    height: 1rem;
+}
+
+.programme-details-chevron {
+    color: var(--text);
+}
+
+.sort-indicator {
+    color: var(--accent);
+}
+
+/* =========================================================
+   Programme details trigger
+   ========================================================= */
+
+.programme-details-name {
+    min-width: 0;
+}
+
+.programme-details-trigger {
+    appearance: none;
+
+    width: 100%;
+    margin-left: -0.2rem;
+    padding: 0.2rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+
+    background: transparent;
+    color: inherit;
+
+    font: inherit;
+    text-align: left;
+
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.programme-details-trigger:hover {
+    border-color: var(--accent-border);
+}
+
+.programme-details-trigger:focus-visible {
+    border-color: var(--accent);
+
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+}
+
+.programme-details-trigger.active {
+    border-color: var(--accent-border);
+
+    background: var(--accent-bg);
+    color: var(--accent);
+
+    font-weight: 600;
+}
+
+.programme-details-trigger.active
+.programme-details-chevron {
+    color: var(--accent);
+}
+
+
+/* ---------- Body rows ---------- */
+
+.programme-table tbody tr {
+    font-size: 0.8rem;
+}
+
+.programme-table tbody td {
+    padding-right: 0.5rem;
+}
+
+.programme-table tbody tr + tr td {
+    box-shadow: inset 0 1px 0 var(--border);
+}
+
+
+/* =========================================================
+   Pinned Institution column
+   ========================================================= */
+
+/*
+ * The whole table is translated left when horizontally scrolling.
+ * Counter-translate the Institution column by the same amount so
+ * that it remains stationary.
+ */
+.pinned-programme {
+    position: relative;
+
+    transform: translateX(
+        var(--table-scroll-left)
+    );
+
+    width: 1%;
+    white-space: nowrap;
+
+    background: var(--bg);
+}
+
+
+/* ---------- Pinned Institution body cells ---------- */
+
+tbody .pinned-programme {
+    z-index: 10;
+}
+
+thead .pinned-programme {
+    z-index: 20;
+}
+
+
+/* ---------- Pinned Programme headers ---------- */
+
+.parent-header-row .pinned-programme,
+.column-header-row .pinned-programme {
+    z-index: 1;
+}
+
+
+/* ---------- Pinned Institution vertical boundary ---------- */
+
+/*
+ * Once horizontally scrolled, draw a continuous vertical rule
+ * through the parent header, child header, and body cells.
+ *
+ * The rule is inset by the same 0.5rem used as the right margin
+ * of .parent-header-label, so it meets the right endpoint of the
+ * INSTITUTION parent-header underline.
+ */
+.table-container.is-horizontally-scrolled
+.pinned-programme::after {
+    content: '';
+
+    position: absolute;
+
+    top: 0;
+    bottom: 0;
+    right: 0.5rem;
+
+    width: 1px;
+
+    background: var(--text);
+
+    opacity: 1;
+    pointer-events: none;
+}
+
+.table-container.hide-pinned-separator
+.pinned-programme::after {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+
+/* =========================================================
+   Horizontal table scrollbar
+   ========================================================= */
+
+.table-horizontal-scrollbar {
+    position: sticky;
+    bottom: 0;
+    z-index: 40;
+
+    flex: 0 0 auto;
+
+    width: 100%;
+    height: 0.9rem;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    background: var(--bg);
+}
+
+.table-horizontal-scrollbar-content {
+    height: 1px;
+}
+
+
+/* =========================================================
+   Sortable headers
+   ========================================================= */
+
+.sortable-header {
+    appearance: none;
+
+    box-sizing: border-box;
+
+    width: 100%;
+    margin: -0.2rem;
+    padding: 0.2rem;
+
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+
+    background: none;
+    color: inherit;
+
+    font: inherit;
+    font-weight: inherit;
+    text-align: left;
+
+    cursor: pointer;
+}
+
+.sortable-header:hover {
+    border-color: var(--accent-border);
+}
+
+.sortable-header:focus-visible {
+    border-color: var(--accent);
+
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+}
+
+.sortable-header-label {
+    flex: 0 0 auto;
+}
+
+
+/* =========================================================
+   Responsive controls
+   ========================================================= */
+
+@container programme-pane (max-width: 50rem) {
+    .find-controls {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .search,
+    .filters {
+        flex: 0 0 auto;
+        width: 100%;
+    }
+}

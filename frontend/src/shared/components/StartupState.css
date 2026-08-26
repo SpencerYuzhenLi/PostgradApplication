@@ -1,0 +1,109 @@
+.startup-state {
+    width: 100%;
+    min-height: 100dvh;
+    padding: 1rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.startup-state-content {
+    width: min(24rem, 100%);
+
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.startup-state-content > h1 {
+    text-align: center;
+}
+
+
+/* ---------- Loading ---------- */
+
+.startup-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+
+    color: var(--text);
+    font-size: 0.8rem;
+}
+
+.startup-loading-track {
+    position: relative;
+
+    width: 8rem;
+    height: 2px;
+
+    overflow: hidden;
+
+    border-radius: 1px;
+
+    background: var(--border);
+}
+
+.startup-loading-indicator {
+    position: absolute;
+
+    top: 0;
+    bottom: 0;
+
+    width: 35%;
+
+    border-radius: inherit;
+
+    background: var(--accent);
+
+    animation:
+        startup-loading-slide
+        1.2s
+        ease-in-out
+        infinite;
+}
+
+@keyframes startup-loading-slide {
+    from {
+        transform: translateX(-100%);
+    }
+
+    to {
+        transform: translateX(385%);
+    }
+}
+
+
+/* ---------- Error ---------- */
+
+.startup-error {
+    padding: 1rem;
+
+    border: 1px solid var(--danger-border);
+    border-radius: 0.5rem;
+
+    background: var(--bg);
+    box-shadow: var(--shadow);
+}
+
+.startup-error h2 {
+    margin: 0 0 0.5rem;
+
+    color: var(--danger);
+    font-size: 0.9rem;
+}
+
+.startup-error p {
+    margin: 0 0 1rem;
+
+    color: var(--text);
+    font-size: 0.8rem;
+    line-height: 1.5;
+}
+
+.startup-error .neutral-action {
+    display: block;
+    margin-left: auto;
+}

@@ -1,0 +1,272 @@
+/* ---------- Modal backdrop ---------- */
+
+.programme-modal-backdrop {
+    position: fixed;
+    inset: 0;
+
+    z-index: 200;
+
+    padding: 2rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(0, 0, 0, 0.45);
+
+    overscroll-behavior: contain;
+}
+
+.programme-modal {
+    width: min(40rem, 100%);
+    max-height: calc(100dvh - 4rem);
+
+    display: flex;
+    flex-direction: column;
+
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+
+    background: var(--bg);
+    box-shadow: var(--shadow);
+
+    text-align: left;
+
+    overflow: hidden;
+
+    container-type: inline-size;
+    container-name: programme-modal;
+}
+
+
+/* ---------- Modal header ---------- */
+
+.programme-modal-header {
+    flex: 0 0 auto;
+
+    padding: 0.75rem 1rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+
+    border-bottom: 1px solid var(--text);
+}
+
+.programme-modal-header h2 {
+    margin: 0;
+
+    color: var(--text);
+    font-size: 0.7rem;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+
+/* ---------- Modal body ---------- */
+
+.programme-modal-body {
+    position: relative;
+
+    flex: 1 1 auto;
+    min-height: 0;
+
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
+.programme-modal-body::before {
+    content: '';
+
+    position: sticky;
+    z-index: 10;
+    top: 0;
+
+    display: block;
+
+    width: 100%;
+    height: 0.5rem;
+    margin-bottom: -0.5rem;
+
+    background: var(--bg);
+
+    pointer-events: none;
+}
+
+.programme-modal-body::after {
+    content: '';
+
+    position: sticky;
+    z-index: 10;
+    bottom: 0;
+
+    display: block;
+
+    width: 100%;
+    height: 0.5rem;
+    margin-top: -0.5rem;
+
+    background: var(--bg);
+
+    pointer-events: none;
+}
+
+.programme-modal-body-content {
+    padding: 1rem;
+}
+
+
+/* ---------- Modal footer ---------- */
+
+.programme-modal-footer {
+    flex: 0 0 auto;
+
+    padding: 0.75rem 1rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+
+    border-top: 1px solid var(--border);
+}
+
+.programme-modal-footer-start,
+.programme-modal-footer-end {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+
+/* ---------- Delete button ---------- */
+
+.programme-modal-delete {
+    appearance: none;
+
+    padding: 0.25rem 0.45rem;
+
+    border: 1px solid transparent;
+    border-radius: 0.3rem;
+
+    background: transparent;
+    color: var(--danger);
+
+    font: inherit;
+    font-size: 0.8rem;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.programme-modal-delete:hover {
+    border-color: var(--danger-border);
+    background: var(--danger-bg);
+}
+
+.programme-modal-delete:focus-visible {
+    border-color: var(--danger);
+
+    outline: 2px solid var(--danger);
+    outline-offset: 1px;
+}
+
+
+/* ---------- Submit buttons ---------- */
+
+.programme-modal-submit {
+    appearance: none;
+
+    padding: 0.25rem 0.5rem;
+
+    border: 1px solid var(--accent-border);
+    border-radius: 0.3rem;
+
+    background: var(--accent-bg);
+    color: var(--accent);
+
+    font: inherit;
+    font-size: 0.8rem;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.programme-modal-submit:hover {
+    border-color: var(--accent);
+}
+
+.programme-modal-submit:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+}
+
+
+
+.programme-modal-delete,
+.programme-modal-submit,
+.programme-modal-footer .neutral-action {
+    white-space: nowrap;
+}
+
+
+/* ---------- Responsive behaviour ---------- */
+
+@container programme-modal (max-width: 25rem) {
+    .programme-modal-footer {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    .programme-modal-footer-start {
+        justify-content: flex-start;
+    }
+
+    .programme-modal-footer-end {
+        justify-content: flex-end;
+    }
+}
+
+@media (max-width: 600px) {
+    .programme-modal-backdrop {
+        padding: 0;
+
+        align-items: stretch;
+        justify-content: stretch;
+
+        background: var(--bg);
+    }
+
+    .programme-modal {
+        width: 100%;
+        max-width: none;
+
+        height: 100dvh;
+        max-height: none;
+
+        border: none;
+        border-radius: 0;
+
+        box-shadow: none;
+    }
+
+    .programme-modal-header {
+        padding-top:
+            calc(
+                0.75rem +
+                env(safe-area-inset-top)
+            );
+    }
+
+    .programme-modal-footer {
+        padding-bottom:
+            calc(
+                0.75rem +
+                env(safe-area-inset-bottom)
+            );
+    }
+}

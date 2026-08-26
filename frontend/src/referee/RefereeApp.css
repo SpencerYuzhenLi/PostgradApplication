@@ -1,0 +1,134 @@
+.referee-app {
+    width: 100%;
+    height: 100dvh;
+}
+
+.referee-layout {
+    width: 100%;
+    height: 100dvh;
+
+    display: flex;
+    flex-direction: row;
+
+    overflow: hidden;
+}
+
+.referee-main-pane {
+    flex: 1 1 0;
+    min-width: 0;
+    height: 100dvh;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    overscroll-behavior-y: contain;
+}
+
+.referee-header {
+    flex: 0 0 auto;
+
+    margin: 1rem 1rem 0.5rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.referee-identity {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.referee-header h1 {
+    margin: 0;
+
+    color: var(--text-h);
+
+    font-size: 1rem;
+    line-height: 1.2;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+
+    white-space: nowrap;
+}
+
+.referee-actions {
+    flex: 0 0 auto;
+
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.referee-header-action {
+    appearance: none;
+
+    padding: 0.25rem 0.45rem;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+
+    border: 1px solid transparent;
+    border-radius: 0.35rem;
+
+    background: transparent;
+    color: var(--text);
+
+    font: inherit;
+    font-size: 0.8rem;
+    font-weight: 600;
+
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.referee-header-action:hover {
+    border-color: var(--accent-border);
+    color: var(--text-h);
+}
+
+.referee-header-action:focus-visible {
+    border-color: var(--accent);
+
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+}
+
+.referee-header-action-icon {
+    flex: 0 0 auto;
+
+    width: 1rem;
+    height: 1rem;
+
+    color: var(--accent);
+}
+
+.referee-content {
+    flex: 1 1 auto;
+    min-width: 0;
+
+    margin: 0 1rem;
+}
+
+
+
+@media (max-aspect-ratio: 4 / 3) {
+    .referee-layout {
+        flex-direction: column;
+    }
+
+    .referee-main-pane {
+        flex: 1 1 58%;
+
+        min-width: 0;
+        min-height: 0;
+
+        width: 100%;
+        height: auto;
+    }
+}
