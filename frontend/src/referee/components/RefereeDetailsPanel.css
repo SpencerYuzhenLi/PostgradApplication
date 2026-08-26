@@ -249,7 +249,7 @@
 
 @media (max-aspect-ratio: 4 / 3) {
     .referee-details-panel {
-        flex: 1 1 42%;
+        flex: 1 1 45dvh;
 
         min-width: 0;
         min-height: 0;
