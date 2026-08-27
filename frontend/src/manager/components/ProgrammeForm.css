@@ -117,9 +117,9 @@
 
 /* ---------- Input field ---------- */
 
-.programme-form-field input,
-.programme-form-field textarea,
-.programme-form-field select {
+.programme-form-field > input,
+.programme-form-field > textarea,
+.programme-form-field > select {
     box-sizing: border-box;
 
     width: 100%;
@@ -137,24 +137,24 @@
     font-size: 0.8rem;
 }
 
-.programme-form-field input,
-.programme-form-field select {
+.programme-form-field > input,
+.programme-form-field > select {
     height: 2rem;
 }
 
-.programme-form-field select.unselected {
+.programme-form-field > select.unselected {
     color: var(--text);
 }
 
-.programme-form-field input:hover,
-.programme-form-field textarea:hover,
-.programme-form-field select:hover {
+.programme-form-field > input:hover,
+.programme-form-field > textarea:hover,
+.programme-form-field > select:hover {
     border-color: var(--accent-border);
 }
 
-.programme-form-field input:focus,
-.programme-form-field textarea:focus,
-.programme-form-field select:focus {
+.programme-form-field > input:focus,
+.programme-form-field > textarea:focus,
+.programme-form-field > select:focus {
     border-color: var(--accent);
 
     outline: 2px solid var(--accent);

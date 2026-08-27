@@ -2,10 +2,9 @@ package com.yuzhenli.postgradapplication.controllers;
 
 import com.yuzhenli.postgradapplication.dtos.RefereeProgrammeDto;
 import com.yuzhenli.postgradapplication.services.ProgrammeService;
+import com.yuzhenli.postgradapplication.services.RefereeProgrammeService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -14,11 +13,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RefereeProgrammeController {
 
-    private final ProgrammeService programmeService;
+    private final RefereeProgrammeService refereeProgrammeService;
 
     @GetMapping
-    public List<RefereeProgrammeDto> getAll() {
-        return programmeService
-                .getAllRefereeProgrammes();
+    public List<RefereeProgrammeDto> getProgrammes(
+            @RequestParam Integer refereeId
+    ) {
+        return refereeProgrammeService
+                .getProgrammesForReferee(refereeId);
     }
 }

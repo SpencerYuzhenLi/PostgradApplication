@@ -12,7 +12,10 @@ import java.util.List;
 
 @Mapper(
         componentModel = "spring",
-        uses = ProgrammeLinkMapper.class,
+        uses = {
+                ProgrammeLinkMapper.class,
+                RefereeMapper.class
+        },
         unmappedTargetPolicy = ReportingPolicy.ERROR
 )
 public interface ProgrammeMapper {

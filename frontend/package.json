@@ -8,8 +8,6 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "export:referee-data": "node scripts/export-referee-data.mjs",
-    "publish:referee-data": "node scripts/publish-referee-data.mjs",
     "build:referee": "tsc -b && vite build --mode referee"
   },
   "dependencies": {

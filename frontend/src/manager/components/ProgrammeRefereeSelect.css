@@ -1,0 +1,143 @@
+/* =========================================================
+   Referee multiselect
+   ========================================================= */
+
+.programme-referee-select {
+    position: relative;
+
+    min-width: 0;
+}
+
+
+/* ---------- Trigger ---------- */
+
+.programme-referee-select-trigger {
+    appearance: none;
+
+    box-sizing: border-box;
+
+    width: 100%;
+    min-width: 0;
+    height: 2rem;
+    padding: 0.3rem 0.45rem;
+
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    border: 1px solid var(--border);
+    border-radius: 0.35rem;
+
+    background: var(--bg);
+    color: var(--text-h);
+
+    font: inherit;
+    font-size: 0.8rem;
+    text-align: left;
+
+    cursor: pointer;
+}
+
+.programme-referee-select-trigger:hover {
+    border-color: var(--accent-border);
+}
+
+.programme-referee-select-trigger:focus-visible {
+    border-color: var(--accent);
+
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+}
+
+.programme-referee-select-value {
+    min-width: 0;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.programme-referee-select-trigger.unselected
+.programme-referee-select-value {
+    color: var(--text);
+}
+
+.programme-referee-select-chevron {
+    flex: 0 0 auto;
+
+    width: 1rem;
+    height: 1rem;
+    margin-left: auto;
+
+    color: var(--accent);
+}
+
+
+/* ---------- Popover ---------- */
+
+.programme-referee-select-popover {
+    position: absolute;
+
+    top: calc(100% + 0.25rem);
+    left: 0;
+    right: 0;
+
+    z-index: 20;
+
+    padding: 0.35rem;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+
+    border: 1px solid var(--border);
+    border-radius: 0.35rem;
+
+    background: var(--bg);
+    box-shadow: var(--shadow);
+}
+
+
+/* ---------- Options ---------- */
+
+.programme-referee-select-option {
+    padding: 0.3rem 0.4rem;
+
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    border-radius: 0.25rem;
+
+    color: var(--text-h);
+
+    font: inherit;
+    font-size: 0.8rem;
+
+    cursor: pointer;
+}
+
+.programme-referee-select-option:hover {
+    background: var(--accent-bg);
+}
+
+
+/* Override ProgrammeForm's generic input styling. */
+
+.programme-referee-select-option
+input[type='checkbox'] {
+    flex: 0 0 auto;
+
+    margin: 0;
+
+    accent-color: var(--accent);
+}
+
+.programme-referee-select-empty {
+    padding: 0.3rem 0.4rem;
+
+    color: var(--text);
+
+    font-size: 0.8rem;
+}

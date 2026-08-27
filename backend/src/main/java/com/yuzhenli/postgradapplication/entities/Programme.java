@@ -9,7 +9,9 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -102,6 +104,19 @@ public class Programme {
     @Column(name = "reference_count")
     private Integer referenceCount;
 
+    @ManyToMany
+    @JoinTable(
+            name = "programme_referees",
+            joinColumns = @JoinColumn(
+                    name = "programme_id"
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = "referee_id"
+            )
+    )
+    @Builder.Default
+    private Set<Referee> referees = new HashSet<>();
+
     @Column(name = "reference_submission")
     private String referenceSubmission;
 
@@ -131,6 +146,7 @@ public class Programme {
             orphanRemoval = true
     )
     @OrderBy("displayOrder ASC, id ASC")
+    @Builder.Default
     private List<ProgrammeLink> links = new ArrayList<>();
 
 

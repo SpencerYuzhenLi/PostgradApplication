@@ -39,8 +39,9 @@ export function ProgrammeDetailsPanel({
 
     const hasReferences = Boolean(
         programme.referenceCount !== null ||
-        programme.referenceSubmission ||
+        programme.referees.length > 0 ||
         programme.referenceDeadline ||
+        programme.referenceSubmission ||
         programme.informationForRefereesUrl
     )
 
@@ -155,6 +156,20 @@ export function ProgrammeDetailsPanel({
                         <ProgrammeDetailRow
                             label="References"
                             value={programme.referenceCount}
+                        />
+
+                        <ProgrammeDetailRow
+                            label="Referees"
+                            value={
+                                programme.referees.length > 0
+                                    ? programme.referees
+                                        .map(referee => referee.name)
+                                        .sort((a, b) =>
+                                            a.localeCompare(b)
+                                        )
+                                        .join(', ')
+                                    : null
+                            }
                         />
 
                         <ProgrammeDetailRow

@@ -5,13 +5,10 @@ import { ProgrammeFormSection } from './ProgrammeFormSection'
 import { ProgrammeFormField } from './ProgrammeFormField'
 import { ProgrammeFormSelect } from './ProgrammeFormSelect'
 import { ProgrammeFormTextarea } from './ProgrammeFormTextarea'
+import { ProgrammeRefereeSelect } from './ProgrammeRefereeSelect'
 import type { Degree, Region, Country, Status, Programme } from '../../shared/types/Programme'
-import {
-    degreeNames,
-    regionNames,
-    countryNames,
-    statusNames,
-} from '../../shared/utils/displayNames'
+import type { Referee } from '../../shared/types/Referee'
+import { degreeNames, regionNames, countryNames, statusNames } from '../../shared/utils/displayNames'
 
 
 
@@ -55,6 +52,7 @@ export interface ProgrammeFormValues {
     departmentalEtsCode: string
 
     referenceCount: string
+    refereeIds: number[]
     referenceDeadline: string
     referenceSubmission: string
     informationForRefereesUrl: string
@@ -134,6 +132,11 @@ export function getProgrammeFormValues(
         referenceCount:
             programme?.referenceCount?.toString() ?? '',
 
+        refereeIds:
+            programme?.referees.map(
+                referee => referee.id
+            ) ?? [],
+
         referenceDeadline:
             programme?.referenceDeadline ?? '',
 
@@ -172,6 +175,7 @@ export function getProgrammeFormValues(
 interface ProgrammeFormProps {
     values: ProgrammeFormValues
     initialValues: ProgrammeFormValues
+    referees: Referee[]
 
     onChange: (values: ProgrammeFormValues) => void
     onSubmit: (values: ProgrammeFormValues) => void
@@ -182,6 +186,7 @@ interface ProgrammeFormProps {
 export function ProgrammeForm({
     values,
     initialValues,
+    referees,
     onChange,
     onSubmit,
     onDirtyChange,
@@ -275,6 +280,24 @@ export function ProgrammeForm({
             ) {
                 return 'Reference count must be a non-negative whole number.'
             }
+        }
+
+        const validRefereeIds =
+            new Set(
+                referees.map(
+                    referee => referee.id
+                )
+            )
+
+        if (
+            values.refereeIds.some(
+                refereeId =>
+                    !validRefereeIds.has(
+                        refereeId
+                    )
+            )
+        ) {
+            return 'One or more selected referees are no longer available.'
         }
 
         if (values.informationForRefereesUrl.trim() !== '') {
@@ -535,6 +558,14 @@ export function ProgrammeForm({
                     value={values.referenceCount}
                     onChange={value =>
                         updateField('referenceCount', value)
+                    }
+                />
+
+                <ProgrammeRefereeSelect
+                    referees={referees}
+                    value={values.refereeIds}
+                    onChange={value =>
+                        updateField('refereeIds', value)
                     }
                 />
 

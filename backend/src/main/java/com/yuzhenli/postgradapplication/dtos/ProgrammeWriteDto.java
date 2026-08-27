@@ -7,6 +7,7 @@ import com.yuzhenli.postgradapplication.enums.Status;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -50,6 +51,14 @@ public record ProgrammeWriteDto(
 
         @Min(value = 0, message = "must be at least 0")
         Integer referenceCount,
+        List<
+                @NotNull(message = "must not be null")
+                @Min(
+                        value = 1,
+                        message = "must be at least 1"
+                )
+                        Integer
+        > refereeIds,
         String referenceSubmission,
         String informationForRefereesUrl,
         String refereeNotes,

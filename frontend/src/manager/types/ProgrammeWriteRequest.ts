@@ -36,6 +36,7 @@ export interface ProgrammeWriteRequest {
     departmentalEtsCode: string | null
 
     referenceCount: number | null
+    refereeIds: number[]
     referenceSubmission: string | null
     informationForRefereesUrl: string | null
     refereeNotes: string | null
@@ -144,6 +145,9 @@ export function toProgrammeWriteRequest(
 
         referenceCount:
             nullableNumber(values.referenceCount),
+
+        refereeIds:
+            values.refereeIds,
 
         referenceSubmission:
             nullableString(values.referenceSubmission),

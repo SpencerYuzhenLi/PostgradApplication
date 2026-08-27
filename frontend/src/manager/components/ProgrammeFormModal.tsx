@@ -1,6 +1,7 @@
 import './ProgrammeFormModal.css'
 import { useEffect, useRef, useState } from 'react'
 import type { Programme } from '../../shared/types/Programme'
+import type { Referee } from '../../shared/types/Referee'
 import type { ProgrammeFormValues } from './ProgrammeForm'
 import { ProgrammeForm, getProgrammeFormValues } from './ProgrammeForm'
 import { toProgrammeWriteRequest } from '../types/ProgrammeWriteRequest'
@@ -14,6 +15,7 @@ interface ProgrammeFormModalProps {
     mode: 'add' | 'edit'
     programme?: Programme
     draft?: ProgrammeFormValues
+    referees: Referee[]
 
     onClose: () => void
     onCreated?: (programme: Programme) => void
@@ -27,6 +29,7 @@ export function ProgrammeFormModal({
     mode,
     programme,
     draft,
+    referees,
     onClose,
     onCreated,
     onUpdated,
@@ -385,6 +388,7 @@ export function ProgrammeFormModal({
                     <div className="programme-modal-body-content">
                         <ProgrammeForm
                             values={values}
+                            referees={referees}
                             onChange={setValues}
                             initialValues={initialValues}
                             onSubmit={handleSubmit}

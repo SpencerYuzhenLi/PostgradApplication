@@ -2,7 +2,6 @@ import './RefereeApp.css'
 import '../shared/components/StartupState.css'
 import '../shared/components/Settings.css'
 import { useEffect, useRef, useState } from 'react'
-import { loadRefereeProgrammes } from './utils/loadRefereeProgrammes'
 import { HelpIcon } from '../shared/icons/HelpIcon'
 import { RefereeHelpModal } from './components/RefereeHelpModal'
 import { SettingsSelect } from '../shared/components/SettingsSelect'
@@ -12,6 +11,7 @@ import { themeOptions } from '../shared/configs/preferences'
 import { RefereeProgrammeTable } from './components/RefereeProgrammeTable'
 import { RefereeDetailsPanel } from './components/RefereeDetailsPanel'
 import type { RefereeProgramme } from './types/RefereeProgramme'
+import type { Referee } from '../shared/types/Referee'
 
 
 export function RefereeApp() {
@@ -90,10 +90,50 @@ export function RefereeApp() {
         }
     }, [settingsOpen])
 
-    const [programmes, setProgrammes] =
-        useState<RefereeProgramme[]>([])
+    const [programmes, setProgrammes] = useState<RefereeProgramme[]>([])
 
-    const [loading, setLoading] = useState(true)
+    const [referees, setReferees] = useState<Referee[]>([])
+
+    const REFEREE_SELECTION_KEY =
+        'refereeSelectedRefereeId'
+
+    const [
+        selectedRefereeId,
+        setSelectedRefereeId,
+    ] = useState<number | null>(() => {
+        const stored =
+            sessionStorage.getItem(
+                REFEREE_SELECTION_KEY
+            )
+
+        if (stored === null) {
+            return null
+        }
+
+        const id = Number(stored)
+
+        return Number.isInteger(id)
+            ? id
+            : null
+    })
+
+    useEffect(() => {
+        if (selectedRefereeId === null) {
+            sessionStorage.removeItem(
+                REFEREE_SELECTION_KEY
+            )
+            return
+        }
+
+        sessionStorage.setItem(
+            REFEREE_SELECTION_KEY,
+            String(selectedRefereeId)
+        )
+    }, [selectedRefereeId])
+
+    const [initialLoading, setInitialLoading] = useState(true)
+
+    const [programmesLoading, setProgrammesLoading] = useState(false)
 
     const [error, setError] = useState<string | null>(null)
 
@@ -101,7 +141,7 @@ export function RefereeApp() {
             useState(false)
 
         useEffect(() => {
-            if (!loading) {
+            if (!initialLoading) {
                 setShowLoading(false)
                 return
             }
@@ -111,7 +151,7 @@ export function RefereeApp() {
             }, 250)
 
             return () => clearTimeout(timeout)
-        }, [loading])
+        }, [initialLoading])
 
     const [
         selectedProgrammeId,
@@ -125,23 +165,87 @@ export function RefereeApp() {
             ) ?? null
 
     useEffect(() => {
-        loadRefereeProgrammes()
-            .then(data => {
+        fetch('/api/referees')
+            .then(async response => {
+                if (!response.ok) {
+                    throw new Error(
+                        `Could not load referees (${response.status}).`
+                    )
+                }
+
+                return response.json()
+            })
+            .then((data: Referee[]) => {
+                setReferees(data)
+
+                setSelectedRefereeId(current => {
+                    if (
+                        current !== null &&
+                        data.some(
+                            referee =>
+                                referee.id === current
+                        )
+                    ) {
+                        return current
+                    }
+
+                    return data.length > 0
+                        ? data[0].id
+                        : null
+                })
+            })
+            .catch(error => {
+                setError(
+                    error instanceof TypeError
+                        ? 'Could not connect to the server.'
+                        : error instanceof Error
+                            ? error.message
+                            : 'An unexpected error occurred.'
+                )
+
+                setInitialLoading(false)
+            })
+    }, [])
+
+    useEffect(() => {
+        if (selectedRefereeId === null) {
+            setProgrammes([])
+            setInitialLoading(false)
+            return
+        }
+
+        setProgrammesLoading(true)
+        setError(null)
+
+        fetch(
+            `/api/referee-programmes?refereeId=${selectedRefereeId}`
+        )
+            .then(async response => {
+                if (!response.ok) {
+                    throw new Error(
+                        `Could not load programmes (${response.status}).`
+                    )
+                }
+
+                return response.json()
+            })
+            .then((data: RefereeProgramme[]) => {
                 setProgrammes(data)
             })
             .catch(error => {
                 setError(
                     error instanceof TypeError
-                        ? 'Could not load programme data.'
+                        ? 'Could not connect to the server.'
                         : error instanceof Error
                             ? error.message
                             : 'An unexpected error occurred.'
                 )
             })
             .finally(() => {
-                setLoading(false)
+                setProgrammesLoading(false)
+                setInitialLoading(false)
             })
-    }, [])
+    }, [selectedRefereeId])
 
     const helpButtonRef =
         useRef<HTMLButtonElement>(null)
@@ -154,7 +258,7 @@ export function RefereeApp() {
         })
     }
 
-    if (loading) {
+    if (initialLoading) {
         return showLoading ? (
             <main className="startup-state">
                 <div className="startup-state-content">
@@ -224,6 +328,38 @@ export function RefereeApp() {
                         </div>
 
                         <div className="referee-actions">
+                            <div className="referee-viewer-select">
+                                <span className="referee-viewer-label">
+                                    Viewing as
+                                </span>
+
+                                <SettingsSelect
+                                    ariaLabel="Viewing as"
+                                    value={
+                                        selectedRefereeId === null
+                                            ? ''
+                                            : String(
+                                                selectedRefereeId
+                                            )
+                                    }
+                                    options={referees.map(
+                                        referee => ({
+                                            value: String(
+                                                referee.id
+                                            ),
+                                            label: referee.name,
+                                        })
+                                    )}
+                                    onChange={value => {
+                                        setSelectedProgrammeId(null)
+                                        setSelectedRefereeId(
+                                            Number(value)
+                                        )
+                                    }}
+                                    disabled={programmesLoading}
+                                />
+                            </div>
+
                             <button
                                 ref={helpButtonRef}
                                 type="button"

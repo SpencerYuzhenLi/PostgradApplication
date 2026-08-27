@@ -14,7 +14,12 @@
     cursor: pointer;
 }
 
-.settings-select:hover {
+.settings-select:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
+.settings-select:not(:disabled):hover {
     border-color: var(--accent-border);
 }
 

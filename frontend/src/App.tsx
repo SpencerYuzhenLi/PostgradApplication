@@ -7,6 +7,7 @@ import type { LocationDisplayPreference } from './shared/types/Preferences'
 import { useThemePreference } from './shared/hooks/useThemePreference'
 import { themeOptions } from './shared/configs/preferences'
 import type { Programme } from './shared/types/Programme'
+import type { Referee } from './shared/types/Referee'
 import type { ProgrammeFormValues } from './manager/components/ProgrammeForm'
 import { ProgrammeTable } from './manager/components/ProgrammeTable'
 import { ProgrammeDetailsPanel } from './manager/components/ProgrammeDetailsPanel'
@@ -51,6 +52,7 @@ function App() {
     const [error, setError] = useState<string | null>(null)
 
     const [programmes, setProgrammes] = useState<Programme[]>([])
+    const [referees, setReferees] = useState<Referee[]>([])
 
     const [programmeDraft, setProgrammeDraft] =
         useState<ProgrammeFormValues | null>(() => {
@@ -213,16 +215,37 @@ function App() {
     }, [loading])
 
     useEffect(() => {
-        fetch('/api/programmes')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error: ${response.status}`)
+        Promise.all([
+            fetch('/api/programmes'),
+            fetch('/api/referees'),
+        ])
+            .then(async ([
+                programmesResponse,
+                refereesResponse,
+            ]) => {
+                if (!programmesResponse.ok) {
+                    throw new Error(
+                        `Could not load programmes (${programmesResponse.status}).`
+                    )
                 }
 
-                return response.json()
+                if (!refereesResponse.ok) {
+                    throw new Error(
+                        `Could not load referees (${refereesResponse.status}).`
+                    )
+                }
+
+                return Promise.all([
+                    programmesResponse.json(),
+                    refereesResponse.json(),
+                ])
             })
-            .then(data => {
-                setProgrammes(data)
+            .then(([
+                programmeData,
+                refereeData,
+            ]) => {
+                setProgrammes(programmeData)
+                setReferees(refereeData)
             })
             .catch(error => {
                 setError(
@@ -431,6 +454,7 @@ function App() {
                             ? programmeModal.draft
                             : undefined
                     }
+                    referees={referees}
                     onClose={closeProgrammeModal}
                     onCreated={programme => {
                         setProgrammes(current => [

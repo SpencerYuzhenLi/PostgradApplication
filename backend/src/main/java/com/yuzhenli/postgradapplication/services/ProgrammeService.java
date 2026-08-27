@@ -6,8 +6,10 @@ import com.yuzhenli.postgradapplication.dtos.ProgrammeWriteDto;
 import com.yuzhenli.postgradapplication.dtos.RefereeProgrammeDto;
 import com.yuzhenli.postgradapplication.entities.Programme;
 import com.yuzhenli.postgradapplication.entities.ProgrammeLink;
+import com.yuzhenli.postgradapplication.entities.Referee;
 import com.yuzhenli.postgradapplication.mappers.ProgrammeMapper;
 import com.yuzhenli.postgradapplication.repositories.ProgrammeRepository;
+import com.yuzhenli.postgradapplication.repositories.RefereeRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,6 +26,7 @@ public class ProgrammeService {
 
     private final ProgrammeRepository programmeRepository;
     private final ProgrammeMapper programmeMapper;
+    private final RefereeRepository refereeRepository;
 
     public List<ProgrammeDto> getAllProgrammes() {
         return programmeMapper.toProgrammeDtoList(programmeRepository.findAll());
@@ -140,20 +143,11 @@ public class ProgrammeService {
         programme.setArwuRanking(request.arwuRanking());
 
         programme.setDegree(request.degree());
-
         programme.setStatus(request.status());
 
-        programme.setApplicationOpens(
-                request.applicationOpens()
-        );
-
-        programme.setApplicationDeadline(
-                request.applicationDeadline()
-        );
-
-        programme.setReferenceDeadline(
-                request.referenceDeadline()
-        );
+        programme.setApplicationOpens(request.applicationOpens());
+        programme.setApplicationDeadline(request.applicationDeadline());
+        programme.setReferenceDeadline(request.referenceDeadline());
 
         programme.setApplicationPortalUrl(
                 nullIfBlank(request.applicationPortalUrl())
@@ -179,8 +173,10 @@ public class ProgrammeService {
                 nullIfBlank(request.departmentalEtsCode())
         );
 
-        programme.setReferenceCount(
-                request.referenceCount()
+        programme.setReferenceCount(request.referenceCount());
+
+        programme.setReferees(
+                resolveReferees(request.refereeIds())
         );
 
         programme.setReferenceSubmission(
@@ -203,13 +199,8 @@ public class ProgrammeService {
                 nullIfBlank(request.annualTuition())
         );
 
-        programme.setFundingAvailable(
-                request.fundingAvailable()
-        );
-
-        programme.setFundingGuaranteed(
-                request.fundingGuaranteed()
-        );
+        programme.setFundingAvailable(request.fundingAvailable());
+        programme.setFundingGuaranteed(request.fundingGuaranteed());
 
         programme.setNotes(
                 nullIfBlank(request.notes())
@@ -270,6 +261,41 @@ public class ProgrammeService {
 
         programme.getLinks().clear();
         programme.getLinks().addAll(orderedLinks);
+    }
+
+    private Set<Referee> resolveReferees(
+            List<Integer> refereeIds
+    ) {
+        if (
+                refereeIds == null ||
+                        refereeIds.isEmpty()
+        ) {
+            return new HashSet<>();
+        }
+
+        Set<Integer> uniqueIds =
+                new HashSet<>(refereeIds);
+
+        if (uniqueIds.size() != refereeIds.size()) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Duplicate referee selection"
+            );
+        }
+
+        List<Referee> referees =
+                refereeRepository.findAllById(
+                        uniqueIds
+                );
+
+        if (referees.size() != uniqueIds.size()) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Invalid referee selection"
+            );
+        }
+
+        return new HashSet<>(referees);
     }
 
     private String nullIfBlank(String value) {

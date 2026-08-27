@@ -10,6 +10,7 @@ interface SettingsSelectProps<T extends string> {
     options: readonly SettingsSelectOption<T>[]
     onChange: (value: T) => void
     ariaLabel: string
+    disabled?: boolean
 }
 
 export function SettingsSelect<T extends string>({
@@ -17,12 +18,14 @@ export function SettingsSelect<T extends string>({
     options,
     onChange,
     ariaLabel,
+    disabled = false,
 }: SettingsSelectProps<T>) {
     return (
         <select
             className="settings-select"
             value={value}
             aria-label={ariaLabel}
+            disabled={disabled}
             onChange={event =>
                 onChange(event.target.value as T)
             }
