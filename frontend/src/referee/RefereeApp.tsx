@@ -12,6 +12,7 @@ import { RefereeProgrammeTable } from './components/RefereeProgrammeTable'
 import { RefereeDetailsPanel } from './components/RefereeDetailsPanel'
 import type { RefereeProgramme } from './types/RefereeProgramme'
 import type { Referee } from '../shared/types/Referee'
+import { apiUrl } from '../shared/utils/apiUrl'
 
 
 export function RefereeApp() {
@@ -165,7 +166,7 @@ export function RefereeApp() {
             ) ?? null
 
     useEffect(() => {
-        fetch('/api/referees')
+        fetch(apiUrl('/api/referees'))
             .then(async response => {
                 if (!response.ok) {
                     throw new Error(
@@ -218,7 +219,9 @@ export function RefereeApp() {
         setError(null)
 
         fetch(
-            `/api/referee-programmes?refereeId=${selectedRefereeId}`
+            apiUrl(
+                `/api/referee-programmes?refereeId=${selectedRefereeId}`
+            )
         )
             .then(async response => {
                 if (!response.ok) {

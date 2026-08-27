@@ -12,7 +12,8 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addMapping("/api/**")
                 .allowedOriginPatterns(
                         "http://localhost:5173",
-                        "http://192.168.0.*:5173"
+                        "http://192.168.0.*:5173",
+                        "https://spenceryuzhenli.github.io"
                 )
                 .allowedMethods(
                         "GET",
