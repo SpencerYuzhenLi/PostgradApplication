@@ -1,6 +1,9 @@
 server:
   port: ${PORT:8080}
 
+manager:
+  api-key: ${MANAGER_API_KEY:}
+
 spring:
   datasource:
     url: jdbc:postgresql://${PGHOST:localhost}:${PGPORT:5432}/${PGDATABASE:postgrad_application_db}

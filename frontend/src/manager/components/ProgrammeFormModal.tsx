@@ -1,5 +1,6 @@
 import './ProgrammeFormModal.css'
 import { useEffect, useRef, useState } from 'react'
+import { managerFetch } from '../utils/managerApi'
 import type { Programme } from '../../shared/types/Programme'
 import type { Referee } from '../../shared/types/Referee'
 import type { ProgrammeFormValues } from './ProgrammeForm'
@@ -250,23 +251,26 @@ export function ProgrammeFormModal({
             const request =
                 toProgrammeWriteRequest(values)
 
-            const url =
-                mode === 'add'
-                    ? '/api/programmes'
-                    : `/api/programmes/${programme!.id}`
-
-            const response = await fetch(url, {
-                method:
+            const response =
+                await managerFetch(
                     mode === 'add'
-                        ? 'POST'
-                        : 'PUT',
+                        ? '/api/programmes'
+                        : `/api/programmes/${programme!.id}`,
+                    {
+                        method:
+                            mode === 'add'
+                                ? 'POST'
+                                : 'PUT',
 
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                        headers: {
+                            'Content-Type':
+                                'application/json',
+                        },
 
-                body: JSON.stringify(request),
-            })
+                        body:
+                            JSON.stringify(request),
+                    }
+                )
 
             if (!response.ok) {
                 throw new Error(
@@ -315,12 +319,13 @@ export function ProgrammeFormModal({
         setDeleteError(null)
 
         try {
-            const response = await fetch(
-                `/api/programmes/${programme.id}`,
-                {
-                    method: 'DELETE',
-                }
-            )
+            const response =
+                await managerFetch(
+                    `/api/programmes/${programme.id}`,
+                    {
+                        method: 'DELETE',
+                    }
+                )
 
             if (!response.ok) {
                 throw new Error(

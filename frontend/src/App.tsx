@@ -2,6 +2,7 @@ import './App.css'
 import './shared/components/StartupState.css'
 import './shared/components/Settings.css'
 import { useEffect, useRef, useState } from 'react'
+import { managerFetch } from './manager/utils/managerApi'
 import { SettingsSelect } from './shared/components/SettingsSelect'
 import type { LocationDisplayPreference } from './shared/types/Preferences'
 import { useThemePreference } from './shared/hooks/useThemePreference'
@@ -216,8 +217,8 @@ function App() {
 
     useEffect(() => {
         Promise.all([
-            fetch('/api/programmes'),
-            fetch('/api/referees'),
+            managerFetch('/api/programmes'),
+            managerFetch('/api/referees'),
         ])
             .then(async ([
                 programmesResponse,
