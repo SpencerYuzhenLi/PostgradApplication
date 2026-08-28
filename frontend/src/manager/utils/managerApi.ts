@@ -6,25 +6,19 @@ const managerApiKey =
     import.meta.env
         .VITE_MANAGER_API_KEY
 
-if (
-    !managerApiBaseUrl ||
-    !managerApiKey
-) {
-    throw new Error(
-        'Manager API configuration is missing.'
-    )
-}
-
-export function managerApiUrl(
-    path: string
-) {
-    return `${managerApiBaseUrl}${path}`
-}
-
 export function managerFetch(
     path: string,
     init: RequestInit = {}
 ) {
+    if (
+        !managerApiBaseUrl ||
+        !managerApiKey
+    ) {
+        throw new Error(
+            'Manager API configuration is missing.'
+        )
+    }
+
     const headers =
         new Headers(init.headers)
 
@@ -34,7 +28,7 @@ export function managerFetch(
     )
 
     return fetch(
-        managerApiUrl(path),
+        `${managerApiBaseUrl}${path}`,
         {
             ...init,
             headers,

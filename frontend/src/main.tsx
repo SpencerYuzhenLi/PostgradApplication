@@ -4,9 +4,6 @@ import './index.css'
 import App from './App.tsx'
 import { RefereeApp } from './referee/RefereeApp.tsx'
 
-const refereeOnly =
-    import.meta.env.VITE_APP_MODE === 'referee'
-
 const base =
     import.meta.env.BASE_URL
 
@@ -19,7 +16,6 @@ const relativePath =
         .replace(/\/+$/, '')
 
 const isRefereeView =
-    refereeOnly ||
     relativePath === '/referee'
 
 createRoot(
