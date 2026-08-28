@@ -41,16 +41,6 @@ export const filterControls: FilterControl[] = [
 
 export const viewControls = [
     {
-        label: 'Institution Name',
-        columnIds: ['institutionName'],
-        defaultVisible: true,
-    },
-    {
-        label: 'Programme Name',
-        columnIds: ['programmeName'],
-        defaultVisible: true,
-    },
-    {
         label: 'Location',
         columnIds: ['region', 'country'],
         defaultVisible: false,

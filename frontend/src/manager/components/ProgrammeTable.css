@@ -806,7 +806,7 @@ thead .pinned-programme {
    Responsive controls
    ========================================================= */
 
-@container programme-pane (max-width: 60rem) {
+@container programme-pane (max-width: 48rem) {
     .find-group-trigger {
         pointer-events: auto;
         cursor: pointer;

@@ -321,7 +321,7 @@ main {
     }
 }
 
-@container programme-pane (max-width: 420px) {
+@container programme-pane (max-width: 360px) {
     .page-header {
         align-items: flex-start;
         flex-direction: column;

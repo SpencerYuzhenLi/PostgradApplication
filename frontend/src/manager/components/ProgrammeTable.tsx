@@ -114,26 +114,6 @@ const columns:
     },
 
     {
-        header: 'Details',
-        columns: [
-            {
-                id: 'institutionName',
-                accessorFn: programme =>
-                    programme.institutionName ?? undefined,
-                header: 'Institution',
-                sortUndefined: 'last',
-            },
-            {
-                id: 'programmeName',
-                accessorFn: programme =>
-                    programme.programmeName ?? undefined,
-                header: 'Programme',
-                sortUndefined: 'last',
-            },
-        ],
-    },
-
-    {
         header: 'Location',
         columns: [
             {
