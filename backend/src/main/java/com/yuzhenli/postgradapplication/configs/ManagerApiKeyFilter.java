@@ -39,6 +39,14 @@ public class ManagerApiKeyFilter
     protected boolean shouldNotFilter(
             HttpServletRequest request
     ) {
+        if (
+                "OPTIONS".equalsIgnoreCase(
+                        request.getMethod()
+                )
+        ) {
+            return true;
+        }
+
         String path =
                 request.getRequestURI();
 
