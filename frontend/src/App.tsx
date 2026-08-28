@@ -1,5 +1,6 @@
 import './App.css'
 import './shared/components/StartupState.css'
+import './shared/components/HeaderActions.css'
 import './shared/components/Settings.css'
 import { useEffect, useRef, useState } from 'react'
 import { managerFetch } from './manager/utils/managerApi'
@@ -330,47 +331,29 @@ function App() {
 
                     <header className="page-header">
                         <div className="page-identity">
-                            <h1>Postgraduate Application</h1>
+                            <h1>
+                                Postgraduate Application
+                            </h1>
+
+                            <span className="page-context">
+                                MANAGER
+                            </span>
                         </div>
 
                         <div className="page-actions">
-                            <button
-                                type="button"
-                                className="page-action-button"
-                                onClick={() => {
-                                    openProgrammeModal({
-                                        mode: 'add',
-                                        draft:
-                                            programmeDraft ?? undefined,
-                                    })
-                                }}
-                            >
-                                {programmeDraft ? (
-                                    <PencilIcon className="page-action-icon" />
-                                ) : (
-                                    <PlusIcon className="page-action-icon" />
-                                )}
-
-                                {programmeDraft
-                                    ? 'Edit draft'
-                                    : 'Add programme'}
-                            </button>
-
                             <div
                                 className="settings"
                                 ref={settingsRef}
                             >
                                 <button
                                     type="button"
-                                    className="settings-button"
+                                    className="header-icon-button"
                                     onClick={() =>
                                         setSettingsOpen(current => !current)
                                     }
                                     aria-expanded={settingsOpen}
                                 >
-                                    <SettingsIcon className="settings-icon" />
-
-                                    Settings
+                                    <SettingsIcon className="header-icon" />
                                 </button>
 
                                 {settingsOpen && (
@@ -409,6 +392,59 @@ function App() {
                             </div>
                         </div>
                     </header>
+
+                    <nav
+                        className="manager-navigation"
+                        aria-label="Manager views"
+                    >
+                        <div className="manager-navigation-tabs">
+                            <button
+                                type="button"
+                                className="manager-navigation-tab active"
+                                aria-current="page"
+                            >
+                                Programmes
+                            </button>
+
+                            <button
+                                type="button"
+                                className="manager-navigation-tab"
+                                disabled
+                                title="Coming soon"
+                            >
+                                Referees
+                            </button>
+                        </div>
+
+                        <div className="manager-view-actions">
+                            <button
+                                type="button"
+                                className="page-action-button"
+                                onClick={() => {
+                                    openProgrammeModal({
+                                        mode: 'add',
+                                        draft:
+                                            programmeDraft ??
+                                            undefined,
+                                    })
+                                }}
+                            >
+                                {programmeDraft ? (
+                                    <PencilIcon
+                                        className="page-action-icon"
+                                    />
+                                ) : (
+                                    <PlusIcon
+                                        className="page-action-icon"
+                                    />
+                                )}
+
+                                {programmeDraft
+                                    ? 'Edit draft'
+                                    : 'Add programme'}
+                            </button>
+                        </div>
+                    </nav>
 
                     <ProgrammeTable
                         programmes={programmes}

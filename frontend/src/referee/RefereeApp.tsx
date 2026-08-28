@@ -1,5 +1,6 @@
 import './RefereeApp.css'
 import '../shared/components/StartupState.css'
+import '../shared/components/HeaderActions.css'
 import '../shared/components/Settings.css'
 import { useEffect, useRef, useState } from 'react'
 import { getRefereeAccessToken } from './utils/refereeAccessToken'
@@ -302,15 +303,15 @@ export function RefereeApp() {
                             <button
                                 ref={helpButtonRef}
                                 type="button"
-                                className="referee-header-action"
+                                className="header-icon-button"
+                                aria-label="Help"
+                                title="Help"
                                 onClick={() => {
                                     setSettingsOpen(false)
                                     setHelpOpen(true)
                                 }}
                             >
-                                <HelpIcon className="referee-header-action-icon" />
-
-                                Help
+                                <HelpIcon className="header-icon" />
                             </button>
 
                             <div
@@ -319,15 +320,15 @@ export function RefereeApp() {
                             >
                                 <button
                                     type="button"
-                                    className="settings-button"
+                                    className="header-icon-button"
+                                    aria-label="Settings"
+                                    title="Settings"
+                                    aria-expanded={settingsOpen}
                                     onClick={() =>
                                         setSettingsOpen(current => !current)
                                     }
-                                    aria-expanded={settingsOpen}
                                 >
-                                    <SettingsIcon className="settings-icon" />
-
-                                    Settings
+                                    <SettingsIcon className="header-icon" />
                                 </button>
 
                                 {settingsOpen && (

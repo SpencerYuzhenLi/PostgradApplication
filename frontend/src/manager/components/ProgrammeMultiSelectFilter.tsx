@@ -84,11 +84,6 @@ export function ProgrammeMultiSelectFilter({
         }
     }, [isOpen, onClose])
 
-    const summary =
-            values.length === 0
-                ? label
-                : `${label} (${values.length})`
-
     return (
         <div
                 className="filter-dropdown"
@@ -104,7 +99,15 @@ export function ProgrammeMultiSelectFilter({
                     onClick={onToggle}
                     aria-expanded={isOpen}
                 >
-                    {summary}
+                    <span className="filter-dropdown-trigger-label">
+                        {label}
+
+                        {values.length > 0 && (
+                            <sup className="filter-dropdown-count">
+                                {values.length}
+                            </sup>
+                        )}
+                    </span>
                 </button>
 
                 {isOpen && (

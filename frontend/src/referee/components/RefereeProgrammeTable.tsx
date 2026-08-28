@@ -500,115 +500,117 @@ export function RefereeProgrammeTable({
         >
 
             <div className="referee-programme-table">
-                <table ref={tableRef}>
-                    <thead>
-                        {table.getHeaderGroups().map(headerGroup => (
-                            <tr
-                                key={headerGroup.id}
-                                className={
-                                    headerGroup.depth === 0
-                                        ? 'referee-parent-header-row'
-                                        : 'referee-column-header-row'
-                                }
-                            >
-                                {headerGroup.headers.map(header => (
-                                    <th
-                                        key={header.id}
-                                        colSpan={header.colSpan}
-                                        className={
-                                            header.column.id === 'programmeShortName' ||
-                                            header.column.id === 'programmeIdentity'
-                                                ? 'referee-pinned-programme'
-                                                : undefined
-                                        }
-                                    >
-                                        {header.isPlaceholder ? null : (
-                                            headerGroup.depth === 0 ? (
-                                                <div className="referee-parent-header-label">
-                                                    {flexRender(
-                                                        header.column.columnDef.header,
-                                                        header.getContext()
-                                                    )}
-                                                </div>
-                                            ) : (
-                                                header.column.getCanSort() ? (
-                                                    <button
-                                                        type="button"
-                                                        className="referee-sortable-header"
-                                                        onClick={
-                                                            header.column.getToggleSortingHandler()
-                                                        }
-                                                    >
-                                                        <span className="referee-sortable-header-label">
-                                                            {flexRender(
-                                                                header.column.columnDef.header,
-                                                                header.getContext()
-                                                            )}
-                                                        </span>
-
-                                                        <span
-                                                            className="referee-sort-indicator-area"
-                                                            aria-hidden="true"
-                                                        >
-                                                            <SortIcon
-                                                                className="referee-sort-indicator"
-                                                                direction={
-                                                                    header.column.getIsSorted() === 'asc'
-                                                                        ? 'asc'
-                                                                        : header.column.getIsSorted() === 'desc'
-                                                                            ? 'desc'
-                                                                            : 'none'
-                                                                }
-                                                            />
-                                                        </span>
-                                                    </button>
+                <div className="referee-table-container">
+                    <table ref={tableRef}>
+                        <thead>
+                            {table.getHeaderGroups().map(headerGroup => (
+                                <tr
+                                    key={headerGroup.id}
+                                    className={
+                                        headerGroup.depth === 0
+                                            ? 'referee-parent-header-row'
+                                            : 'referee-column-header-row'
+                                    }
+                                >
+                                    {headerGroup.headers.map(header => (
+                                        <th
+                                            key={header.id}
+                                            colSpan={header.colSpan}
+                                            className={
+                                                header.column.id === 'programmeShortName' ||
+                                                header.column.id === 'programmeIdentity'
+                                                    ? 'referee-pinned-programme'
+                                                    : undefined
+                                            }
+                                        >
+                                            {header.isPlaceholder ? null : (
+                                                headerGroup.depth === 0 ? (
+                                                    <div className="referee-parent-header-label">
+                                                        {flexRender(
+                                                            header.column.columnDef.header,
+                                                            header.getContext()
+                                                        )}
+                                                    </div>
                                                 ) : (
-                                                    flexRender(
-                                                        header.column.columnDef.header,
-                                                        header.getContext()
+                                                    header.column.getCanSort() ? (
+                                                        <button
+                                                            type="button"
+                                                            className="referee-sortable-header"
+                                                            onClick={
+                                                                header.column.getToggleSortingHandler()
+                                                            }
+                                                        >
+                                                            <span className="referee-sortable-header-label">
+                                                                {flexRender(
+                                                                    header.column.columnDef.header,
+                                                                    header.getContext()
+                                                                )}
+                                                            </span>
+
+                                                            <span
+                                                                className="referee-sort-indicator-area"
+                                                                aria-hidden="true"
+                                                            >
+                                                                <SortIcon
+                                                                    className="referee-sort-indicator"
+                                                                    direction={
+                                                                        header.column.getIsSorted() === 'asc'
+                                                                            ? 'asc'
+                                                                            : header.column.getIsSorted() === 'desc'
+                                                                                ? 'desc'
+                                                                                : 'none'
+                                                                    }
+                                                                />
+                                                            </span>
+                                                        </button>
+                                                    ) : (
+                                                        flexRender(
+                                                            header.column.columnDef.header,
+                                                            header.getContext()
+                                                        )
                                                     )
                                                 )
-                                            )
-                                        )}
-                                    </th>
-                                ))}
-                            </tr>
-                        ))}
+                                            )}
+                                        </th>
+                                    ))}
+                                </tr>
+                            ))}
 
-                        <tr
-                            className="referee-header-boundary-row"
-                            aria-hidden="true"
-                        >
-                            <th
-                                colSpan={
-                                    table.getAllLeafColumns().length
-                                }
-                            />
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        {table.getRowModel().rows.map(row => (
-                            <tr key={row.id}>
-                                {row.getAllCells().map(cell => (
-                                    <td
-                                        key={cell.id}
-                                        className={
-                                            cell.column.id === 'programmeShortName'
-                                                ? 'referee-pinned-programme'
-                                                : undefined
-                                        }
-                                    >
-                                        {flexRender(
-                                            cell.column.columnDef.cell,
-                                            cell.getContext()
-                                        )}
-                                    </td>
-                                ))}
+                            <tr
+                                className="referee-header-boundary-row"
+                                aria-hidden="true"
+                            >
+                                <th
+                                    colSpan={
+                                        table.getAllLeafColumns().length
+                                    }
+                                />
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+
+                        <tbody>
+                            {table.getRowModel().rows.map(row => (
+                                <tr key={row.id}>
+                                    {row.getAllCells().map(cell => (
+                                        <td
+                                            key={cell.id}
+                                            className={
+                                                cell.column.id === 'programmeShortName'
+                                                    ? 'referee-pinned-programme'
+                                                    : undefined
+                                            }
+                                        >
+                                            {flexRender(
+                                                cell.column.columnDef.cell,
+                                                cell.getContext()
+                                            )}
+                                        </td>
+                                    ))}
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
 
                 <div
                     className="referee-table-horizontal-scrollbar"

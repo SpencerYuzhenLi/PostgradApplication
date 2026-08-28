@@ -16,64 +16,85 @@ main {
 
 
 /* =========================================================
-   Search and filters
+   Toolbar
    ========================================================= */
 
-.find-controls {
+.programme-toolbar {
+    flex: 0 0 auto;
+
     width: 100%;
+    padding: 0.5rem 0;
 
     display: flex;
     align-items: center;
     gap: 1rem;
 
-    padding: 0.5rem 0;
+    background: var(--bg);
+}
+
+.find-controls {
+    flex: 1 1 auto;
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    padding: 0;
 
     background: var(--bg);
 
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
 }
 
-.find-clear {
+.find-group-trigger {
     appearance: none;
 
-    flex: 0 0 auto;
-
-    padding: 0.2rem 0.55rem;
+    position: relative;
 
     border: none;
-    border-left: 1px solid var(--border);
-
-    background: var(--code-bg);
-    color: var(--text);
 
     font: inherit;
-    font-size: 0.8rem;
-    font-weight: 600;
 
-    cursor: pointer;
-    white-space: nowrap;
-}
-
-.find-clear:hover:not(:disabled) {
-    background: var(--accent-bg);
-    color: var(--accent);
-}
-
-.find-clear:focus-visible {
-    position: relative;
-    z-index: 1;
-
-    outline: 2px solid var(--accent);
-    outline-offset: -2px;
-}
-
-.find-clear:disabled {
-    opacity: 0.35;
     cursor: default;
+
+    pointer-events: none;
 }
 
-.find-clear:not(:disabled) {
-    color: var(--text-h);
+.find-group-trigger > span {
+    position: relative;
+}
+
+.find-active-indicator {
+    position: absolute;
+
+    top: 0.05rem;
+    right: 0.15rem;
+
+    color: var(--accent);
+
+    font-size: 0.6rem;
+    font-weight: 700;
+    line-height: 1;
+
+    pointer-events: none;
+}
+
+.search-expanded-content {
+    flex: 1 1 auto;
+    min-width: 0;
+
+    display: flex;
+}
+
+.search-expanded-content input {
+    width: 100%;
+}
+
+.filter-expanded-content {
+    flex: 0 0 auto;
+
+    display: flex;
 }
 
 
@@ -82,7 +103,7 @@ main {
 .search-label,
 .filter-label {
     box-sizing: border-box;
-    width: 4rem;
+    width: auto;
 
     justify-content: center;
 
@@ -104,7 +125,7 @@ main {
 /* ---------- Search ---------- */
 
 .search {
-    flex: 1 1 0;
+    flex: 1 1 auto;
     min-width: 0;
 
     display: flex;
@@ -138,10 +159,6 @@ main {
     font-size: 0.8rem;
 }
 
-.search input::-webkit-search-cancel-button {
-    display: none;
-}
-
 .search:hover {
     border-color: var(--accent-border);
 }
@@ -161,11 +178,11 @@ main {
 /* ---------- Filter toolbar ---------- */
 
 .filters {
-    flex: 1 1 0;
-    min-width: 0;
+    flex: 0 0 auto;
 
     display: flex;
     align-items: stretch;
+    flex-wrap: nowrap;
 
     border: 1px solid var(--border);
     border-radius: 0.35rem;
@@ -181,8 +198,7 @@ main {
 }
 
 .filter-controls {
-    flex: 1 1 auto;
-    min-width: 0;
+    flex: 0 0 auto;
 
     display: flex;
     align-items: stretch;
@@ -195,19 +211,29 @@ main {
    ========================================================= */
 
 .table-status {
+    flex: 0 0 auto;
+
+    padding: 0;
+
     display: flex;
     align-items: center;
     gap: 0.5rem;
 
-    padding: 0.5rem 0 0.5rem 0.5rem;
+    white-space: nowrap;
 }
 
 .programme-count {
-    padding: 0;
+    min-width: 5ch;
+
     margin: 0;
+    padding: 0;
 
     color: var(--text);
     font-size: 0.8rem;
+    font-variant-numeric: tabular-nums;
+
+    text-align: right;
+    white-space: nowrap;
 }
 
 
@@ -253,19 +279,13 @@ main {
     font-size: 0.8rem;
 }
 
-/*
- * Columns opens below and to the right of its trigger.
- */
 .column-menu-popover {
-    left: 0;
+    right: 0;
+    left: auto;
+
     min-width: 11rem;
 }
 
-/*
- * Filters are at the right side of the find toolbar,
- * so open them towards the left to reduce the chance
- * of overflowing the viewport.
- */
 .filter-dropdown-menu {
     left: 0;
 }
@@ -274,6 +294,11 @@ main {
 .filter-dropdown-menu {
     right: 0;
     left: auto;
+}
+
+.filter-dropdown:last-child
+.filter-dropdown-trigger {
+    border-right: none;
 }
 
 .column-menu-trigger {
@@ -314,7 +339,7 @@ main {
 
     width: auto;
     height: 100%;
-    justify-content: center;
+
     padding: 0.2rem 0.55rem;
 
     border: none;
@@ -329,6 +354,25 @@ main {
 
     cursor: pointer;
     white-space: nowrap;
+}
+
+.filter-dropdown-trigger-label {
+    position: relative;
+}
+
+.filter-dropdown-count {
+    position: absolute;
+
+    left: 100%;
+    top: -0.25em;
+
+    margin-left: 0.08rem;
+
+    color: var(--accent);
+
+    font-size: 0.65em;
+    font-weight: 700;
+    line-height: 1;
 }
 
 
@@ -405,17 +449,16 @@ main {
 .table-container {
     --table-scroll-left: 0px;
 
-    flex: 0 0 auto;
+    flex: 1 1 auto;
 
     width: 100%;
     min-width: 0;
+    min-height: 0;
 
     overflow-x: clip;
-    overflow-y: clip;
-}
+    overflow-y: auto;
 
-.table-container::-webkit-scrollbar {
-    display: none;
+    overscroll-behavior-y: contain;
 }
 
 .programme-table table {
@@ -697,10 +740,6 @@ thead .pinned-programme {
    ========================================================= */
 
 .table-horizontal-scrollbar {
-    position: sticky;
-    bottom: 0;
-    z-index: 40;
-
     flex: 0 0 auto;
 
     width: 100%;
@@ -767,15 +806,106 @@ thead .pinned-programme {
    Responsive controls
    ========================================================= */
 
-@container programme-pane (max-width: 50rem) {
-    .find-controls {
-        align-items: stretch;
-        flex-direction: column;
+@container programme-pane (max-width: 60rem) {
+    .find-group-trigger {
+        pointer-events: auto;
+        cursor: pointer;
     }
 
+    /*
+     * Keep the entire toolbar on one row.
+     */
+    .programme-toolbar {
+        flex-direction: row;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .find-controls {
+        flex: 1 1 auto;
+        min-width: 0;
+
+        flex-direction: row;
+        align-items: stretch;
+        gap: 0.5rem;
+    }
+
+    /*
+     * Both outer controls collapse to their
+     * natural label width by default.
+     */
     .search,
     .filters {
         flex: 0 0 auto;
-        width: 100%;
+        width: auto;
+        min-width: 0;
+    }
+
+    /*
+     * Search mode.
+     */
+    .find-search .search {
+        flex: 1 1 auto;
+    }
+
+    .find-search
+    .search-expanded-content {
+        display: flex;
+    }
+
+    .find-search
+    .filter-expanded-content {
+        display: none;
+    }
+
+    /*
+     * Filter mode.
+     */
+    .find-filter
+    .search-expanded-content {
+        display: none;
+    }
+
+    .find-filter
+    .filter-expanded-content {
+        display: flex;
+    }
+
+    /*
+     * The filter group needs its natural
+     * full width when expanded.
+     */
+    .find-filter .filters {
+        flex: 0 0 auto;
+    }
+
+    /*
+     * Status stays anchored at the far right.
+     */
+    .table-status {
+        flex: 0 0 auto;
+
+        margin-left: auto;
+
+        justify-content: flex-end;
+    }
+}
+
+@container programme-pane (max-width: 36rem) {
+    .programme-toolbar {
+        flex-wrap: wrap;
+        row-gap: 0.35rem;
+    }
+
+    .find-controls {
+        flex: 1 1 100%;
+    }
+
+    .table-status {
+        flex: 1 1 100%;
+
+        margin-left: 0;
+
+        justify-content: flex-end;
     }
 }

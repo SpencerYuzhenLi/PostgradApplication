@@ -358,17 +358,40 @@ export function ProgrammeTable({
     onSelectProgramme,
 }: ProgrammeTableProps) {
 
-    const [storedTableState] =
-        useState(loadProgrammeTableState)
+    const [storedTableState] = useState(loadProgrammeTableState)
+
+    type ExpandedFindControl = 'search' | 'filter'
+
+    const [
+        expandedFindControl,
+        setExpandedFindControl,
+    ] = useState<ExpandedFindControl>('search')
 
     const [search, setSearch] =
         useState(
             storedTableState?.search ?? ''
         )
 
+    const searchActive = search.trim() !== ''
+
     const [columnFilters, setColumnFilters] =
         useState<ColumnFiltersState>(
             storedTableState?.columnFilters ?? []
+        )
+
+    const filterCount =
+        columnFilters.reduce(
+            (count, filter) => {
+                const value = filter.value
+
+                return count +
+                    (
+                        Array.isArray(value)
+                            ? value.length
+                            : 0
+                    )
+            },
+            0
         )
 
     const [sorting, setSorting] =
@@ -412,7 +435,14 @@ export function ProgrammeTable({
                     event.key.toLowerCase() === 'f'
                 ) {
                     event.preventDefault()
-                    searchInputRef.current?.focus()
+
+                    setExpandedFindControl(
+                        'search'
+                    )
+
+                    requestAnimationFrame(() => {
+                        searchInputRef.current?.focus()
+                    })
                 }
             }
 
@@ -714,122 +744,144 @@ export function ProgrammeTable({
 
     return (
         <div className="programme-table">
+            <div
+                className={
+                    `programme-toolbar find-${expandedFindControl}`
+                }
+            >
+                <div className="find-controls">
+                    <div className="search">
+                        <button
+                            type="button"
+                            className="find-group-trigger search-label"
+                            onClick={() => {
+                                setExpandedFindControl('search')
 
-            <div className="find-controls">
-                <div className="search">
-                    <span className="search-label">
-                        Search
-                    </span>
+                                requestAnimationFrame(() => {
+                                    searchInputRef.current?.focus()
+                                })
+                            }}
+                        >
+                            <span>Search</span>
 
-                    <input
-                        ref={searchInputRef}
-                        id="programme-search"
-                        type="search"
-                        value={search}
-                        onChange={event =>
-                            setSearch(event.target.value)
-                        }
-                        onKeyDown={event => {
-                            if (event.key === 'Enter') {
-                                event.preventDefault()
-                                event.currentTarget.blur()
-                            }
-                        }}
-                        placeholder="Institution or programme"
-                        aria-label="Search programmes"
-                    />
+                            {searchActive && (
+                                <sup
+                                    className="find-active-indicator"
+                                    aria-label="Search active"
+                                >
+                                    •
+                                </sup>
+                            )}
+                        </button>
 
-                    <button
-                        type="button"
-                        className="find-clear"
-                        onClick={() => {
-                            setSearch('')
-                            searchInputRef.current?.focus()
-                        }}
-                        disabled={search === ''}
-                    >
-                        Clear
-                    </button>
-                </div>
-
-                <div className="filters">
-                    <span className="filter-label">
-                        Filter
-                    </span>
-
-                    <div className="filter-controls">
-                        {filterControls.map(control => {
-                            const column =
-                                table.getColumn(control.columnId)
-
-                            const options =
-                                abbreviateLocations &&
-                                control.abbreviatedOptions
-                                    ? control.abbreviatedOptions
-                                    : control.options
-
-                            return (
-                                <ProgrammeMultiSelectFilter
-                                    key={control.columnId}
-                                    label={control.label}
-                                    values={
-                                        (column?.getFilterValue() as string[] | undefined) ?? []
+                        <div className="search-expanded-content">
+                            <input
+                                ref={searchInputRef}
+                                id="programme-search"
+                                type="search"
+                                value={search}
+                                onChange={event =>
+                                    setSearch(event.target.value)
+                                }
+                                onKeyDown={event => {
+                                    if (event.key === 'Enter') {
+                                        event.preventDefault()
+                                        event.currentTarget.blur()
                                     }
-                                    options={
-                                        Object.entries(options).map(
-                                            ([value, label]) => ({
-                                                value,
-                                                label,
-                                            })
-                                        )
-                                    }
-                                    onChange={values =>
-                                        column?.setFilterValue(
-                                            values.length === 0
-                                                ? undefined
-                                                : values
-                                        )
-                                    }
-                                    isOpen={
-                                        openFilter === control.columnId
-                                    }
-                                    onToggle={() =>
-                                        setOpenFilter(current =>
-                                            current === control.columnId
-                                                ? null
-                                                : control.columnId
-                                        )
-                                    }
-                                    onClose={() =>
-                                        setOpenFilter(null)
-                                    }
-                                />
-                            )
-                        })}
+                                }}
+                                placeholder="Institution or programme"
+                                aria-label="Search programmes"
+                            />
+                        </div>
                     </div>
 
-                    <button
-                        type="button"
-                        className="find-clear"
-                        onClick={() =>
-                            setColumnFilters([])
-                        }
-                        disabled={columnFilters.length === 0}
-                    >
-                        Clear
-                    </button>
+                    <div className="filters">
+                        <button
+                            type="button"
+                            className="find-group-trigger filter-label"
+                            onClick={() =>
+                                setExpandedFindControl('filter')
+                            }
+                        >
+                            <span>Filter</span>
+
+                            {filterCount > 0 && (
+                                <sup
+                                    className="find-active-indicator"
+                                    aria-label={`${filterCount} selected filter options`}
+                                >
+                                    {filterCount}
+                                </sup>
+                            )}
+                        </button>
+
+                        <div className="filter-expanded-content">
+                            <div className="filter-controls">
+                                {filterControls.map(control => {
+                                    const column =
+                                        table.getColumn(control.columnId)
+
+                                    const options =
+                                        abbreviateLocations &&
+                                        control.abbreviatedOptions
+                                            ? control.abbreviatedOptions
+                                            : control.options
+
+                                    return (
+                                        <ProgrammeMultiSelectFilter
+                                            key={control.columnId}
+                                            label={control.label}
+                                            values={
+                                                (column?.getFilterValue() as string[] | undefined) ?? []
+                                            }
+                                            options={
+                                                Object.entries(options).map(
+                                                    ([value, label]) => ({
+                                                        value,
+                                                        label,
+                                                    })
+                                                )
+                                            }
+                                            onChange={values =>
+                                                column?.setFilterValue(
+                                                    values.length === 0
+                                                        ? undefined
+                                                        : values
+                                                )
+                                            }
+                                            isOpen={
+                                                openFilter === control.columnId
+                                            }
+                                            onToggle={() =>
+                                                setOpenFilter(current =>
+                                                    current === control.columnId
+                                                        ? null
+                                                        : control.columnId
+                                                )
+                                            }
+                                            onClose={() =>
+                                                setOpenFilter(null)
+                                            }
+                                        />
+                                    )
+                                })}
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
 
-            <div className="table-status">
-                <p className="programme-count">
-                    Showing {table.getRowModel().rows.length} of {programmes.length} programmes
-                </p>
+                <div className="table-status">
+                    <p className="programme-count">
+                        Showing {table.getRowModel().rows.length}
+                        {'/'}
+                        {programmes.length}
+                    </p>
 
-                <ColumnVisibilityMenu
-                    controls={viewControls}
-                    getColumns={getColumns}
-                />
+                    <ColumnVisibilityMenu
+                        controls={viewControls}
+                        getColumns={getColumns}
+                    />
+                </div>
             </div>
 
             <div

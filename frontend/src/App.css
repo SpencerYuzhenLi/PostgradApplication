@@ -64,8 +64,7 @@ main {
     display: flex;
     flex-direction: column;
 
-    overflow-x: hidden;
-    overflow-y: auto;
+    overflow: hidden;
 
     overscroll-behavior-y: contain;
 
@@ -89,6 +88,21 @@ main {
 .page-identity {
     flex: 1 1 auto;
     min-width: 0;
+
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+}
+
+.page-context {
+    color: var(--text);
+
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+
+    text-transform: uppercase;
+    white-space: nowrap;
 }
 
 .page-header h1 {
@@ -206,6 +220,84 @@ main {
 }
 
 
+/* ---------- Navigation ---------- */
+
+.manager-navigation {
+    flex: 0 0 auto;
+
+    margin: 0 1rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+
+    border-bottom: 1px solid var(--border);
+}
+
+.manager-navigation-tabs {
+    display: flex;
+    align-items: stretch;
+    gap: 1.25rem;
+}
+
+.manager-navigation-tab {
+    appearance: none;
+
+    position: relative;
+
+    padding: 0.45rem 0.1rem;
+
+    border: none;
+
+    background: transparent;
+    color: var(--text);
+
+    font: inherit;
+    font-size: 0.8rem;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.manager-navigation-tab:hover:not(:disabled) {
+    color: var(--text-h);
+}
+
+.manager-navigation-tab.active {
+    color: var(--text-h);
+}
+
+.manager-navigation-tab.active::after {
+    content: '';
+
+    position: absolute;
+
+    right: 0;
+    bottom: -1px;
+    left: 0;
+
+    height: 2px;
+
+    background: var(--accent);
+}
+
+.manager-navigation-tab:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+.manager-navigation-tab:disabled {
+    opacity: 0.45;
+    cursor: default;
+}
+
+.manager-view-actions {
+    display: flex;
+    align-items: center;
+}
+
+
 /* ---------- Responsive behaviour ---------- */
 
 @media (max-aspect-ratio: 4 / 3) {
@@ -225,12 +317,11 @@ main {
         width: 100%;
         height: auto;
 
-        overflow-x: hidden;
-        overflow-y: auto;
+        overflow: hidden;
     }
 }
 
-@container programme-pane (max-width: 480px) {
+@container programme-pane (max-width: 420px) {
     .page-header {
         align-items: flex-start;
         flex-direction: column;
@@ -239,6 +330,16 @@ main {
 
     .page-actions {
         width: 100%;
+        justify-content: flex-end;
+    }
+
+    .manager-navigation {
+        align-items: stretch;
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .manager-view-actions {
         justify-content: flex-end;
     }
 }
