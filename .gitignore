@@ -39,3 +39,8 @@ build/
 
 ### PostgreSQL ###
 *.dump
+
+### Environment files ###
+.env
+.env.local
+.env.*.local
