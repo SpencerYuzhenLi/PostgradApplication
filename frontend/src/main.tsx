@@ -1,8 +1,10 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import App from './App.tsx'
-import { RefereeApp } from './referee/RefereeApp.tsx'
+
+const refereeOnly =
+    import.meta.env.VITE_APP_MODE ===
+    'referee'
 
 const base =
     import.meta.env.BASE_URL
@@ -16,14 +18,38 @@ const relativePath =
         .replace(/\/+$/, '')
 
 const isRefereeView =
+    refereeOnly ||
     relativePath === '/referee'
 
-createRoot(
-    document.getElementById('root')!
-).render(
-    <StrictMode>
-        {isRefereeView
-            ? <RefereeApp />
-            : <App />}
-    </StrictMode>
-)
+async function renderApp() {
+    const root =
+        createRoot(
+            document.getElementById('root')!
+        )
+
+    if (isRefereeView) {
+        const { RefereeApp } =
+            await import(
+                './referee/RefereeApp.tsx'
+            )
+
+        root.render(
+            <StrictMode>
+                <RefereeApp />
+            </StrictMode>
+        )
+
+        return
+    }
+
+    const { default: App } =
+        await import('./App.tsx')
+
+    root.render(
+        <StrictMode>
+            <App />
+        </StrictMode>
+    )
+}
+
+void renderApp()
