@@ -256,7 +256,7 @@ export function RefereeApp() {
             <main className="startup-state">
                 <div className="startup-state-content">
                     <h1>
-                        Postgraduate Applications
+                        Reference Information
                     </h1>
 
                     <section

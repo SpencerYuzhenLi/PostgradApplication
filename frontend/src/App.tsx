@@ -272,7 +272,7 @@ function App() {
         return showLoading ? (
             <main className="startup-state">
                 <div className="startup-state-content">
-                    <h1>Postgraduate Application</h1>
+                    <h1>Postgraduate Applications</h1>
 
                     <div
                         className="startup-loading"
@@ -293,7 +293,7 @@ function App() {
         return (
             <main className="startup-state">
                 <div className="startup-state-content">
-                    <h1>Postgraduate Application</h1>
+                    <h1>Postgraduate Applications</h1>
 
                     <section
                         className="startup-error"
@@ -332,7 +332,7 @@ function App() {
                     <header className="page-header">
                         <div className="page-identity">
                             <h1>
-                                Postgraduate Application
+                                Postgraduate Applications
                             </h1>
 
                             <span className="page-context">
