@@ -29,11 +29,11 @@ export function SortIcon({
             )}
 
             {direction === 'asc' && (
-                <path d="M8 3.5v9M4.75 9.25L8 12.5l3.25-3.25" />
+                <path d="M8 12.5v-9M4.75 6.75L8 3.5l3.25 3.25" />
             )}
 
             {direction === 'desc' && (
-                <path d="M8 12.5v-9M4.75 6.75L8 3.5l3.25 3.25" />
+                <path d="M8 3.5v9M4.75 9.25L8 12.5l3.25-3.25" />
             )}
         </svg>
     )

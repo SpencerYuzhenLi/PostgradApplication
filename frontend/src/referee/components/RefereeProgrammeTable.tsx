@@ -150,6 +150,13 @@ const columns:
     },
 ]
 
+const DEFAULT_REFEREE_SORTING: SortingState = [
+    {
+        id: 'programmeShortName',
+        desc: false,
+    },
+]
+
 const REFEREE_TABLE_STATE_KEY =
     'refereeProgrammeTableState'
 
@@ -201,7 +208,8 @@ export function RefereeProgrammeTable({
 
     const [sorting, setSorting] =
         useState<SortingState>(
-            storedTableState?.sorting ?? []
+            storedTableState?.sorting ??
+                DEFAULT_REFEREE_SORTING
         )
 
     useEffect(() => {

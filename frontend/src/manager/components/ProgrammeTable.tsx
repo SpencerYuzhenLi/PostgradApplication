@@ -308,6 +308,13 @@ interface StoredProgrammeTableState {
     columnVisibility: ProgrammeColumnVisibility
 }
 
+const DEFAULT_PROGRAMME_SORTING: SortingState = [
+    {
+        id: 'programmeShortName',
+        desc: false,
+    },
+]
+
 const PROGRAMME_TABLE_STATE_KEY = 'programmeTableState'
 
 function loadProgrammeTableState():
@@ -366,7 +373,8 @@ export function ProgrammeTable({
 
     const [sorting, setSorting] =
         useState<SortingState>(
-            storedTableState?.sorting ?? []
+            storedTableState?.sorting ??
+                DEFAULT_PROGRAMME_SORTING
         )
 
     const [columnVisibility, setColumnVisibility] =
