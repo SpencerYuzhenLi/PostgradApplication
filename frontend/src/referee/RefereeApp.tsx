@@ -2,6 +2,7 @@ import './RefereeApp.css'
 import '../shared/components/StartupState.css'
 import '../shared/components/Settings.css'
 import { useEffect, useRef, useState } from 'react'
+import { getRefereeAccessToken } from './utils/refereeAccessToken'
 import { HelpIcon } from '../shared/icons/HelpIcon'
 import { RefereeHelpModal } from './components/RefereeHelpModal'
 import { SettingsSelect } from '../shared/components/SettingsSelect'
@@ -11,11 +12,15 @@ import { themeOptions } from '../shared/configs/preferences'
 import { RefereeProgrammeTable } from './components/RefereeProgrammeTable'
 import { RefereeDetailsPanel } from './components/RefereeDetailsPanel'
 import type { RefereeProgramme } from './types/RefereeProgramme'
-import type { Referee } from '../shared/types/Referee'
 import { apiUrl } from '../shared/utils/apiUrl'
 
 
 export function RefereeApp() {
+
+    const [accessToken] =
+        useState<string | null>(
+            getRefereeAccessToken
+        )
 
     const {
         themePreference,
@@ -93,48 +98,7 @@ export function RefereeApp() {
 
     const [programmes, setProgrammes] = useState<RefereeProgramme[]>([])
 
-    const [referees, setReferees] = useState<Referee[]>([])
-
-    const REFEREE_SELECTION_KEY =
-        'refereeSelectedRefereeId'
-
-    const [
-        selectedRefereeId,
-        setSelectedRefereeId,
-    ] = useState<number | null>(() => {
-        const stored =
-            sessionStorage.getItem(
-                REFEREE_SELECTION_KEY
-            )
-
-        if (stored === null) {
-            return null
-        }
-
-        const id = Number(stored)
-
-        return Number.isInteger(id)
-            ? id
-            : null
-    })
-
-    useEffect(() => {
-        if (selectedRefereeId === null) {
-            sessionStorage.removeItem(
-                REFEREE_SELECTION_KEY
-            )
-            return
-        }
-
-        sessionStorage.setItem(
-            REFEREE_SELECTION_KEY,
-            String(selectedRefereeId)
-        )
-    }, [selectedRefereeId])
-
-    const [initialLoading, setInitialLoading] = useState(true)
-
-    const [programmesLoading, setProgrammesLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
 
     const [error, setError] = useState<string | null>(null)
 
@@ -142,7 +106,7 @@ export function RefereeApp() {
             useState(false)
 
         useEffect(() => {
-            if (!initialLoading) {
+            if (!loading) {
                 setShowLoading(false)
                 return
             }
@@ -152,7 +116,7 @@ export function RefereeApp() {
             }, 250)
 
             return () => clearTimeout(timeout)
-        }, [initialLoading])
+        }, [loading])
 
     const [
         selectedProgrammeId,
@@ -166,75 +130,40 @@ export function RefereeApp() {
             ) ?? null
 
     useEffect(() => {
-        fetch(apiUrl('/api/referees'))
-            .then(async response => {
-                if (!response.ok) {
-                    throw new Error(
-                        `Could not load referees (${response.status}).`
-                    )
-                }
-
-                return response.json()
-            })
-            .then((data: Referee[]) => {
-                setReferees(data)
-
-                setSelectedRefereeId(current => {
-                    if (
-                        current !== null &&
-                        data.some(
-                            referee =>
-                                referee.id === current
-                        )
-                    ) {
-                        return current
-                    }
-
-                    return data.length > 0
-                        ? data[0].id
-                        : null
-                })
-            })
-            .catch(error => {
-                setError(
-                    error instanceof TypeError
-                        ? 'Could not connect to the server.'
-                        : error instanceof Error
-                            ? error.message
-                            : 'An unexpected error occurred.'
-                )
-
-                setInitialLoading(false)
-            })
-    }, [])
-
-    useEffect(() => {
-        if (selectedRefereeId === null) {
+        if (!accessToken) {
             setProgrammes([])
-            setInitialLoading(false)
+            setLoading(false)
             return
         }
 
-        setProgrammesLoading(true)
+        setLoading(true)
         setError(null)
 
         fetch(
-            apiUrl(
-                `/api/referee-programmes?refereeId=${selectedRefereeId}`
-            )
+            apiUrl('/api/referee-programmes'),
+            {
+                headers: {
+                    'X-Referee-Token':
+                        accessToken,
+                },
+            }
         )
             .then(async response => {
                 if (!response.ok) {
                     throw new Error(
-                        `Could not load programmes (${response.status}).`
+                        response.status === 401
+                            ? 'This referee access link is invalid or no longer active.'
+                            : `Could not load programmes (${response.status}).`
                     )
                 }
 
                 return response.json()
             })
-            .then((data: RefereeProgramme[]) => {
-                setProgrammes(data)
-            })
+            .then(
+                (data: RefereeProgramme[]) => {
+                    setProgrammes(data)
+                }
+            )
             .catch(error => {
                 setError(
                     error instanceof TypeError
@@ -245,10 +174,9 @@ export function RefereeApp() {
                 )
             })
             .finally(() => {
-                setProgrammesLoading(false)
-                setInitialLoading(false)
+                setLoading(false)
             })
-    }, [selectedRefereeId])
+    }, [accessToken])
 
     const helpButtonRef =
         useRef<HTMLButtonElement>(null)
@@ -261,7 +189,31 @@ export function RefereeApp() {
         })
     }
 
-    if (initialLoading) {
+    if (!accessToken) {
+        return (
+            <main className="startup-state">
+                <div className="startup-state-content">
+                    <h1>
+                        Postgraduate Applications
+                    </h1>
+
+                    <section className="startup-error">
+                        <h2>
+                            Referee access required
+                        </h2>
+
+                        <p>
+                            Please open the personal
+                            referee link you were
+                            provided.
+                        </p>
+                    </section>
+                </div>
+            </main>
+        )
+    }
+
+    if (loading) {
         return showLoading ? (
             <main className="startup-state">
                 <div className="startup-state-content">
@@ -331,38 +283,6 @@ export function RefereeApp() {
                         </div>
 
                         <div className="referee-actions">
-                            <div className="referee-viewer-select">
-                                <span className="referee-viewer-label">
-                                    Viewing as
-                                </span>
-
-                                <SettingsSelect
-                                    ariaLabel="Viewing as"
-                                    value={
-                                        selectedRefereeId === null
-                                            ? ''
-                                            : String(
-                                                selectedRefereeId
-                                            )
-                                    }
-                                    options={referees.map(
-                                        referee => ({
-                                            value: String(
-                                                referee.id
-                                            ),
-                                            label: referee.name,
-                                        })
-                                    )}
-                                    onChange={value => {
-                                        setSelectedProgrammeId(null)
-                                        setSelectedRefereeId(
-                                            Number(value)
-                                        )
-                                    }}
-                                    disabled={programmesLoading}
-                                />
-                            </div>
-
                             <button
                                 ref={helpButtonRef}
                                 type="button"

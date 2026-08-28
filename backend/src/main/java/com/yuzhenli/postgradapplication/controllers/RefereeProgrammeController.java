@@ -17,9 +17,15 @@ public class RefereeProgrammeController {
 
     @GetMapping
     public List<RefereeProgrammeDto> getProgrammes(
-            @RequestParam Integer refereeId
+            @RequestHeader(
+                    value = "X-Referee-Token",
+                    required = false
+            )
+            String accessToken
     ) {
         return refereeProgrammeService
-                .getProgrammesForReferee(refereeId);
+                .getProgrammesForAccessToken(
+                        accessToken
+                );
     }
 }

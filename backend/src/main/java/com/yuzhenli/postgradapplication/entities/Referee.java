@@ -26,6 +26,13 @@ public class Referee {
     @Column(name = "email")
     private String email;
 
+    @Column(
+            name = "access_token_hash",
+            length = 64,
+            unique = true
+    )
+    private String accessTokenHash;
+
     @ManyToMany(mappedBy = "referees")
     @Builder.Default
     private Set<Programme> programmes =

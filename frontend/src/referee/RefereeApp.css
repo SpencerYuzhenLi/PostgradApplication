@@ -111,19 +111,6 @@
     color: var(--accent);
 }
 
-.referee-viewer-select {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.referee-viewer-label {
-    color: var(--text);
-
-    font-size: 0.8rem;
-    white-space: nowrap;
-}
-
 .referee-content {
     flex: 1 1 auto;
     min-width: 0;
