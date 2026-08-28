@@ -42,8 +42,22 @@
 }
 
 .referee-identity {
-    flex: 1 1 auto;
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+
     min-width: 0;
+}
+
+.referee-viewer-name {
+    color: var(--text);
+    font-size: 0.7rem;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+
+    white-space: nowrap;
 }
 
 .referee-header h1 {

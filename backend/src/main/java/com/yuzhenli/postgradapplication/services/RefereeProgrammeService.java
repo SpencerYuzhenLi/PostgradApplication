@@ -1,6 +1,8 @@
 package com.yuzhenli.postgradapplication.services;
 
 import com.yuzhenli.postgradapplication.dtos.RefereeProgrammeDto;
+import com.yuzhenli.postgradapplication.dtos.RefereeViewDto;
+import com.yuzhenli.postgradapplication.entities.Programme;
 import com.yuzhenli.postgradapplication.entities.Referee;
 import com.yuzhenli.postgradapplication.mappers.ProgrammeMapper;
 import com.yuzhenli.postgradapplication.repositories.RefereeRepository;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -21,8 +24,7 @@ public class RefereeProgrammeService {
     private final ProgrammeMapper programmeMapper;
 
     @Transactional(readOnly = true)
-    public List<RefereeProgrammeDto>
-    getProgrammesForAccessToken(
+    public RefereeViewDto getProgrammesForAccessToken(
             String accessToken
     ) {
         if (
@@ -51,13 +53,27 @@ public class RefereeProgrammeService {
                                 )
                         );
 
-        return referee
-                .getProgrammes()
-                .stream()
-                .map(
-                        programmeMapper
-                                ::toRefereeProgrammeDto
-                )
-                .toList();
+        List<RefereeProgrammeDto> programmes =
+                referee
+                        .getProgrammes()
+                        .stream()
+                        .sorted(
+                                Comparator.comparing(
+                                        Programme::getProgrammeShortName,
+                                        Comparator.nullsLast(
+                                                String.CASE_INSENSITIVE_ORDER
+                                        )
+                                )
+                        )
+                        .map(
+                                programmeMapper
+                                        ::toRefereeProgrammeDto
+                        )
+                        .toList();
+
+        return new RefereeViewDto(
+                referee.getName(),
+                programmes
+        );
     }
 }

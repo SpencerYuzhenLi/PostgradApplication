@@ -12,10 +12,16 @@ import { themeOptions } from '../shared/configs/preferences'
 import { RefereeProgrammeTable } from './components/RefereeProgrammeTable'
 import { RefereeDetailsPanel } from './components/RefereeDetailsPanel'
 import type { RefereeProgramme } from './types/RefereeProgramme'
+import type { RefereeView } from './types/RefereeView'
 import { apiUrl } from '../shared/utils/apiUrl'
 
 
 export function RefereeApp() {
+
+    useEffect(() => {
+        document.title =
+            'Reference Information'
+    }, [])
 
     const [accessToken] =
         useState<string | null>(
@@ -26,6 +32,8 @@ export function RefereeApp() {
         themePreference,
         setThemePreference,
     } = useThemePreference()
+
+    const [refereeName, setRefereeName] = useState('')
 
     const [helpOpen, setHelpOpen] = useState(false)
 
@@ -159,11 +167,15 @@ export function RefereeApp() {
 
                 return response.json()
             })
-            .then(
-                (data: RefereeProgramme[]) => {
-                    setProgrammes(data)
-                }
-            )
+            .then((data: RefereeView) => {
+                setRefereeName(
+                    data.refereeName
+                )
+
+                setProgrammes(
+                    data.programmes
+                )
+            })
             .catch(error => {
                 setError(
                     error instanceof TypeError
@@ -278,8 +290,12 @@ export function RefereeApp() {
                     <header className="referee-header">
                         <div className="referee-identity">
                             <h1>
-                                Postgraduate Applications
+                                Reference Information
                             </h1>
+
+                            <span className="referee-viewer-name">
+                                {refereeName}
+                            </span>
                         </div>
 
                         <div className="referee-actions">

@@ -44,6 +44,11 @@ type ProgrammeModalState =
 
 function App() {
 
+    useEffect(() => {
+        document.title =
+            'Postgraduate Applications'
+    }, [])
+
     const {
         themePreference,
         setThemePreference,

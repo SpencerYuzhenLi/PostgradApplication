@@ -511,32 +511,6 @@ main {
     background: var(--text);
 }
 
-/* .header-boundary-row th {
-    position: relative;
-
-    height: 1px;
-    padding: 0;
-
-    background: var(--text);
-}
-
-.header-boundary-row th::after {
-    content: '';
-
-    position: absolute;
-    z-index: 1;
-
-    top: 100%;
-    left: 0;
-    right: 0;
-
-    height: 0.5rem;
-
-    background: var(--bg);
-
-    pointer-events: none;
-} */
-
 
 /* =========================================================
    Table action icons
