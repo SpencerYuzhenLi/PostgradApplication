@@ -14,6 +14,7 @@ import type { ProgrammeFormValues } from './manager/components/ProgrammeForm'
 import { ProgrammeTable } from './manager/components/ProgrammeTable'
 import { RefereeTable } from './manager/components/RefereeTable'
 import { ProgrammeDetailsPanel } from './manager/components/ProgrammeDetailsPanel'
+import { RefereeDetailsPanel } from './manager/components/RefereeDetailsPanel'
 import { ProgrammeFormModal } from './manager/components/ProgrammeFormModal'
 import { PlusIcon } from './shared/icons/PlusIcon'
 import { PencilIcon } from './shared/icons/PencilIcon'
@@ -105,6 +106,15 @@ function App() {
         programmes.find(
             programme =>
                 programme.id === selectedProgrammeId
+        ) ?? null
+
+    const [selectedRefereeId, setSelectedRefereeId] =
+        useState<number | null>(null)
+
+    const selectedReferee =
+        referees.find(
+            referee =>
+                referee.id === selectedRefereeId
         ) ?? null
 
     const [programmeModal, setProgrammeModal] =
@@ -330,7 +340,8 @@ function App() {
         <>
             <main
                 className={
-                    selectedProgramme
+                    selectedProgramme ||
+                    selectedReferee
                         ? 'app-layout details-open'
                         : 'app-layout'
                 }
@@ -418,9 +429,10 @@ function App() {
                                         ? 'page'
                                         : undefined
                                 }
-                                onClick={() =>
+                                onClick={() => {
+                                    setSelectedRefereeId(null)
                                     setManagerView('programmes')
-                                }
+                                }}
                             >
                                 Programmes
                             </button>
@@ -499,6 +511,17 @@ function App() {
                     ) : (
                         <RefereeTable
                             referees={referees}
+                            selectedRefereeId={
+                                selectedRefereeId
+                            }
+                            onSelectReferee={referee =>
+                                setSelectedRefereeId(
+                                    current =>
+                                        current === referee.id
+                                            ? null
+                                            : referee.id
+                                )
+                            }
                         />
                     )}
 
@@ -515,6 +538,15 @@ function App() {
                                 mode: 'edit',
                                 programme: selectedProgramme,
                             })
+                        }
+                    />
+                )}
+
+                {selectedReferee && (
+                    <RefereeDetailsPanel
+                        referee={selectedReferee}
+                        onClose={() =>
+                            setSelectedRefereeId(null)
                         }
                     />
                 )}

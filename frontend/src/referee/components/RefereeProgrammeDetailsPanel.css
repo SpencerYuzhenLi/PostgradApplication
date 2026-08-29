@@ -1,4 +1,4 @@
-.referee-details-panel {
+.referee-programme-details-panel {
     --referee-details-line-height: 1.25rem;
     --referee-details-row-gap: 0.5rem;
     --referee-details-heading-gap: 1rem;
@@ -20,14 +20,14 @@
     overscroll-behavior-y: contain;
 }
 
-.referee-details-panel:not(.is-scrollable) {
+.referee-programme-details-panel:not(.is-scrollable) {
     touch-action: none;
 }
 
 
 /* ---------- Header ---------- */
 
-.referee-details-header {
+.referee-programme-details-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -38,7 +38,7 @@
     border-bottom: 1px solid var(--text);
 }
 
-.referee-details-label {
+.referee-programme-details-label {
     color: var(--text);
 
     font-size: 0.7rem;
@@ -48,7 +48,7 @@
     letter-spacing: 0.06em;
 }
 
-.referee-details-close {
+.referee-programme-details-close {
     appearance: none;
 
     padding: 0.2rem 0.35rem;
@@ -66,12 +66,12 @@
     cursor: pointer;
 }
 
-.referee-details-close:hover {
+.referee-programme-details-close:hover {
     border-color: var(--accent-border);
     color: var(--accent);
 }
 
-.referee-details-close:focus-visible {
+.referee-programme-details-close:focus-visible {
     border-color: var(--accent);
 
     outline: 2px solid var(--accent);
@@ -81,16 +81,16 @@
 
 /* ---------- Identity ---------- */
 
-.referee-details-identity {
+.referee-programme-details-identity {
     padding: 0.75rem 0;
 }
 
-.referee-details-institution {
+.referee-programme-details-institution {
     color: var(--text);
     font-size: 0.8rem;
 }
 
-.referee-details-programme-name {
+.referee-programme-details-programme-name {
     margin-top: 0.15rem;
 
     color: var(--text-h);
@@ -102,7 +102,7 @@
 
 /* ---------- Sections ---------- */
 
-.referee-details-divider {
+.referee-programme-details-divider {
     width: 100%;
     height: 1px;
 
@@ -111,7 +111,7 @@
     background: var(--border);
 }
 
-.referee-details-section h2 {
+.referee-programme-details-section h2 {
     margin:
         0
         0
@@ -128,45 +128,23 @@
 
 /* ---------- Detail rows ---------- */
 
-.referee-detail-rows {
+.referee-programme-detail-rows {
     display: flex;
     flex-direction: column;
     gap: var(--referee-details-row-gap);
 }
-/*
-.referee-detail-row {
-    display: grid;
-    grid-template-columns:
-        minmax(7rem, 1fr)
-        auto;
-    gap: 1rem;
-
-    font-size: 0.8rem;
-    line-height:
-        var(--referee-details-line-height);
-}
-
-.referee-detail-label,
-.referee-detail-value {
-    color: var(--text-h);
-}
-
-.referee-detail-value {
-    text-align: right;
-}
-*/
 
 
 /* ---------- Reference link ---------- */
 
-.referee-details-links {
+.referee-programme-details-links {
     margin-top: var(--referee-details-row-gap);
 
     display: flex;
     flex-direction: column;
 }
 
-.referee-details-links a {
+.referee-programme-details-links a {
     position: relative;
 
     display: flex;
@@ -182,7 +160,7 @@
     text-decoration: none;
 }
 
-.referee-details-links a::before {
+.referee-programme-details-links a::before {
     content: '';
 
     position: absolute;
@@ -193,17 +171,17 @@
     pointer-events: none;
 }
 
-.referee-details-links a:hover::before {
+.referee-programme-details-links a:hover::before {
     outline:
         1px solid
         var(--accent-border);
 }
 
-.referee-details-links a:focus-visible {
+.referee-programme-details-links a:focus-visible {
     outline: none;
 }
 
-.referee-details-links a:focus-visible::before {
+.referee-programme-details-links a:focus-visible::before {
     outline:
         2px solid
         var(--accent);
@@ -211,11 +189,11 @@
     outline-offset: 1px;
 }
 
-.referee-details-links a:hover {
+.referee-programme-details-links a:hover {
     color: var(--accent);
 }
 
-.referee-details-link-icon-area {
+.referee-programme-details-link-icon-area {
     flex: 0 0 auto;
 
     margin-left: auto;
@@ -224,7 +202,7 @@
     align-items: center;
 }
 
-.referee-details-link-icon {
+.referee-programme-details-link-icon {
     width: 1rem;
     height: 1rem;
 
@@ -234,7 +212,7 @@
 
 /* ---------- Notes ---------- */
 
-.referee-details-notes p {
+.referee-programme-details-notes p {
     margin: 0;
 
     color: var(--text-h);
@@ -249,7 +227,7 @@
 /* ---------- Responsive behaviour ---------- */
 
 @media (max-aspect-ratio: 4 / 3) {
-    .referee-details-panel {
+    .referee-programme-details-panel {
         flex: 1 1 45dvh;
 
         min-width: 0;

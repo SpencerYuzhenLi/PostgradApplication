@@ -11,7 +11,7 @@ import { SettingsIcon } from '../shared/icons/SettingsIcon'
 import { useThemePreference } from '../shared/hooks/useThemePreference'
 import { themeOptions } from '../shared/configs/preferences'
 import { RefereeProgrammeTable } from './components/RefereeProgrammeTable'
-import { RefereeDetailsPanel } from './components/RefereeDetailsPanel'
+import { RefereeProgrammeDetailsPanel } from './components/RefereeProgrammeDetailsPanel'
 import type { RefereeProgramme } from './types/RefereeProgramme'
 import type { RefereeView } from './types/RefereeView'
 import { apiUrl } from '../shared/utils/apiUrl'
@@ -471,7 +471,7 @@ export function RefereeApp() {
                 </div>
 
                 {selectedProgramme && (
-                    <RefereeDetailsPanel
+                    <RefereeProgrammeDetailsPanel
                         programme={selectedProgramme}
                         onClose={() =>
                             setSelectedProgrammeId(null)

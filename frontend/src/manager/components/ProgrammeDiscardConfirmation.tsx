@@ -1,4 +1,4 @@
-import './ProgrammeDiscardConfirmation.css'
+import '../../shared/components/ConfirmationDialog.css'
 
 interface ProgrammeDiscardConfirmationProps {
     variant?: 'changes' | 'draft'
@@ -38,9 +38,9 @@ export function ProgrammeDiscardConfirmation({
                 : 'Your unsaved changes will be lost.'
 
     return (
-        <div className="discard-confirmation-backdrop">
+        <div className="confirmation-backdrop">
             <section
-                className="discard-confirmation"
+                className="confirmation-dialog"
                 role="alertdialog"
                 aria-modal="true"
                 aria-labelledby="discard-confirmation-title"
@@ -53,7 +53,7 @@ export function ProgrammeDiscardConfirmation({
                     {message}
                 </p>
 
-                <div className="discard-confirmation-actions">
+                <div className="confirmation-actions">
                     {!discardingDraft &&
                         allowSaveDraft &&
                         onSaveDraft && (
@@ -79,11 +79,7 @@ export function ProgrammeDiscardConfirmation({
 
                         <button
                             type="button"
-                            className={
-                                discardingDraft
-                                    ? 'discard-confirmation-discard-draft'
-                                    : 'discard-confirmation-discard'
-                            }
+                            className="primary-destructive-action"
                             onClick={onDiscard}
                         >
                             {discardingDraft

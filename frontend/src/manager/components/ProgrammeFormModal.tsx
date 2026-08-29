@@ -413,7 +413,7 @@ export function ProgrammeFormModal({
                         {editingDraft ? (
                             <button
                                 type="button"
-                                className="programme-modal-delete"
+                                className="destructive-action"
                                 onClick={() =>
                                     setDiscardDraftConfirmationOpen(true)
                                 }
@@ -424,7 +424,7 @@ export function ProgrammeFormModal({
                         ) : mode === 'edit' ? (
                             <button
                                 type="button"
-                                className="programme-modal-delete"
+                                className="destructive-action"
                                 onClick={() =>
                                     setDeleteConfirmationOpen(true)
                                 }

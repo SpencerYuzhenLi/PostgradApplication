@@ -1,18 +1,18 @@
-import './RefereeDetailsPanel.css'
+import './RefereeProgrammeDetailsPanel.css'
 import type { RefereeProgramme } from '../types/RefereeProgramme'
 import { DetailRow } from '../../shared/components/DetailRow'
 import { useScrollable } from '../../shared/hooks/useScrollable'
 import { ExternalLinkIcon } from '../../shared/icons/ExternalLinkIcon'
 
-interface RefereeDetailsPanelProps {
+interface RefereeProgrammeDetailsPanelProps {
     programme: RefereeProgramme
     onClose: () => void
 }
 
-export function RefereeDetailsPanel({
+export function RefereeProgrammeDetailsPanel({
     programme,
     onClose,
-}: RefereeDetailsPanelProps) {
+}: RefereeProgrammeDetailsPanelProps) {
 
     const {
         ref: panelRef,
@@ -29,42 +29,42 @@ export function RefereeDetailsPanel({
         <aside
             ref={panelRef}
             className={[
-                'referee-details-panel',
+                'referee-programme-details-panel',
                 scrollable ? 'is-scrollable' : '',
             ]
                 .filter(Boolean)
                 .join(' ')}
         >
-            <div className="referee-details-header">
-                <span className="referee-details-label">
+            <div className="referee-programme-details-header">
+                <span className="referee-programme-details-label">
                     Details
                 </span>
 
                 <button
                     type="button"
-                    className="referee-details-close"
+                    className="referee-programme-details-close"
                     onClick={onClose}
                 >
                     Close
                 </button>
             </div>
 
-            <div className="referee-details-identity">
-                <div className="referee-details-institution">
+            <div className="referee-programme-details-identity">
+                <div className="referee-programme-details-institution">
                     {programme.institutionName}
                 </div>
 
-                <div className="referee-details-programme-name">
+                <div className="referee-programme-details-programme-name">
                     {programme.programmeName}
                 </div>
             </div>
 
-            <section className="referee-details-section">
-                <div className="referee-details-divider" />
+            <section className="referee-programme-details-section">
+                <div className="referee-programme-details-divider" />
 
                 <h2>Reference</h2>
 
-                <div className="referee-detail-rows">
+                <div className="referee-programme-detail-rows">
                     {programme.deadline && (
                         <DetailRow
                             label="Deadline"
@@ -92,7 +92,7 @@ export function RefereeDetailsPanel({
                 </div>
 
                 {programme.informationForRefereesUrl && (
-                    <div className="referee-details-links">
+                    <div className="referee-programme-details-links">
                         <a
                             href={
                                 programme.informationForRefereesUrl
@@ -105,11 +105,11 @@ export function RefereeDetailsPanel({
                             </span>
 
                             <span
-                                className="referee-details-link-icon-area"
+                                className="referee-programme-details-link-icon-area"
                                 aria-hidden="true"
                             >
                                 <ExternalLinkIcon
-                                    className="referee-details-link-icon"
+                                    className="referee-programme-details-link-icon"
                                 />
                             </span>
                         </a>
@@ -118,8 +118,8 @@ export function RefereeDetailsPanel({
             </section>
 
             {hasRefereeNotes && (
-                <section className="referee-details-section referee-details-notes">
-                    <div className="referee-details-divider" />
+                <section className="referee-programme-details-section referee-details-notes">
+                    <div className="referee-programme-details-divider" />
 
                     <h2>Referee notes</h2>
 

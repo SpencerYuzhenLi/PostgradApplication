@@ -1,3 +1,4 @@
+import '../../shared/components/ConfirmationDialog.css'
 import './ProgrammeDeleteConfirmation.css'
 import type { Programme } from '../../shared/types/Programme'
 
@@ -18,9 +19,12 @@ export function ProgrammeDeleteConfirmation({
 }: ProgrammeDeleteConfirmationProps) {
 
     return (
-        <div className="delete-confirmation-backdrop">
+        <div
+            className="confirmation-backdrop"
+            role="presentation"
+        >
             <section
-                className="delete-confirmation"
+                className="confirmation-dialog"
                 role="alertdialog"
                 aria-modal="true"
                 aria-labelledby="delete-confirmation-title"
@@ -41,7 +45,7 @@ export function ProgrammeDeleteConfirmation({
                     </p>
                 )}
 
-                <div className="delete-confirmation-actions">
+                <div className="confirmation-actions">
                     <button
                         type="button"
                         className="neutral-action"
@@ -53,7 +57,7 @@ export function ProgrammeDeleteConfirmation({
 
                     <button
                         type="button"
-                        className="confirm-delete"
+                        className="primary-destructive-action"
                         onClick={onConfirm}
                         disabled={deleting}
                     >

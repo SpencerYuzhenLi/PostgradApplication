@@ -189,3 +189,75 @@ code {
     opacity: 0.5;
     cursor: default;
 }
+
+
+/* ---------- Destructive action ---------- */
+
+.destructive-action {
+    appearance: none;
+
+    padding: 0.25rem 0.45rem;
+
+    border: 1px solid transparent;
+    border-radius: 0.35rem;
+
+    background: transparent;
+    color: var(--danger);
+
+    font: inherit;
+    font-size: 0.8rem;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.destructive-action:hover {
+    border-color: var(--danger-border);
+}
+
+.destructive-action:focus-visible {
+    border-color: var(--danger);
+
+    outline: 2px solid var(--danger);
+    outline-offset: 1px;
+}
+
+.destructive-action:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+
+/* ---------- Primary destructive action ---------- */
+
+.primary-destructive-action {
+    appearance: none;
+
+    padding: 0.25rem 0.5rem;
+
+    border: 1px solid var(--danger-border);
+    border-radius: 0.35rem;
+
+    background: var(--danger-bg);
+    color: var(--danger);
+
+    font: inherit;
+    font-size: 0.8rem;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.primary-destructive-action:hover {
+    border-color: var(--danger);
+}
+
+.primary-destructive-action:focus-visible {
+    outline: 2px solid var(--danger);
+    outline-offset: 1px;
+}
+
+.primary-destructive-action:disabled {
+    opacity: 0.5;
+    cursor: default;
+}

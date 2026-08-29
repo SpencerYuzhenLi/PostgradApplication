@@ -5,10 +5,16 @@ import { ChevronIcon } from '../../shared/icons/ChevronIcon'
 
 interface RefereeTableProps {
     referees: ManagedReferee[]
+    selectedRefereeId: number | null
+
+    onSelectReferee:
+        (referee: ManagedReferee) => void
 }
 
 export function RefereeTable({
     referees,
+    selectedRefereeId,
+    onSelectReferee,
 }: RefereeTableProps) {
 
     const {
@@ -99,13 +105,14 @@ export function RefereeTable({
                                             <td className="manager-referee-pinned">
                                                 <button
                                                     type="button"
-                                                    className="manager-referee-details-trigger"
-                                                    onClick={() => {
-                                                        /*
-                                                         * Referee details panel
-                                                         * will be added later.
-                                                         */
-                                                    }}
+                                                    className={
+                                                        selectedRefereeId === referee.id
+                                                            ? 'manager-referee-details-trigger active'
+                                                            : 'manager-referee-details-trigger'
+                                                    }
+                                                    onClick={() =>
+                                                        onSelectReferee(referee)
+                                                    }
                                                 >
                                                     <span className="manager-referee-details-name">
                                                         {referee.name}
@@ -117,7 +124,11 @@ export function RefereeTable({
                                                     >
                                                         <ChevronIcon
                                                             className="manager-referee-details-chevron"
-                                                            direction="right"
+                                                            direction={
+                                                                selectedRefereeId === referee.id
+                                                                    ? 'left'
+                                                                    : 'right'
+                                                            }
                                                         />
                                                     </span>
                                                 </button>
