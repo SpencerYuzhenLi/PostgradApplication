@@ -269,7 +269,7 @@
 
 /* ---------- Responsive behaviour ---------- */
 
-@media (max-aspect-ratio: 4 / 3) {
+@media (max-aspect-ratio: 1 / 1) {
     .programme-details-panel {
         flex: 1 1 45dvh;
         min-width: 0;

@@ -15,6 +15,14 @@
     touch-action: pan-y;
 }
 
+.referee-table-area:focus {
+    outline: none;
+}
+
+.referee-table-area:focus-visible {
+    outline: none;
+}
+
 .referee-table-container {
     flex: 1 1 auto;
 

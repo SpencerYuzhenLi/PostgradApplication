@@ -9,9 +9,10 @@ import type { LocationDisplayPreference } from './shared/types/Preferences'
 import { useThemePreference } from './shared/hooks/useThemePreference'
 import { themeOptions } from './shared/configs/preferences'
 import type { Programme } from './shared/types/Programme'
-import type { Referee } from './shared/types/Referee'
+import type { ManagedReferee } from './manager/types/ManagedReferee'
 import type { ProgrammeFormValues } from './manager/components/ProgrammeForm'
 import { ProgrammeTable } from './manager/components/ProgrammeTable'
+import { RefereeTable } from './manager/components/RefereeTable'
 import { ProgrammeDetailsPanel } from './manager/components/ProgrammeDetailsPanel'
 import { ProgrammeFormModal } from './manager/components/ProgrammeFormModal'
 import { PlusIcon } from './shared/icons/PlusIcon'
@@ -59,7 +60,14 @@ function App() {
     const [error, setError] = useState<string | null>(null)
 
     const [programmes, setProgrammes] = useState<Programme[]>([])
-    const [referees, setReferees] = useState<Referee[]>([])
+    const [referees, setReferees] = useState<ManagedReferee[]>([])
+
+    type ManagerView = 'programmes' | 'referees'
+
+    const [managerView, setManagerView] =
+        useState<ManagerView>(
+            'programmes'
+        )
 
     const [programmeDraft, setProgrammeDraft] =
         useState<ProgrammeFormValues | null>(() => {
@@ -400,64 +408,99 @@ function App() {
                         <div className="manager-navigation-tabs">
                             <button
                                 type="button"
-                                className="manager-navigation-tab active"
-                                aria-current="page"
+                                className={
+                                    managerView === 'programmes'
+                                        ? 'manager-navigation-tab active'
+                                        : 'manager-navigation-tab'
+                                }
+                                aria-current={
+                                    managerView === 'programmes'
+                                        ? 'page'
+                                        : undefined
+                                }
+                                onClick={() =>
+                                    setManagerView('programmes')
+                                }
                             >
                                 Programmes
                             </button>
 
                             <button
                                 type="button"
-                                className="manager-navigation-tab"
-                                disabled
-                                title="Coming soon"
+                                className={
+                                    managerView === 'referees'
+                                        ? 'manager-navigation-tab active'
+                                        : 'manager-navigation-tab'
+                                }
+                                aria-current={
+                                    managerView === 'referees'
+                                        ? 'page'
+                                        : undefined
+                                }
+                                onClick={() => {
+                                    setSelectedProgrammeId(null)
+                                    setManagerView('referees')
+                                }}
                             >
                                 Referees
                             </button>
                         </div>
 
                         <div className="manager-view-actions">
-                            <button
-                                type="button"
-                                className="page-action-button"
-                                onClick={() => {
-                                    openProgrammeModal({
-                                        mode: 'add',
-                                        draft:
-                                            programmeDraft ??
-                                            undefined,
-                                    })
-                                }}
-                            >
-                                {programmeDraft ? (
-                                    <PencilIcon
-                                        className="page-action-icon"
-                                    />
-                                ) : (
-                                    <PlusIcon
-                                        className="page-action-icon"
-                                    />
-                                )}
+                            {managerView === 'programmes' && (
+                                <button
+                                    type="button"
+                                    className="page-action-button"
+                                    onClick={() => {
+                                        openProgrammeModal({
+                                            mode: 'add',
+                                            draft:
+                                                programmeDraft ??
+                                                undefined,
+                                        })
+                                    }}
+                                >
+                                    {programmeDraft ? (
+                                        <PencilIcon
+                                            className="page-action-icon"
+                                        />
+                                    ) : (
+                                        <PlusIcon
+                                            className="page-action-icon"
+                                        />
+                                    )}
 
-                                {programmeDraft
-                                    ? 'Edit draft'
-                                    : 'Add programme'}
-                            </button>
+                                    {programmeDraft
+                                        ? 'Edit draft'
+                                        : 'Add programme'}
+                                </button>
+                            )}
                         </div>
                     </nav>
 
-                    <ProgrammeTable
-                        programmes={programmes}
-                        abbreviateLocations={abbreviateLocations}
-                        selectedProgrammeId={selectedProgrammeId}
-                        onSelectProgramme={programme =>
-                            setSelectedProgrammeId(current =>
-                                current === programme.id
-                                    ? null
-                                    : programme.id
-                            )
-                        }
-                    />
+                    {managerView === 'programmes' ? (
+                        <ProgrammeTable
+                            programmes={programmes}
+                            abbreviateLocations={
+                                abbreviateLocations
+                            }
+                            selectedProgrammeId={
+                                selectedProgrammeId
+                            }
+                            onSelectProgramme={programme =>
+                                setSelectedProgrammeId(
+                                    current =>
+                                        current === programme.id
+                                            ? null
+                                            : programme.id
+                                )
+                            }
+                        />
+                    ) : (
+                        <RefereeTable
+                            referees={referees}
+                        />
+                    )}
 
                 </div>
 

@@ -28,6 +28,7 @@ import {
     initialColumnVisibility,
     viewControls,
 } from '../configs/programmeTableConfig'
+import { useTableScroll } from '../../shared/hooks/useTableScroll'
 import { SortIcon } from '../../shared/icons/SortIcon'
 import { ChevronIcon } from '../../shared/icons/ChevronIcon'
 
@@ -455,72 +456,21 @@ export function ProgrammeTable({
         )
     }, [programmes, search])
 
-    const tableAreaRef = useRef<HTMLDivElement>(null)
-
-    useEffect(() => {
-        const tableArea = tableAreaRef.current
-        const scrollbar = horizontalScrollbarRef.current
-
-        if (!tableArea || !scrollbar) {
-            return
-        }
-
-        function handleWheel(event: WheelEvent) {
-            let horizontalDelta = 0
-
-            if (event.shiftKey && event.deltaY !== 0) {
-                /*
-                 * Conventional Shift + wheel.
-                 */
-                horizontalDelta = event.deltaY
-            } else if (event.deltaX !== 0) {
-                /*
-                 * Native horizontal trackpad/wheel input,
-                 * particularly useful on macOS.
-                 */
-                horizontalDelta = event.deltaX
-            }
-
-            if (horizontalDelta === 0) {
-                return
-            }
-
-            const maxScrollLeft =
-                scrollbar!.scrollWidth -
-                scrollbar!.clientWidth
-
-            if (maxScrollLeft <= 0) {
-                return
-            }
-
-            const previous =
-                scrollbar!.scrollLeft
-
-            scrollbar!.scrollLeft +=
-                horizontalDelta
-
-            /*
-             * Only consume the wheel event if horizontal
-             * scrolling actually occurred.
-             */
-            if (scrollbar!.scrollLeft !== previous) {
-                event.preventDefault()
-            }
-        }
-
-        tableArea.addEventListener(
-            'wheel',
-            handleWheel,
-            { passive: false }
-        )
-
-        return () => {
-            tableArea.removeEventListener(
-                'wheel',
-                handleWheel
-            )
-        }
-    }, [])
+    const {
+        tableAreaRef,
+        tableContainerRef,
+        tableRef,
+        horizontalScrollbarRef,
+        tableWidth,
+        handleHorizontalScroll,
+        handlePointerDown,
+        handlePointerMove,
+        handlePointerEnd,
+        handleKeyDown,
+    } = useTableScroll({
+        scrollLeftProperty:
+            '--table-scroll-left',
+    })
 
     const table = useTable({
         features: programmeTableFeatures,
@@ -549,105 +499,7 @@ export function ProgrammeTable({
         },
     })
 
-    const tableContainerRef = useRef<HTMLDivElement>(null)
-    const tableRef = useRef<HTMLTableElement>(null)
-    const horizontalScrollbarRef = useRef<HTMLDivElement>(null)
-    const separatorFadeTimeoutRef =
-            useRef<ReturnType<typeof setTimeout> | null>(null)
-    const [tableWidth, setTableWidth] = useState(0)
-    const horizontalDragRef = useRef<{
-        pointerId: number
-        startX: number
-        startScrollLeft: number
-    } | null>(null)
 
-    function handleHorizontalScroll() {
-        const scrollbar =
-            horizontalScrollbarRef.current
-
-        if (!scrollbar) {
-            return
-        }
-
-        updateTableScroll(
-            scrollbar.scrollLeft
-        )
-    }
-
-    function handleHorizontalPointerDown(
-        event: React.PointerEvent<HTMLDivElement>
-    ) {
-        if (event.pointerType !== 'touch') {
-            return
-        }
-
-        const scrollbar =
-            horizontalScrollbarRef.current
-
-        if (!scrollbar) {
-            return
-        }
-
-        horizontalDragRef.current = {
-            pointerId: event.pointerId,
-            startX: event.clientX,
-            startScrollLeft: scrollbar.scrollLeft,
-        }
-    }
-
-    function handleHorizontalPointerMove(
-        event: React.PointerEvent<HTMLDivElement>
-    ) {
-        const drag = horizontalDragRef.current
-        const scrollbar =
-            horizontalScrollbarRef.current
-
-        if (
-            !drag ||
-            !scrollbar ||
-            event.pointerId !== drag.pointerId
-        ) {
-            return
-        }
-
-        const deltaX =
-            event.clientX - drag.startX
-
-        scrollbar.scrollLeft =
-            drag.startScrollLeft - deltaX
-    }
-
-    function handleHorizontalPointerEnd(
-        event: React.PointerEvent<HTMLDivElement>
-    ) {
-        if (
-            horizontalDragRef.current?.pointerId
-            !== event.pointerId
-        ) {
-            return
-        }
-
-        horizontalDragRef.current = null
-    }
-
-    useEffect(() => {
-        const table = tableRef.current
-
-        if (!table) {
-            return
-        }
-
-        const updateWidth = () => {
-            setTableWidth(table.scrollWidth)
-        }
-
-        updateWidth()
-
-        const observer = new ResizeObserver(updateWidth)
-        observer.observe(table)
-
-        return () => observer.disconnect()
-    }, [])
 
     const viewControlsRef = useRef<HTMLDivElement>(null)
 
@@ -676,51 +528,6 @@ export function ProgrammeTable({
     const getColumns = (ids: string[]) => ids
             .map(id => table.getColumn(id))
             .filter(column => column !== undefined)
-
-    function updateTableScroll(scrollLeft: number) {
-        const tableContainer =
-            tableContainerRef.current
-
-        if (!tableContainer) {
-            return
-        }
-
-        tableContainer.style.setProperty(
-            '--table-scroll-left',
-            `${scrollLeft}px`
-        )
-
-        if (
-            separatorFadeTimeoutRef.current !== null
-        ) {
-            clearTimeout(
-                separatorFadeTimeoutRef.current
-            )
-
-            separatorFadeTimeoutRef.current = null
-        }
-
-        if (scrollLeft > 0) {
-            tableContainer.classList.add(
-                'is-horizontally-scrolled'
-            )
-
-            tableContainer.classList.remove(
-                'hide-pinned-separator'
-            )
-
-            return
-        }
-
-        separatorFadeTimeoutRef.current =
-            setTimeout(() => {
-                tableContainer.classList.add(
-                    'hide-pinned-separator'
-                )
-
-                separatorFadeTimeoutRef.current = null
-            }, 1000)
-    }
 
     return (
         <div className="programme-table">
@@ -853,7 +660,7 @@ export function ProgrammeTable({
                 <div className="table-status">
                     <p className="programme-count">
                         Showing {table.getRowModel().rows.length}
-                        {'/'}
+                        {' / '}
                         {programmes.length}
                     </p>
 
@@ -867,10 +674,12 @@ export function ProgrammeTable({
             <div
                 className="table-area"
                 ref={tableAreaRef}
-                onPointerDown={handleHorizontalPointerDown}
-                onPointerMove={handleHorizontalPointerMove}
-                onPointerUp={handleHorizontalPointerEnd}
-                onPointerCancel={handleHorizontalPointerEnd}
+                tabIndex={0}
+                onKeyDown={handleKeyDown}
+                onPointerDown={handlePointerDown}
+                onPointerMove={handlePointerMove}
+                onPointerUp={handlePointerEnd}
+                onPointerCancel={handlePointerEnd}
             >
 
                 <div

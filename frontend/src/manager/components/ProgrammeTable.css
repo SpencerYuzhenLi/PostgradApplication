@@ -446,6 +446,14 @@ main {
     touch-action: pan-y;
 }
 
+table-area:focus {
+    outline: none;
+}
+
+.table-area:focus-visible {
+    outline: none;
+}
+
 .table-container {
     --table-scroll-left: 0px;
 

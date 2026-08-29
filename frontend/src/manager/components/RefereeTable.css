@@ -1,0 +1,300 @@
+/* =========================================================
+   Manager referee table
+   ========================================================= */
+
+.manager-referee-table {
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 0;
+
+    margin: 0 1rem;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.manager-referee-table-area {
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    touch-action: pan-y;
+}
+
+.manager-referee-table-area:focus {
+    outline: none;
+}
+
+.manager-referee-table-area:focus-visible {
+    outline: none;
+}
+
+
+/* =========================================================
+   Scrollable table container
+   ========================================================= */
+
+.manager-referee-table-container {
+    --referee-manager-table-scroll-left: 0px;
+
+    flex: 1 1 auto;
+
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+
+    overflow-x: clip;
+    overflow-y: auto;
+
+    overscroll-behavior-y: contain;
+}
+
+
+/* =========================================================
+   Table
+   ========================================================= */
+
+.manager-referee-table table {
+    transform: translateX(
+        calc(
+            -1 *
+            var(--referee-manager-table-scroll-left)
+        )
+    );
+
+    width: max-content;
+    min-width: 100%;
+
+    border-collapse: separate;
+    border-spacing: 0;
+
+    text-align: left;
+}
+
+.manager-referee-table th,
+.manager-referee-table td {
+    padding: 0.2rem 0.45rem;
+
+    text-align: left;
+    white-space: nowrap;
+}
+
+
+/* ---------- Column sizing ---------- */
+
+/*
+ * Keep the Referee column only as wide as its
+ * widest header/cell content requires.
+ */
+.manager-referee-name-column {
+    width: 1%;
+}
+
+
+/* =========================================================
+   Header
+   ========================================================= */
+
+.manager-referee-table thead {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+
+    background: var(--bg);
+}
+
+
+
+.manager-referee-table thead
+tr:first-child th {
+    padding:
+        0.5rem
+        0.45rem
+        0.5rem;
+
+    border-top: 1px solid var(--text);
+
+    background: var(--bg);
+
+    color: var(--text-h);
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.manager-referee-table thead
+.manager-referee-header-boundary th {
+    height: 1px;
+    padding: 0;
+
+    background: var(--text);
+}
+
+.manager-referee-header-boundary {
+    height: 1px;
+}
+
+
+/* =========================================================
+   Body
+   ========================================================= */
+
+.manager-referee-table tbody td {
+    color: var(--text);
+
+    font-size: 0.8rem;
+}
+
+.manager-referee-table tbody tr + tr td {
+    box-shadow:
+        inset 0 1px 0 var(--border);
+}
+
+
+/* ---------- References count ---------- */
+
+.manager-referee-table th:nth-child(3),
+.manager-referee-table td:nth-child(3) {
+    font-variant-numeric: tabular-nums;
+}
+
+
+/* =========================================================
+   Pinned Referee column
+   ========================================================= */
+
+.manager-referee-pinned {
+    position: relative;
+
+    transform: translateX(
+        var(--referee-manager-table-scroll-left)
+    );
+
+    width: 1%;
+
+    white-space: nowrap;
+
+    background: var(--bg);
+}
+
+.manager-referee-table tbody
+.manager-referee-pinned {
+    z-index: 10;
+}
+
+.manager-referee-table thead
+.manager-referee-pinned {
+    z-index: 20;
+}
+
+
+/* ---------- Details trigger ---------- */
+
+
+.manager-referee-details-name {
+    min-width: 0;
+}
+
+.manager-referee-details-trigger {
+    appearance: none;
+
+    width: 100%;
+    margin-left: -0.2rem;
+    padding: 0.2rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+
+    background: transparent;
+    color: inherit;
+
+    font: inherit;
+    text-align: left;
+
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.manager-referee-details-trigger:hover {
+    border-color: var(--accent-border);
+}
+
+.manager-referee-details-trigger:focus-visible {
+    border-color: var(--accent);
+
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+}
+
+.manager-referee-details-chevron-area {
+    flex: 0 0 auto;
+
+    margin-left: auto;
+    padding-right: 0.2rem;
+
+    display: flex;
+    align-items: center;
+}
+
+.manager-referee-details-chevron {
+    width: 1rem;
+    height: 1rem;
+
+    color: var(--text);
+}
+
+
+/* ---------- Pinned-column separator ---------- */
+
+.manager-referee-table-container.is-horizontally-scrolled
+.manager-referee-pinned::after {
+    content: '';
+
+    position: absolute;
+
+    top: 0;
+    bottom: 0;
+    right: 0.5rem;
+
+    width: 1px;
+
+    background: var(--text);
+
+    opacity: 1;
+    pointer-events: none;
+}
+
+.manager-referee-table-container.hide-pinned-separator
+.manager-referee-pinned::after {
+    opacity: 0;
+
+    transition: opacity 0.5s ease;
+}
+
+
+/* =========================================================
+   Horizontal scrollbar
+   ========================================================= */
+
+.manager-referee-horizontal-scrollbar {
+    flex: 0 0 auto;
+
+    width: 100%;
+    height: 0.9rem;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    background: var(--bg);
+}
+
+.manager-referee-horizontal-scrollbar-content {
+    height: 1px;
+}

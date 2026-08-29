@@ -10,8 +10,9 @@ import {
     type ColumnDef,
     type SortingState,
 } from '@tanstack/react-table'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { RefereeProgramme } from '../types/RefereeProgramme'
+import { useTableScroll } from '../../shared/hooks/useTableScroll'
 import { SortIcon } from '../../shared/icons/SortIcon'
 import { ChevronIcon } from '../../shared/icons/ChevronIcon'
 
@@ -263,6 +264,22 @@ export function RefereeProgrammeTable({
         )
     }, [sorting])
 
+    const {
+        tableAreaRef,
+        tableContainerRef,
+        tableRef,
+        horizontalScrollbarRef,
+        tableWidth,
+        handleHorizontalScroll,
+        handlePointerDown,
+        handlePointerMove,
+        handlePointerEnd,
+        handleKeyDown,
+    } = useTableScroll({
+        scrollLeftProperty:
+            '--referee-table-scroll-left',
+    })
+
     const table = useTable({
         features: refereeTableFeatures,
         data: programmes,
@@ -287,266 +304,23 @@ export function RefereeProgrammeTable({
         },
     })
 
-    const tableAreaRef = useRef<HTMLDivElement>(null)
-
-    const tableRef = useRef<HTMLTableElement>(null)
-
-    const horizontalScrollbarRef = useRef<HTMLDivElement>(null)
-
-    const horizontalDragRef = useRef<{
-        pointerId: number
-        startX: number
-        startScrollLeft: number
-    } | null>(null)
-
-    const separatorFadeTimeoutRef =
-        useRef<
-            ReturnType<typeof setTimeout> | null
-        >(null)
-
-    const [tableWidth, setTableWidth] = useState(0)
-
-    useEffect(() => {
-        const table = tableRef.current
-
-        if (!table) {
-            return
-        }
-
-        const updateWidth = () => {
-            setTableWidth(table.scrollWidth)
-        }
-
-        updateWidth()
-
-        const observer =
-            new ResizeObserver(updateWidth)
-
-        observer.observe(table)
-
-        return () =>
-            observer.disconnect()
-    }, [])
-
-    useEffect(() => {
-        const tableArea =
-            tableAreaRef.current
-
-        const scrollbar =
-            horizontalScrollbarRef.current
-
-        if (!tableArea || !scrollbar) {
-            return
-        }
-
-        function handleWheel(
-            event: WheelEvent
-        ) {
-            let horizontalDelta = 0
-
-            if (
-                event.shiftKey &&
-                event.deltaY !== 0
-            ) {
-                horizontalDelta =
-                    event.deltaY
-            } else if (event.deltaX !== 0) {
-                horizontalDelta =
-                    event.deltaX
-            }
-
-            if (horizontalDelta === 0) {
-                return
-            }
-
-            const maxScrollLeft =
-                scrollbar!.scrollWidth -
-                scrollbar!.clientWidth
-
-            if (maxScrollLeft <= 0) {
-                return
-            }
-
-            const previous =
-                scrollbar!.scrollLeft
-
-            scrollbar!.scrollLeft +=
-                horizontalDelta
-
-            if (
-                scrollbar!.scrollLeft
-                !== previous
-            ) {
-                event.preventDefault()
-            }
-        }
-
-        tableArea.addEventListener(
-            'wheel',
-            handleWheel,
-            { passive: false }
-        )
-
-        return () => {
-            tableArea.removeEventListener(
-                'wheel',
-                handleWheel
-            )
-        }
-    }, [])
-
-    function updateTableScroll(
-        scrollLeft: number
-    ) {
-        const tableArea =
-            tableAreaRef.current
-
-        if (!tableArea) {
-            return
-        }
-
-        tableArea.style.setProperty(
-            '--referee-table-scroll-left',
-            `${scrollLeft}px`
-        )
-
-        if (
-            separatorFadeTimeoutRef.current
-            !== null
-        ) {
-            clearTimeout(
-                separatorFadeTimeoutRef.current
-            )
-
-            separatorFadeTimeoutRef.current =
-                null
-        }
-
-        if (scrollLeft > 0) {
-            tableArea.classList.add(
-                'is-horizontally-scrolled'
-            )
-
-            tableArea.classList.remove(
-                'hide-pinned-separator'
-            )
-
-            return
-        }
-
-        separatorFadeTimeoutRef.current =
-            setTimeout(() => {
-                tableArea.classList.add(
-                    'hide-pinned-separator'
-                )
-
-                separatorFadeTimeoutRef.current =
-                    null
-            }, 1000)
-    }
-
-    function handleHorizontalScroll() {
-        const scrollbar =
-            horizontalScrollbarRef.current
-
-        if (!scrollbar) {
-            return
-        }
-
-        updateTableScroll(
-            scrollbar.scrollLeft
-        )
-    }
-
-    function handleHorizontalPointerDown(
-        event: React.PointerEvent<HTMLDivElement>
-    ) {
-        if (event.pointerType !== 'touch') {
-            return
-        }
-
-        const scrollbar =
-            horizontalScrollbarRef.current
-
-        if (!scrollbar) {
-            return
-        }
-
-        horizontalDragRef.current = {
-            pointerId: event.pointerId,
-            startX: event.clientX,
-            startScrollLeft: scrollbar.scrollLeft,
-        }
-    }
-
-    function handleHorizontalPointerMove(
-        event: React.PointerEvent<HTMLDivElement>
-    ) {
-        const drag = horizontalDragRef.current
-        const scrollbar =
-            horizontalScrollbarRef.current
-
-        if (
-            !drag ||
-            !scrollbar ||
-            event.pointerId !== drag.pointerId
-        ) {
-            return
-        }
-
-        const deltaX =
-            event.clientX - drag.startX
-
-        scrollbar.scrollLeft =
-            drag.startScrollLeft - deltaX
-    }
-
-    function handleHorizontalPointerEnd(
-        event: React.PointerEvent<HTMLDivElement>
-    ) {
-        if (
-            horizontalDragRef.current?.pointerId
-            !== event.pointerId
-        ) {
-            return
-        }
-
-        horizontalDragRef.current = null
-    }
-
-    useEffect(() => {
-        const table = tableRef.current
-
-        if (!table) {
-            return
-        }
-
-        const updateWidth = () => {
-            setTableWidth(table.scrollWidth)
-        }
-
-        updateWidth()
-
-        const observer = new ResizeObserver(updateWidth)
-        observer.observe(table)
-
-        return () => observer.disconnect()
-    }, [])
-
-
-
     return (
         <div
             className="referee-table-area"
             ref={tableAreaRef}
-            onPointerDown={handleHorizontalPointerDown}
-            onPointerMove={handleHorizontalPointerMove}
-            onPointerUp={handleHorizontalPointerEnd}
-            onPointerCancel={handleHorizontalPointerEnd}
+            tabIndex={0}
+            onKeyDown={handleKeyDown}
+            onPointerDown={handlePointerDown}
+            onPointerMove={handlePointerMove}
+            onPointerUp={handlePointerEnd}
+            onPointerCancel={handlePointerEnd}
         >
 
             <div className="referee-programme-table">
-                <div className="referee-table-container">
+                <div
+                    ref={tableContainerRef}
+                    className="referee-table-container"
+                >
                     <table ref={tableRef}>
                         <thead>
                             {table.getHeaderGroups().map(headerGroup => (
