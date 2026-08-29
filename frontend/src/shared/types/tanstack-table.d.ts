@@ -10,5 +10,12 @@ declare module '@tanstack/react-table' {
         selectedProgrammeId?: number | null
         openProgrammeDetails?:
             (programme: TData) => void
+
+        updatingSubmissionId?: number | null
+
+        updateSubmission?: (
+            programme: RefereeProgramme,
+            submitted: boolean,
+        ) => void
     }
 }

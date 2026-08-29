@@ -9,6 +9,7 @@ export interface RefereeProgramme {
     deadline: string | null
 
     referenceSubmission: string | null
+    submitted: boolean
     informationForRefereesUrl: string | null
     refereeNotes: string | null
 }

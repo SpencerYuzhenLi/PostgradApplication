@@ -141,32 +141,6 @@
     background: var(--text);
 }
 
-/* .referee-header-boundary-row th {
-    position: relative;
-
-    height: 1px;
-    padding: 0;
-
-    background: var(--text);
-}
-
-.referee-header-boundary-row th::after {
-    content: '';
-
-    position: absolute;
-    z-index: 1;
-
-    top: 100%;
-    left: 0;
-    right: 0;
-
-    height: 0.5rem;
-
-    background: var(--bg);
-
-    pointer-events: none;
-} */
-
 
 /* =========================================================
    Sortable headers
@@ -377,6 +351,42 @@
 .referee-programme-table tbody tr + tr td {
     box-shadow:
         inset 0 1px 0 var(--border);
+}
+
+
+/* =========================================================
+   Submitted control
+   ========================================================= */
+
+.referee-submitted-control {
+    min-height: 1.5rem;
+
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+
+    color: var(--text);
+
+    font-size: 0.75rem;
+}
+
+.referee-submitted-control input {
+    margin: 0;
+
+    accent-color: var(--accent);
+
+    cursor: pointer;
+}
+
+.referee-submitted-control input:disabled {
+    cursor: default;
+}
+
+.referee-submitted-saving {
+    color: var(--text);
+
+    font-size: 0.7rem;
+    white-space: nowrap;
 }
 
 

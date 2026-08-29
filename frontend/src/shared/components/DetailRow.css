@@ -1,0 +1,17 @@
+.detail-row {
+    display: grid;
+    grid-template-columns: minmax(7rem, 1fr) auto;
+    gap: 1rem;
+
+    font-size: 0.8rem;
+    line-height: var(--details-line-height);
+}
+
+.detail-label {
+    color: var(--text-h);
+}
+
+.detail-value {
+    color: var(--text-h);
+    text-align: right;
+}

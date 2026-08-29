@@ -1,5 +1,6 @@
 import './RefereeDetailsPanel.css'
 import type { RefereeProgramme } from '../types/RefereeProgramme'
+import { DetailRow } from '../../shared/components/DetailRow'
 import { useScrollable } from '../../shared/hooks/useScrollable'
 import { ExternalLinkIcon } from '../../shared/icons/ExternalLinkIcon'
 
@@ -20,12 +21,6 @@ export function RefereeDetailsPanel({
 
     const refereeNotes =
         programme.refereeNotes?.trim()
-
-    const hasReferenceDetails = Boolean(
-        programme.deadline ||
-        programme.referenceSubmission ||
-        programme.informationForRefereesUrl
-    )
 
     const hasRefereeNotes =
         Boolean(refereeNotes)
@@ -64,64 +59,63 @@ export function RefereeDetailsPanel({
                 </div>
             </div>
 
-            {hasReferenceDetails && (
-                <section className="referee-details-section">
-                    <div className="referee-details-divider" />
+            <section className="referee-details-section">
+                <div className="referee-details-divider" />
 
-                    <h2>Reference</h2>
+                <h2>Reference</h2>
 
-                    <div className="referee-detail-rows">
-                        {programme.deadline && (
-                            <div className="referee-detail-row">
-                                <span className="referee-detail-label">
-                                    Deadline
-                                </span>
-
-                                <span className="referee-detail-value">
-                                    {programme.deadline}
-                                </span>
-                            </div>
-                        )}
-
-                        {programme.referenceSubmission && (
-                            <div className="referee-detail-row">
-                                <span className="referee-detail-label">
-                                    Submission
-                                </span>
-
-                                <span className="referee-detail-value">
-                                    {programme.referenceSubmission}
-                                </span>
-                            </div>
-                        )}
-                    </div>
-
-                    {programme.informationForRefereesUrl && (
-                        <div className="referee-details-links">
-                            <a
-                                href={
-                                    programme.informationForRefereesUrl
-                                }
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                <span>
-                                    Information for referees
-                                </span>
-
-                                <span
-                                    className="referee-details-link-icon-area"
-                                    aria-hidden="true"
-                                >
-                                    <ExternalLinkIcon
-                                        className="referee-details-link-icon"
-                                    />
-                                </span>
-                            </a>
-                        </div>
+                <div className="referee-detail-rows">
+                    {programme.deadline && (
+                        <DetailRow
+                            label="Deadline"
+                            value={programme.deadline}
+                        />
                     )}
-                </section>
-            )}
+
+                    {programme.referenceSubmission && (
+                        <DetailRow
+                            label="Submission"
+                            value={
+                                programme.referenceSubmission
+                            }
+                        />
+                    )}
+
+                    <DetailRow
+                        label="Status"
+                        value={
+                            programme.submitted
+                                ? 'Submitted'
+                                : 'Outstanding'
+                        }
+                    />
+                </div>
+
+                {programme.informationForRefereesUrl && (
+                    <div className="referee-details-links">
+                        <a
+                            href={
+                                programme.informationForRefereesUrl
+                            }
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <span>
+                                Information for referees
+                            </span>
+
+                            <span
+                                className="referee-details-link-icon-area"
+                                aria-hidden="true"
+                            >
+                                <ExternalLinkIcon
+                                    className="referee-details-link-icon"
+                                />
+                            </span>
+                        </a>
+                    </div>
+                )}
+            </section>
 
             {hasRefereeNotes && (
                 <section className="referee-details-section referee-details-notes">

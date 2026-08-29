@@ -1,5 +1,5 @@
+import type { ProgrammeReferee } from './ProgrammeReferee'
 import type { ProgrammeLink } from './ProgrammeLink'
-import type { Referee } from './Referee'
 
 export type Region =
     | 'NORTH_AMERICA'
@@ -58,7 +58,7 @@ export interface Programme {
     departmentalEtsCode: string | null
 
     referenceCount: number | null
-    referees: Referee[]
+    referees: ProgrammeReferee[]
     referenceSubmission: string | null
     informationForRefereesUrl: string | null
     refereeNotes: string | null

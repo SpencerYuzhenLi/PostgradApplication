@@ -90,6 +90,22 @@
     flex-direction: column;
 }
 
+.referee-update-error {
+    flex: 0 0 auto;
+
+    margin: 0 1rem 0.5rem;
+    padding: 0.45rem 0.6rem;
+
+    border: 1px solid var(--danger-border);
+    border-radius: 0.35rem;
+
+    background: var(--bg);
+    color: var(--danger);
+
+    font-size: 0.8rem;
+    line-height: 1.4;
+}
+
 
 
 @media (max-aspect-ratio: 4 / 3) {

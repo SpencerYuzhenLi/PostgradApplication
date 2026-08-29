@@ -121,9 +121,60 @@ const columns:
             {
                 id: 'referenceSubmission',
                 accessorFn: programme =>
-                    programme.referenceSubmission ?? undefined,
+                    programme
+                        .referenceSubmission ??
+                    undefined,
                 header: 'Submission',
                 sortUndefined: 'last',
+            },
+
+            {
+                id: 'submitted',
+                accessorFn: programme =>
+                    programme.submitted,
+                header: 'Submitted',
+
+                cell: info => {
+                    const programme =
+                        info.row.original
+
+                    const updating =
+                        info.table.options.meta
+                            ?.updatingSubmissionId
+                        === programme.id
+
+                    return (
+                        <label className="referee-submitted-control">
+                            <input
+                                type="checkbox"
+                                checked={
+                                    programme.submitted
+                                }
+                                disabled={updating}
+                                onChange={event =>
+                                    info.table.options.meta
+                                        ?.updateSubmission?.(
+                                            programme,
+                                            event.target
+                                                .checked
+                                        )
+                                }
+                                aria-label={
+                                    `Reference submitted for ${programme.programmeShortName}`
+                                }
+                            />
+
+                            {updating && (
+                                <span
+                                    className="referee-submitted-saving"
+                                    aria-live="polite"
+                                >
+                                    Saving…
+                                </span>
+                            )}
+                        </label>
+                    )
+                },
             },
         ],
     },
@@ -172,14 +223,24 @@ function loadRefereeTableState():
 interface RefereeProgrammeTableProps {
     programmes: RefereeProgramme[]
     selectedProgrammeId: number | null
+    updatingSubmissionId: number | null
+
     onSelectProgramme:
         (programme: RefereeProgramme) => void
+
+    onSubmissionChange:
+        (
+            programme: RefereeProgramme,
+            submitted: boolean,
+        ) => void
 }
 
 export function RefereeProgrammeTable({
     programmes,
     selectedProgrammeId,
+    updatingSubmissionId,
     onSelectProgramme,
+    onSubmissionChange,
 }: RefereeProgrammeTableProps) {
 
     const [storedTableState] =
@@ -215,8 +276,14 @@ export function RefereeProgrammeTable({
 
         meta: {
             selectedProgrammeId,
+
             openProgrammeDetails:
                 onSelectProgramme,
+
+            updatingSubmissionId,
+
+            updateSubmission:
+                onSubmissionChange,
         },
     })
 

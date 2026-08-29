@@ -41,7 +41,7 @@ public record ProgrammeDto(
         String departmentalEtsCode,
 
         Integer referenceCount,
-        List<RefereeDto> referees,
+        List<ProgrammeRefereeDto> referees,
         String referenceSubmission,
         String informationForRefereesUrl,
         String refereeNotes,

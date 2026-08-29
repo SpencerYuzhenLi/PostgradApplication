@@ -33,8 +33,10 @@ public class Referee {
     )
     private String accessTokenHash;
 
-    @ManyToMany(mappedBy = "referees")
-    @Builder.Default
-    private Set<Programme> programmes =
-            new HashSet<>();
+    @OneToMany(
+            mappedBy = "referee",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private Set<ProgrammeReferee> programmeReferees = new HashSet<>();
 }

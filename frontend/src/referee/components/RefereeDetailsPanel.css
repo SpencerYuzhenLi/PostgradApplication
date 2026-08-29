@@ -133,7 +133,7 @@
     flex-direction: column;
     gap: var(--referee-details-row-gap);
 }
-
+/*
 .referee-detail-row {
     display: grid;
     grid-template-columns:
@@ -154,6 +154,7 @@
 .referee-detail-value {
     text-align: right;
 }
+*/
 
 
 /* ---------- Reference link ---------- */

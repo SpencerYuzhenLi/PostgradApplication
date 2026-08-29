@@ -3,9 +3,9 @@ package com.yuzhenli.postgradapplication.services;
 import com.yuzhenli.postgradapplication.dtos.ProgrammeDto;
 import com.yuzhenli.postgradapplication.dtos.ProgrammeLinkWriteDto;
 import com.yuzhenli.postgradapplication.dtos.ProgrammeWriteDto;
-import com.yuzhenli.postgradapplication.dtos.RefereeProgrammeDto;
 import com.yuzhenli.postgradapplication.entities.Programme;
 import com.yuzhenli.postgradapplication.entities.ProgrammeLink;
+import com.yuzhenli.postgradapplication.entities.ProgrammeReferee;
 import com.yuzhenli.postgradapplication.entities.Referee;
 import com.yuzhenli.postgradapplication.mappers.ProgrammeMapper;
 import com.yuzhenli.postgradapplication.repositories.ProgrammeRepository;
@@ -32,14 +32,6 @@ public class ProgrammeService {
         return programmeMapper.toProgrammeDtoList(programmeRepository.findAll());
     }
 
-    public List<RefereeProgrammeDto> getAllRefereeProgrammes() {
-        return programmeRepository
-                .findAll()
-                .stream()
-                .map(programmeMapper::toRefereeProgrammeDto)
-                .toList();
-    }
-
     @Transactional
     public ProgrammeDto createProgramme(
             ProgrammeWriteDto request
@@ -60,6 +52,7 @@ public class ProgrammeService {
         Programme programme = new Programme();
 
         applyProgrammeWrite(programme, request);
+        applyProgrammeReferees(programme, request.refereeIds());
         applyProgrammeLinks(programme, request.links());
 
         Programme saved =
@@ -99,6 +92,7 @@ public class ProgrammeService {
         }
 
         applyProgrammeWrite(programme, request);
+        applyProgrammeReferees(programme, request.refereeIds());
         applyProgrammeLinks(programme, request.links());
 
         return programmeMapper.toProgrammeDto(programme);
@@ -175,10 +169,6 @@ public class ProgrammeService {
 
         programme.setReferenceCount(request.referenceCount());
 
-        programme.setReferees(
-                resolveReferees(request.refereeIds())
-        );
-
         programme.setReferenceSubmission(
                 nullIfBlank(request.referenceSubmission())
         );
@@ -205,6 +195,50 @@ public class ProgrammeService {
         programme.setNotes(
                 nullIfBlank(request.notes())
         );
+    }
+
+    private void applyProgrammeReferees(
+            Programme programme,
+            List<Integer> refereeIds
+    ) {
+        Set<Referee> requestedReferees =
+                resolveReferees(refereeIds);
+
+        Map<Integer, ProgrammeReferee>
+                existingByRefereeId =
+                programme
+                        .getProgrammeReferees()
+                        .stream()
+                        .collect(
+                                Collectors.toMap(
+                                        assignment ->
+                                                assignment
+                                                        .getReferee()
+                                                        .getId(),
+                                        Function.identity()
+                                )
+                        );
+
+        Set<ProgrammeReferee> updatedAssignments = new HashSet<>();
+
+        for (Referee referee :
+                requestedReferees) {
+
+            ProgrammeReferee assignment =
+                    existingByRefereeId.get(referee.getId());
+
+            if (assignment == null) {
+                assignment = new ProgrammeReferee();
+                assignment.setProgramme(programme);
+                assignment.setReferee(referee);
+                assignment.setSubmitted(false);
+            }
+
+            updatedAssignments.add(assignment);
+        }
+
+        programme.getProgrammeReferees().clear();
+        programme.getProgrammeReferees().addAll(updatedAssignments);
     }
 
     private void applyProgrammeLinks(

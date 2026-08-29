@@ -104,18 +104,12 @@ public class Programme {
     @Column(name = "reference_count")
     private Integer referenceCount;
 
-    @ManyToMany
-    @JoinTable(
-            name = "programme_referees",
-            joinColumns = @JoinColumn(
-                    name = "programme_id"
-            ),
-            inverseJoinColumns = @JoinColumn(
-                    name = "referee_id"
-            )
+    @OneToMany(
+            mappedBy = "programme",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
     )
-    @Builder.Default
-    private Set<Referee> referees = new HashSet<>();
+    private Set<ProgrammeReferee> programmeReferees = new HashSet<>();
 
     @Column(name = "reference_submission")
     private String referenceSubmission;

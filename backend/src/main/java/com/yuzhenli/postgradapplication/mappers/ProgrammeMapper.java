@@ -1,8 +1,11 @@
 package com.yuzhenli.postgradapplication.mappers;
 
 import com.yuzhenli.postgradapplication.dtos.ProgrammeDto;
+import com.yuzhenli.postgradapplication.dtos.ProgrammeRefereeDto;
+import com.yuzhenli.postgradapplication.dtos.RefereeDto;
 import com.yuzhenli.postgradapplication.dtos.RefereeProgrammeDto;
 import com.yuzhenli.postgradapplication.entities.Programme;
+import com.yuzhenli.postgradapplication.entities.ProgrammeReferee;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
@@ -16,25 +19,77 @@ import java.util.List;
                 ProgrammeLinkMapper.class,
                 RefereeMapper.class
         },
-        unmappedTargetPolicy = ReportingPolicy.ERROR
+        unmappedTargetPolicy =
+                ReportingPolicy.ERROR
 )
 public interface ProgrammeMapper {
 
-    ProgrammeDto toProgrammeDto(Programme programme);
+    @Mapping(
+            target = "referees",
+            source = "programmeReferees"
+    )
+    ProgrammeDto toProgrammeDto(
+            Programme programme
+    );
 
-    List<ProgrammeDto> toProgrammeDtoList(List<Programme> programmes);
+    List<ProgrammeDto> toProgrammeDtoList(
+            List<Programme> programmes
+    );
 
     @Mapping(
-            target = "deadline",
-            expression = "java(getRefereeDeadline(programme))"
+            target = ".",
+            source = "referee"
     )
-    RefereeProgrammeDto toRefereeProgrammeDto(Programme programme);
+    RefereeDto toRefereeDto(
+            ProgrammeReferee programmeReferee
+    );
+
+    @Mapping(
+            target = "id",
+            source = "referee.id"
+    )
+    @Mapping(
+            target = "name",
+            source = "referee.name"
+    )
+    @Mapping(
+            target = "email",
+            source = "referee.email"
+    )
+    @Mapping(
+            target = "submitted",
+            source = "submitted"
+    )
+    ProgrammeRefereeDto
+    toProgrammeRefereeDto(
+            ProgrammeReferee programmeReferee
+    );
+
+    @Mapping(
+            target = ".",
+            source = "programme"
+    )
+    @Mapping(
+            target = "deadline",
+            expression =
+                    "java(getRefereeDeadline(programmeReferee.getProgramme()))"
+    )
+    @Mapping(
+            target = "submitted",
+            source = "submitted"
+    )
+    RefereeProgrammeDto toRefereeProgrammeDto(
+            ProgrammeReferee programmeReferee
+    );
 
     default LocalDate getRefereeDeadline(
             Programme programme
     ) {
-        return programme.getReferenceDeadline() != null
-                ? programme.getReferenceDeadline()
-                : programme.getApplicationDeadline();
+        return programme
+                .getReferenceDeadline() != null
+                ? programme
+                .getReferenceDeadline()
+                : programme
+                .getApplicationDeadline();
     }
 }

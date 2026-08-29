@@ -1,7 +1,7 @@
 import './ProgrammeDetailsPanel.css'
 import type { Programme } from '../../shared/types/Programme'
+import { DetailRow } from '../../shared/components/DetailRow'
 import { useScrollable } from '../../shared/hooks/useScrollable'
-import { ProgrammeDetailRow } from './ProgrammeDetailRow'
 import { ExternalLinkIcon } from '../../shared/icons/ExternalLinkIcon'
 
 
@@ -124,22 +124,22 @@ export function ProgrammeDetailsPanel({
                     <h2>Requirements</h2>
 
                     <div className="programme-detail-rows">
-                        <ProgrammeDetailRow
+                        <DetailRow
                             label="IELTS Submission"
                             value={programme.ieltsSubmission}
                         />
 
-                        <ProgrammeDetailRow
+                        <DetailRow
                             label="GRE Math"
                             value={programme.greMathRequirement}
                         />
 
-                        <ProgrammeDetailRow
+                        <DetailRow
                             label="Institution ETS code"
                             value={programme.institutionEtsCode}
                         />
 
-                        <ProgrammeDetailRow
+                        <DetailRow
                             label="Departmental ETS code"
                             value={programme.departmentalEtsCode}
                         />
@@ -153,31 +153,17 @@ export function ProgrammeDetailsPanel({
                     <h2>References</h2>
 
                     <div className="details-section-content">
-                        <ProgrammeDetailRow
-                            label="References"
+                        <DetailRow
+                            label="Required"
                             value={programme.referenceCount}
                         />
 
-                        <ProgrammeDetailRow
-                            label="Referees"
-                            value={
-                                programme.referees.length > 0
-                                    ? programme.referees
-                                        .map(referee => referee.name)
-                                        .sort((a, b) =>
-                                            a.localeCompare(b)
-                                        )
-                                        .join(', ')
-                                    : null
-                            }
-                        />
-
-                        <ProgrammeDetailRow
+                        <DetailRow
                             label="Deadline"
                             value={programme.referenceDeadline}
                         />
 
-                        <ProgrammeDetailRow
+                        <DetailRow
                             label="Submission"
                             value={programme.referenceSubmission}
                         />
@@ -206,28 +192,50 @@ export function ProgrammeDetailsPanel({
                 </section>
             )}
 
+            {programme.referees.length > 0 && (
+                <section className="details-section">
+                    <div className="details-divider" />
+
+                    <h2>Referees</h2>
+
+                    <div className="details-section-content">
+                        {programme.referees.map(referee => (
+                            <DetailRow
+                                key={referee.id}
+                                label={referee.name}
+                                value={
+                                    referee.submitted
+                                        ? 'Submitted'
+                                        : 'Outstanding'
+                                }
+                            />
+                        ))}
+                    </div>
+                </section>
+            )}
+
             {hasFinance && (
                 <section className="details-section">
                     <div className="details-divider" />
                     <h2>Finance</h2>
 
                     <div className="programme-detail-rows">
-                        <ProgrammeDetailRow
+                        <DetailRow
                             label="Application fee"
                             value={programme.applicationFee}
                         />
 
-                        <ProgrammeDetailRow
+                        <DetailRow
                             label="Annual tuition"
                             value={programme.annualTuition}
                         />
 
-                        <ProgrammeDetailRow
+                        <DetailRow
                             label="Funding available"
                             value={formatBoolean(programme.fundingAvailable)}
                         />
 
-                        <ProgrammeDetailRow
+                        <DetailRow
                             label="Funding guaranteed"
                             value={formatBoolean(programme.fundingGuaranteed)}
                         />
@@ -242,12 +250,12 @@ export function ProgrammeDetailsPanel({
                     <h2>Application</h2>
 
                     <div className="details-section-content">
-                        <ProgrammeDetailRow
+                        <DetailRow
                             label="Opens"
                             value={programme.applicationOpens}
                         />
 
-                        <ProgrammeDetailRow
+                        <DetailRow
                             label="Deadline"
                             value={programme.applicationDeadline}
                         />

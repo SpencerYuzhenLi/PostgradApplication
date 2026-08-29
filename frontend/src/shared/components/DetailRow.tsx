@@ -1,9 +1,11 @@
+import './DetailRow.css'
+
 interface ProgrammeDetailRowProps {
     label: string
     value: React.ReactNode
 }
 
-export function ProgrammeDetailRow({
+export function DetailRow({
     label,
     value,
 }: ProgrammeDetailRowProps) {
@@ -16,12 +18,12 @@ export function ProgrammeDetailRow({
     }
 
     return (
-        <div className="programme-detail-row">
-            <span className="programme-detail-label">
+        <div className="detail-row">
+            <span className="detail-label">
                 {label}
             </span>
 
-            <span className="programme-detail-value">
+            <span className="detail-value">
                 {value}
             </span>
         </div>

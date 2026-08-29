@@ -128,6 +128,88 @@ export function RefereeApp() {
         }, [loading])
 
     const [
+        updatingSubmissionId,
+        setUpdatingSubmissionId,
+    ] = useState<number | null>(null)
+
+    const [
+        submissionError,
+        setSubmissionError,
+    ] = useState<string | null>(null)
+
+    async function updateSubmissionStatus(
+        programme: RefereeProgramme,
+        submitted: boolean,
+    ) {
+        if (!accessToken) {
+            return
+        }
+
+        setUpdatingSubmissionId(
+            programme.id
+        )
+
+        try {
+            setSubmissionError(null)
+
+            const response =
+                await fetch(
+                    apiUrl(
+                        `/api/referee-programmes/${programme.id}/submission`
+                    ),
+                    {
+                        method: 'PUT',
+
+                        headers: {
+                            'Content-Type':
+                                'application/json',
+
+                            'X-Referee-Token':
+                                accessToken,
+                        },
+
+                        body: JSON.stringify({
+                            submitted,
+                        }),
+                    }
+                )
+
+            if (!response.ok) {
+                throw new Error(
+                    response.status === 401
+                        ? 'This referee access link is invalid or no longer active.'
+                        : `Could not update submission status (${response.status}).`
+                )
+            }
+
+            const updatedProgramme:
+                RefereeProgramme =
+                await response.json()
+
+            setProgrammes(current =>
+                current.map(programme =>
+                    programme.id ===
+                    updatedProgramme.id
+                        ? updatedProgramme
+                        : programme
+                )
+            )
+        } catch (error) {
+            setSubmissionError(
+                error instanceof TypeError
+                    ? 'Could not connect to the server.'
+                    : error instanceof Error
+                        ? error.message
+                        : 'Could not update submission status.'
+            )
+        } finally {
+            setUpdatingSubmissionId(
+                null
+            )
+        }
+    }
+
+    const [
         selectedProgrammeId,
         setSelectedProgrammeId,
     ] = useState<number | null>(null)
@@ -356,10 +438,22 @@ export function RefereeApp() {
                     </header>
 
                     <div className="referee-content">
+                        {submissionError && (
+                            <div
+                                className="referee-update-error"
+                                role="alert"
+                            >
+                                {submissionError}
+                            </div>
+                        )}
+
                         <RefereeProgrammeTable
                             programmes={programmes}
                             selectedProgrammeId={
                                 selectedProgrammeId
+                            }
+                            updatingSubmissionId={
+                                updatingSubmissionId
                             }
                             onSelectProgramme={programme =>
                                 setSelectedProgrammeId(
@@ -368,6 +462,9 @@ export function RefereeApp() {
                                             ? null
                                             : programme.id
                                 )
+                            }
+                            onSubmissionChange={
+                                updateSubmissionStatus
                             }
                         />
                     </div>

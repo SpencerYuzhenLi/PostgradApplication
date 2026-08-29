@@ -13,6 +13,7 @@ public record RefereeProgrammeDto(
         LocalDate deadline,
 
         String referenceSubmission,
+        boolean submitted,
         String informationForRefereesUrl,
         String refereeNotes
 ) {
