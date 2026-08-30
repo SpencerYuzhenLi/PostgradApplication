@@ -3,6 +3,9 @@ interface FormSelectProps<T extends string> {
     value: T | null
     options: Record<T, string>
     onChange: (value: T | null) => void
+
+    unselectedValue?: T
+    allowUnselected?: boolean
 }
 
 export function FormSelect<T extends string>({
@@ -10,7 +13,14 @@ export function FormSelect<T extends string>({
     value,
     options,
     onChange,
+    unselectedValue,
+    allowUnselected = true,
 }: FormSelectProps<T>) {
+
+    const unselected =
+        value === null ||
+        value === unselectedValue
+
     return (
         <div className="form-field">
             <span>{label}</span>
@@ -18,7 +28,7 @@ export function FormSelect<T extends string>({
             <select
                 value={value ?? ''}
                 className={
-                    value === null
+                    unselected
                         ? 'unselected'
                         : undefined
                 }
@@ -31,9 +41,11 @@ export function FormSelect<T extends string>({
                     )
                 }
             >
-                <option value="">
-                    Unselected
-                </option>
+                {allowUnselected && (
+                    <option value="">
+                        Unselected
+                    </option>
+                )}
 
                 {Object.entries(options).map(
                     ([optionValue, optionLabel]) => (

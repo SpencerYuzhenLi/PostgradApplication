@@ -51,14 +51,7 @@ public record ProgrammeWriteDto(
 
         @Min(value = 0, message = "must be at least 0")
         Integer referenceCount,
-        List<
-                @NotNull(message = "must not be null")
-                @Min(
-                        value = 1,
-                        message = "must be at least 1"
-                )
-                        Integer
-        > refereeIds,
+        List<ProgrammeRefereeWriteDto> referees,
         String referenceSubmission,
         String informationForRefereesUrl,
         String refereeNotes,

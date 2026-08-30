@@ -4,10 +4,9 @@ import { FormField } from '../../shared/components/FormField'
 import { FormSelect } from '../../shared/components/FormSelect'
 import { FormTextarea } from '../../shared/components/FormTextarea'
 import { ProgrammeLinksEditor } from './ProgrammeLinksEditor'
-import { ProgrammeRefereeSelect } from './ProgrammeRefereeSelect'
 import type { Degree, Region, Country, Status, Programme } from '../../shared/types/Programme'
 import type { Referee } from '../../shared/types/Referee'
-import { degreeNames, regionNames, countryNames, statusNames } from '../../shared/utils/displayNames'
+import { degreeNames, regionNames, countryNames, statusNames, refereeStatusNames } from '../../shared/utils/displayNames'
 
 
 
@@ -18,6 +17,27 @@ const booleanNames = {
     YES: 'Yes',
     NO: 'No',
 } as const
+
+export type ProgrammeRefereeStatus =
+    | 'UNASSIGNED'
+    | 'OUTSTANDING'
+    | 'SUBMITTED'
+
+export interface ProgrammeRefereeFormValue {
+    refereeId: number
+    status: ProgrammeRefereeStatus
+}
+
+function sortRefereeAssignments(
+    assignments:
+        ProgrammeRefereeFormValue[]
+) {
+    return [...assignments].sort(
+        (a, b) =>
+            a.refereeId -
+            b.refereeId
+    )
+}
 
 export interface ProgrammeLinkFormValue {
     id: number | null
@@ -51,11 +71,12 @@ export interface ProgrammeFormValues {
     departmentalEtsCode: string
 
     referenceCount: string
-    refereeIds: number[]
     referenceDeadline: string
     referenceSubmission: string
     informationForRefereesUrl: string
     refereeNotes: string
+
+    refereeAssignments: ProgrammeRefereeFormValue[]
 
     applicationFee: string
     annualTuition: string
@@ -131,11 +152,6 @@ export function getProgrammeFormValues(
         referenceCount:
             programme?.referenceCount?.toString() ?? '',
 
-        refereeIds:
-            programme?.referees.map(
-                referee => referee.id
-            ) ?? [],
-
         referenceDeadline:
             programme?.referenceDeadline ?? '',
 
@@ -147,6 +163,23 @@ export function getProgrammeFormValues(
 
         refereeNotes:
             programme?.refereeNotes ?? '',
+
+        refereeAssignments:
+            programme
+                ? sortRefereeAssignments(
+                    programme.referees.map(
+                        referee => ({
+                            refereeId:
+                                referee.id,
+
+                            status:
+                                referee.submitted
+                                    ? 'SUBMITTED'
+                                    : 'OUTSTANDING',
+                        })
+                    )
+                )
+                : [],
 
         applicationFee:
             programme?.applicationFee ?? '',
@@ -210,6 +243,77 @@ export function ProgrammeForm({
             ...values,
             [field]: value,
         })
+    }
+
+    function getRefereeStatus(
+        refereeId: number
+    ): ProgrammeRefereeStatus {
+        return (
+            values.refereeAssignments.find(
+                assignment =>
+                    assignment.refereeId ===
+                    refereeId
+            )?.status ??
+            'UNASSIGNED'
+        )
+    }
+
+    function updateRefereeStatus(
+        refereeId: number,
+        status: ProgrammeRefereeStatus
+    ) {
+        const existing =
+            values.refereeAssignments.some(
+                assignment =>
+                    assignment.refereeId ===
+                    refereeId
+            )
+
+        /*
+         * Keep the form state compact:
+         * UNASSIGNED is represented by absence.
+         */
+        if (status === 'UNASSIGNED') {
+            updateField(
+                'refereeAssignments',
+                values.refereeAssignments.filter(
+                    assignment =>
+                        assignment.refereeId !==
+                        refereeId
+                )
+            )
+
+            return
+        }
+
+        if (existing) {
+            updateField(
+                'refereeAssignments',
+                values.refereeAssignments.map(
+                    assignment =>
+                        assignment.refereeId ===
+                        refereeId
+                            ? {
+                                ...assignment,
+                                status,
+                            }
+                            : assignment
+                )
+            )
+
+            return
+        }
+
+        updateField(
+            'refereeAssignments',
+            [
+                ...values.refereeAssignments,
+                {
+                    refereeId,
+                    status,
+                },
+            ]
+        )
     }
 
     function getLinkDescription(
@@ -289,10 +393,10 @@ export function ProgrammeForm({
             )
 
         if (
-            values.refereeIds.some(
-                refereeId =>
+            values.refereeAssignments.some(
+                assignment =>
                     !validRefereeIds.has(
-                        refereeId
+                        assignment.refereeId
                     )
             )
         ) {
@@ -560,14 +664,6 @@ export function ProgrammeForm({
                     }
                 />
 
-                <ProgrammeRefereeSelect
-                    referees={referees}
-                    value={values.refereeIds}
-                    onChange={value =>
-                        updateField('refereeIds', value)
-                    }
-                />
-
                 <FormField
                     label="Reference deadline"
                     type="date"
@@ -600,6 +696,33 @@ export function ProgrammeForm({
                         updateField('refereeNotes', value)
                     }
                 />
+            </FormSection>
+
+            <FormSection title="Referees">
+                {[...referees]
+                    .sort(
+                        (a, b) =>
+                            a.name.localeCompare(
+                                b.name
+                            )
+                    )
+                    .map(referee => (
+                        <FormSelect<ProgrammeRefereeStatus>
+                            key={referee.id}
+                            label={referee.name}
+                            value={getRefereeStatus(referee.id)}
+                            options={refereeStatusNames}
+                            unselectedValue="UNASSIGNED"
+                            allowUnselected={false}
+                            onChange={status =>
+                                updateRefereeStatus(
+                                    referee.id,
+                                    status ?? 'UNASSIGNED'
+                                )
+                            }
+                        />
+                    ))
+                }
             </FormSection>
 
             <FormSection title="Finance">

@@ -2,6 +2,7 @@ package com.yuzhenli.postgradapplication.services;
 
 import com.yuzhenli.postgradapplication.dtos.ProgrammeDto;
 import com.yuzhenli.postgradapplication.dtos.ProgrammeLinkWriteDto;
+import com.yuzhenli.postgradapplication.dtos.ProgrammeRefereeWriteDto;
 import com.yuzhenli.postgradapplication.dtos.ProgrammeWriteDto;
 import com.yuzhenli.postgradapplication.entities.Programme;
 import com.yuzhenli.postgradapplication.entities.ProgrammeLink;
@@ -52,7 +53,7 @@ public class ProgrammeService {
         Programme programme = new Programme();
 
         applyProgrammeWrite(programme, request);
-        applyProgrammeReferees(programme, request.refereeIds());
+        applyProgrammeReferees(programme, request.referees());
         applyProgrammeLinks(programme, request.links());
 
         Programme saved =
@@ -92,7 +93,7 @@ public class ProgrammeService {
         }
 
         applyProgrammeWrite(programme, request);
-        applyProgrammeReferees(programme, request.refereeIds());
+        applyProgrammeReferees(programme, request.referees());
         applyProgrammeLinks(programme, request.links());
 
         return programmeMapper.toProgrammeDto(programme);
@@ -199,10 +200,57 @@ public class ProgrammeService {
 
     private void applyProgrammeReferees(
             Programme programme,
-            List<Integer> refereeIds
+            List<ProgrammeRefereeWriteDto> requests
     ) {
-        Set<Referee> requestedReferees =
-                resolveReferees(refereeIds);
+        List<ProgrammeRefereeWriteDto> safeRequests =
+                requests == null
+                        ? List.of()
+                        : requests;
+
+        if (
+                safeRequests
+                        .stream()
+                        .anyMatch(
+                                request ->
+                                        request.refereeId()
+                                                == null
+                        )
+        ) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Referee ID is required."
+            );
+        }
+
+        Set<Integer> refereeIds =
+                safeRequests
+                        .stream()
+                        .map(
+                                ProgrammeRefereeWriteDto::refereeId
+                        )
+                        .collect(
+                                Collectors.toSet()
+                        );
+
+        if (
+                refereeIds.size() !=
+                        safeRequests.size()
+        ) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Duplicate referee assignment."
+            );
+        }
+
+        Map<Integer, Referee> refereesById =
+                resolveReferees(refereeIds)
+                        .stream()
+                        .collect(
+                                Collectors.toMap(
+                                        Referee::getId,
+                                        Function.identity()
+                                )
+                        );
 
         Map<Integer, ProgrammeReferee>
                 existingByRefereeId =
@@ -219,26 +267,55 @@ public class ProgrammeService {
                                 )
                         );
 
-        Set<ProgrammeReferee> updatedAssignments = new HashSet<>();
+        Set<ProgrammeReferee>
+                updatedAssignments =
+                new HashSet<>();
 
-        for (Referee referee :
-                requestedReferees) {
+        for (
+                ProgrammeRefereeWriteDto request :
+                safeRequests
+        ) {
+            Referee referee =
+                    refereesById.get(
+                            request.refereeId()
+                    );
 
             ProgrammeReferee assignment =
-                    existingByRefereeId.get(referee.getId());
+                    existingByRefereeId.get(
+                            request.refereeId()
+                    );
 
             if (assignment == null) {
-                assignment = new ProgrammeReferee();
-                assignment.setProgramme(programme);
-                assignment.setReferee(referee);
-                assignment.setSubmitted(false);
+                assignment =
+                        new ProgrammeReferee();
+
+                assignment.setProgramme(
+                        programme
+                );
+
+                assignment.setReferee(
+                        referee
+                );
             }
 
-            updatedAssignments.add(assignment);
+            assignment.setSubmitted(
+                    request.submitted()
+            );
+
+            updatedAssignments.add(
+                    assignment
+            );
         }
 
-        programme.getProgrammeReferees().clear();
-        programme.getProgrammeReferees().addAll(updatedAssignments);
+        programme
+                .getProgrammeReferees()
+                .clear();
+
+        programme
+                .getProgrammeReferees()
+                .addAll(
+                        updatedAssignments
+                );
     }
 
     private void applyProgrammeLinks(
@@ -298,7 +375,7 @@ public class ProgrammeService {
     }
 
     private Set<Referee> resolveReferees(
-            List<Integer> refereeIds
+            Set<Integer> refereeIds
     ) {
         if (
                 refereeIds == null ||
@@ -307,29 +384,24 @@ public class ProgrammeService {
             return new HashSet<>();
         }
 
-        Set<Integer> uniqueIds =
-                new HashSet<>(refereeIds);
-
-        if (uniqueIds.size() != refereeIds.size()) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    "Duplicate referee selection"
-            );
-        }
-
         List<Referee> referees =
                 refereeRepository.findAllById(
-                        uniqueIds
+                        refereeIds
                 );
 
-        if (referees.size() != uniqueIds.size()) {
+        if (
+                referees.size() !=
+                        refereeIds.size()
+        ) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
-                    "Invalid referee selection"
+                    "Invalid referee selection."
             );
         }
 
-        return new HashSet<>(referees);
+        return new HashSet<>(
+                referees
+        );
     }
 
     private String nullIfBlank(String value) {

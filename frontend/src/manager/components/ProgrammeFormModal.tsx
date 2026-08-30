@@ -7,9 +7,40 @@ import { ProgrammeForm, getProgrammeFormValues } from './ProgrammeForm'
 import { toProgrammeWriteRequest } from '../types/ProgrammeWriteRequest'
 import { ProgrammeDeleteConfirmation } from './ProgrammeDeleteConfirmation'
 import { DiscardConfirmation } from '../../shared/components/DiscardConfirmation'
+import { ProgrammeRefereeRemovalConfirmation } from './ProgrammeRefereeRemovalConfirmation'
 import { MessageDialog } from '../../shared/components/MessageDialog'
 import { getResponseError } from '../../shared/utils/api'
 
+function getRemovedSubmittedRefereeIds(
+    initialValues: ProgrammeFormValues,
+    values: ProgrammeFormValues
+): number[] {
+    return initialValues
+        .refereeAssignments
+        .filter(
+            assignment =>
+                assignment.status ===
+                'SUBMITTED'
+        )
+        .filter(initialAssignment => {
+            const currentAssignment =
+                values.refereeAssignments.find(
+                    assignment =>
+                        assignment.refereeId ===
+                        initialAssignment.refereeId
+                )
+
+            return (
+                currentAssignment === undefined ||
+                currentAssignment.status ===
+                    'UNASSIGNED'
+            )
+        })
+        .map(
+            assignment =>
+                assignment.refereeId
+        )
+}
 
 interface ProgrammeFormModalProps {
     mode: 'add' | 'edit'
@@ -68,6 +99,34 @@ export function ProgrammeFormModal({
     const [discardConfirmationOpen, setDiscardConfirmationOpen] = useState(false)
     const [discardDraftConfirmationOpen, setDiscardDraftConfirmationOpen] = useState(false)
 
+    const [
+        refereeRemovalConfirmationOpen,
+        setRefereeRemovalConfirmationOpen,
+    ] = useState(false)
+
+    const [
+        pendingSubmitValues,
+        setPendingSubmitValues,
+    ] = useState<
+        ProgrammeFormValues | null
+    >(null)
+
+    const removedSubmittedRefereeIds =
+        pendingSubmitValues
+            ? getRemovedSubmittedRefereeIds(
+                initialValues,
+                pendingSubmitValues
+            )
+            : []
+
+    const removedSubmittedReferees =
+        referees.filter(
+            referee =>
+                removedSubmittedRefereeIds.includes(
+                    referee.id
+                )
+        )
+
     const [messageDialog, setMessageDialog] =
         useState<{
             title: string
@@ -88,6 +147,7 @@ export function ProgrammeFormModal({
         deleteConfirmationOpen ||
         discardConfirmationOpen ||
         discardDraftConfirmationOpen ||
+        refereeRemovalConfirmationOpen ||
         messageDialog !== null
 
     useEffect(() => {
@@ -203,6 +263,14 @@ export function ProgrammeFormModal({
                 return
             }
 
+            if (
+                refereeRemovalConfirmationOpen
+            ) {
+                setRefereeRemovalConfirmationOpen(false)
+                setPendingSubmitValues(null)
+                return
+            }
+
             requestClose()
         }
 
@@ -227,6 +295,7 @@ export function ProgrammeFormModal({
         deleteConfirmationOpen,
         discardConfirmationOpen,
         discardDraftConfirmationOpen,
+        refereeRemovalConfirmationOpen,
     ])
 
     useEffect(() => {
@@ -241,8 +310,33 @@ export function ProgrammeFormModal({
         }
     }, [])
 
-    async function handleSubmit(
-        values: ProgrammeFormValues,
+    function handleSubmit(
+        values: ProgrammeFormValues
+    ) {
+        const removedSubmittedRefereeIds =
+            getRemovedSubmittedRefereeIds(
+                initialValues,
+                values
+            )
+
+        if (
+            removedSubmittedRefereeIds.length >
+            0
+        ) {
+            setPendingSubmitValues(values)
+
+            setRefereeRemovalConfirmationOpen(
+                true
+            )
+
+            return
+        }
+
+        void saveProgramme(values)
+    }
+
+    async function saveProgramme(
+        values: ProgrammeFormValues
     ) {
         setSaving(true)
 
@@ -273,17 +367,24 @@ export function ProgrammeFormModal({
 
             if (!response.ok) {
                 throw new Error(
-                    await getResponseError(response)
+                    await getResponseError(
+                        response
+                    )
                 )
             }
 
-            const savedProgramme: Programme =
-                await response.json()
+            const savedProgramme:
+                Programme =
+                    await response.json()
 
             if (mode === 'add') {
-                onCreated?.(savedProgramme)
+                onCreated?.(
+                    savedProgramme
+                )
             } else {
-                onUpdated?.(savedProgramme)
+                onUpdated?.(
+                    savedProgramme
+                )
             }
 
             onClose()
@@ -299,7 +400,7 @@ export function ProgrammeFormModal({
                         ? 'Could not connect to the server.'
                         : error instanceof Error
                             ? error.message
-                            : 'An unexpected error occurred.'
+                            : 'An unexpected error occurred.',
             })
         } finally {
             setSaving(false)
@@ -513,6 +614,40 @@ export function ProgrammeFormModal({
                         }}
                     />
                 )}
+
+                {refereeRemovalConfirmationOpen &&
+                    pendingSubmitValues && (
+                        <ProgrammeRefereeRemovalConfirmation
+                            referees={
+                                removedSubmittedReferees
+                            }
+                            onCancel={() => {
+                                setRefereeRemovalConfirmationOpen(
+                                    false
+                                )
+
+                                setPendingSubmitValues(
+                                    null
+                                )
+                            }}
+                            onConfirm={() => {
+                                const valuesToSave =
+                                    pendingSubmitValues
+
+                                setRefereeRemovalConfirmationOpen(
+                                    false
+                                )
+
+                                setPendingSubmitValues(
+                                    null
+                                )
+
+                                void saveProgramme(
+                                    valuesToSave
+                                )
+                            }}
+                        />
+                    )}
 
                 {messageDialog && (
                     <MessageDialog

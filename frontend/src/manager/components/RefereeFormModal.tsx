@@ -1,6 +1,7 @@
 import './RefereeFormModal.css'
 import { useEffect, useRef, useState } from 'react'
 import { FormSection } from '../../shared/components/FormSection'
+import { FormReadOnlyField } from '../../shared/components/FormReadOnlyField'
 import type { ManagedReferee } from '../types/ManagedReferee'
 import { RefereeForm, getRefereeFormValues, type RefereeFormValues } from './RefereeForm'
 import { RefereeDeleteConfirmation } from './RefereeDeleteConfirmation'
@@ -576,15 +577,14 @@ export function RefereeFormModal({
                                 title="Access"
                                 defaultOpen
                             >
-                                <div className="referee-access-status">
-                                    <span>Status</span>
-
-                                    <span>
-                                        {referee.accessActive
+                                <FormReadOnlyField
+                                    label="Status"
+                                    value={
+                                        referee.accessActive
                                             ? 'Active'
-                                            : 'Not issued'}
-                                    </span>
-                                </div>
+                                            : 'Not issued'
+                                    }
+                                />
 
                                 <div className="referee-access-actions">
                                     {referee.accessActive ? (

@@ -48,6 +48,16 @@
     line-height: 1.5;
 }
 
+.confirmation-list {
+    margin: 0.75rem 0;
+    padding-left: 1.25rem;
+
+    color: var(--text-h);
+
+    font-size: 0.8rem;
+    line-height: 1.5;
+}
+
 .confirmation-actions {
     margin-top: 1rem;
 

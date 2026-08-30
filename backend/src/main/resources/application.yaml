@@ -1,5 +1,5 @@
 app:
-  referee-base-url: ${REFEREE_BASE_URL:http://localhost:5173/}
+  referee-base-url: ${REFEREE_BASE_URL:http://localhost:5173/referee}
 
 server:
   port: ${PORT:8080}

@@ -110,6 +110,11 @@
     font-size: 0.8rem;
 }
 
+.form-readonly-field {
+    color: var(--text);
+    cursor: not-allowed;
+}
+
 .form-field > span {
     color: var(--text-h);
 }
@@ -159,6 +164,10 @@
 
     outline: 2px solid var(--accent);
     outline-offset: 1px;
+}
+
+.form-field > input.form-readonly-field:hover {
+    border-color: var(--border);
 }
 
 

@@ -50,3 +50,8 @@ export const statusNames: Record<Status, string> = {
     REJECTED: 'Rejected',
 }
 
+export const refereeStatusNames = {
+    UNASSIGNED: 'Unassigned',
+    OUTSTANDING: 'Outstanding',
+    SUBMITTED: 'Submitted',
+} as const
