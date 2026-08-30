@@ -133,7 +133,7 @@ const columns:
                 id: 'submitted',
                 accessorFn: programme =>
                     programme.submitted,
-                header: 'Submitted',
+                header: 'Status',
 
                 cell: info => {
                     const programme =
@@ -145,35 +145,35 @@ const columns:
                         === programme.id
 
                     return (
-                        <label className="referee-submitted-control">
-                            <input
-                                type="checkbox"
-                                checked={
-                                    programme.submitted
-                                }
-                                disabled={updating}
-                                onChange={event =>
-                                    info.table.options.meta
-                                        ?.updateSubmission?.(
-                                            programme,
-                                            event.target
-                                                .checked
-                                        )
-                                }
-                                aria-label={
-                                    `Reference submitted for ${programme.programmeShortName}`
-                                }
-                            />
-
-                            {updating && (
-                                <span
-                                    className="referee-submitted-saving"
-                                    aria-live="polite"
-                                >
-                                    Saving…
-                                </span>
-                            )}
-                        </label>
+                        <div className="referee-submission-control">
+                            <div className="referee-submission-control">
+                                <div className="referee-submission-control">
+                                    <button
+                                        type="button"
+                                        className="referee-submission-trigger"
+                                        disabled={updating}
+                                        onClick={() =>
+                                            info.table.options.meta
+                                                ?.updateSubmission?.(
+                                                    programme,
+                                                    !programme.submitted
+                                                )
+                                        }
+                                        aria-label={
+                                            programme.submitted
+                                                ? `Mark reference for ${programme.programmeShortName} as outstanding`
+                                                : `Mark reference for ${programme.programmeShortName} as submitted`
+                                        }
+                                    >
+                                        {updating
+                                            ? 'Saving...'
+                                            : programme.submitted
+                                                ? 'Submitted'
+                                                : 'Outstanding'}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     )
                 },
             },

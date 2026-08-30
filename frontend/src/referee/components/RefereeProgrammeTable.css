@@ -363,38 +363,49 @@
 
 
 /* =========================================================
-   Submitted control
+   Submission status
    ========================================================= */
 
-.referee-submitted-control {
+.referee-submission-control {
     min-height: 1.5rem;
 
-    display: inline-flex;
+    display: flex;
     align-items: center;
     gap: 0.4rem;
-
-    color: var(--text);
-
-    font-size: 0.75rem;
 }
 
-.referee-submitted-control input {
-    margin: 0;
+.referee-submission-trigger {
+    appearance: none;
 
-    accent-color: var(--accent);
+    margin: -0.2rem;
+    padding: 0.2rem;
+
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+
+    background: transparent;
+    color: inherit;
+
+    font: inherit;
+    text-align: left;
 
     cursor: pointer;
-}
-
-.referee-submitted-control input:disabled {
-    cursor: default;
-}
-
-.referee-submitted-saving {
-    color: var(--text);
-
-    font-size: 0.7rem;
     white-space: nowrap;
+}
+
+.referee-submission-trigger:hover:not(:disabled) {
+    border-color: var(--accent-border);
+}
+
+.referee-submission-trigger:focus-visible {
+    border-color: var(--accent);
+
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+}
+
+.referee-submission-trigger:disabled {
+    cursor: default;
 }
 
 
