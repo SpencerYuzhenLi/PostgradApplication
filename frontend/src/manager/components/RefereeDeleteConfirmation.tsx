@@ -1,22 +1,24 @@
 import '../../shared/components/ConfirmationDialog.css'
-import type { Programme } from '../../shared/types/Programme'
+import type {
+    ManagedReferee,
+} from '../types/ManagedReferee'
 
-interface ProgrammeDeleteConfirmationProps {
-    programme: Programme
+interface RefereeDeleteConfirmationProps {
+    referee: ManagedReferee
     deleting: boolean
     error: string | null
+
     onCancel: () => void
     onConfirm: () => void
 }
 
-export function ProgrammeDeleteConfirmation({
-    programme,
+export function RefereeDeleteConfirmation({
+    referee,
     deleting,
     error,
     onCancel,
     onConfirm,
-}: ProgrammeDeleteConfirmationProps) {
-
+}: RefereeDeleteConfirmationProps) {
     return (
         <div
             className="confirmation-backdrop"
@@ -26,16 +28,18 @@ export function ProgrammeDeleteConfirmation({
                 className="confirmation-dialog"
                 role="alertdialog"
                 aria-modal="true"
-                aria-labelledby="delete-confirmation-title"
+                aria-labelledby="referee-delete-confirmation-title"
             >
-                <h2 id="delete-confirmation-title">
-                    Delete {programme.programmeShortName}?
+                <h2
+                    id="referee-delete-confirmation-title"
+                >
+                    Delete {referee.name}?
                 </h2>
 
                 <p>
-                    This will permanently delete the programme
-                    and its associated links. This action cannot
-                    be undone.
+                    This will permanently delete the referee
+                    and remove them from all assigned programmes.
+                    This action cannot be undone.
                 </p>
 
                 {error && (

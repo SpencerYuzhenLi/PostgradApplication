@@ -1,3 +1,6 @@
+app:
+  referee-base-url: ${REFEREE_BASE_URL:http://localhost:5173/}
+
 server:
   port: ${PORT:8080}
 

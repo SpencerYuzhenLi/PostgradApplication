@@ -1,17 +1,17 @@
-import './ProgrammeMessageDialog.css'
+import './MessageDialog.css'
 
 
-interface ProgrammeMessageDialogProps {
+interface MessageDialogProps {
     title: string
     message: string
     onClose: () => void
 }
 
-export function ProgrammeMessageDialog({
+export function MessageDialog({
     title,
     message,
     onClose,
-}: ProgrammeMessageDialogProps) {
+}: MessageDialogProps) {
     return (
         <div className="message-dialog-backdrop">
             <section

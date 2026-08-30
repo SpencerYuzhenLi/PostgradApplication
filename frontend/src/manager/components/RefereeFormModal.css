@@ -1,0 +1,29 @@
+/* =========================================================
+   Referee access
+   ========================================================= */
+
+.referee-access-status {
+    display: grid;
+    grid-template-columns:
+        10rem minmax(0, 1fr);
+
+    align-items: center;
+    gap: 1rem;
+
+    color: var(--text-h);
+    font-size: 0.8rem;
+}
+
+.referee-access-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}
+
+@media (max-width: 600px) {
+    .referee-access-status {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+    }
+}

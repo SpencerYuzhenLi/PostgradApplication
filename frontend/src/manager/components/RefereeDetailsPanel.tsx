@@ -1,6 +1,4 @@
 import './RefereeDetailsPanel.css'
-import { useState } from 'react'
-import { RefereeAccessConfirmation } from './RefereeAccessConfirmation'
 import type { ManagedReferee } from '../types/ManagedReferee'
 import { useScrollable } from '../../shared/hooks/useScrollable'
 import { DetailRow } from '../../shared/components/DetailRow'
@@ -8,11 +6,13 @@ import { DetailRow } from '../../shared/components/DetailRow'
 interface RefereeDetailsPanelProps {
     referee: ManagedReferee
     onClose: () => void
+    onEdit: () => void
 }
 
 export function RefereeDetailsPanel({
     referee,
     onClose,
+    onEdit,
 }: RefereeDetailsPanelProps) {
 
     const {
@@ -64,15 +64,6 @@ export function RefereeDetailsPanel({
             }
         )
 
-    const [
-        accessConfirmation,
-        setAccessConfirmation,
-    ] = useState<
-        'regenerate' |
-        'revoke' |
-        null
-    >(null)
-
     return (
         <aside
             ref={panelRef}
@@ -100,8 +91,18 @@ export function RefereeDetailsPanel({
             </div>
 
             <div className="referee-details-identity">
-                <div className="referee-details-name">
-                    {referee.name}
+                <div className="referee-details-name-row">
+                    <div className="referee-details-name">
+                        {referee.name}
+                    </div>
+
+                    <button
+                        type="button"
+                        className="referee-details-edit"
+                        onClick={onEdit}
+                    >
+                        Edit
+                    </button>
                 </div>
 
                 {referee.email && (
@@ -178,61 +179,8 @@ export function RefereeDetailsPanel({
                                 : 'Not issued'
                         }
                     />
-
-                    <div className="referee-access-actions">
-                        {referee.accessActive ? (
-                            <>
-                                <button
-                                    type="button"
-                                    className="neutral-action"
-                                    onClick={() =>
-                                        setAccessConfirmation(
-                                            'regenerate'
-                                        )
-                                    }
-                                >
-                                    Generate new link
-                                </button>
-
-                                <button
-                                    type="button"
-                                    className="destructive-action"
-                                    onClick={() =>
-                                        setAccessConfirmation(
-                                            'revoke'
-                                        )
-                                    }
-                                >
-                                    Revoke access
-                                </button>
-                            </>
-                        ) : (
-                            <button
-                                type="button"
-                                className="neutral-action"
-                            >
-                                Generate access link
-                            </button>
-                        )}
-                    </div>
                 </div>
             </section>
-
-            {accessConfirmation && (
-                <RefereeAccessConfirmation
-                    referee={referee}
-                    action={accessConfirmation}
-                    onCancel={() =>
-                        setAccessConfirmation(null)
-                    }
-                    onConfirm={() => {
-                        /*
-                         * Backend operation comes next.
-                         */
-                        setAccessConfirmation(null)
-                    }}
-                />
-            )}
         </aside>
     )
 }

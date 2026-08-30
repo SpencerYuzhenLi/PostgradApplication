@@ -7,7 +7,17 @@ import java.util.Optional;
 
 public interface RefereeRepository
         extends JpaRepository<Referee, Integer> {
+
     Optional<Referee> findByAccessTokenHash(
             String accessTokenHash
+    );
+
+    boolean existsByEmailIgnoreCase(
+            String email
+    );
+
+    boolean existsByEmailIgnoreCaseAndIdNot(
+            String email,
+            Integer id
     );
 }

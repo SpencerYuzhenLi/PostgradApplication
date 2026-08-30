@@ -1,20 +1,20 @@
-interface ProgrammeFormFieldProps {
+interface FormFieldProps {
     label: string
     value: string
-    type?: 'text' | 'date' | 'number'
+    type?: 'text' | 'date' | 'number' | 'email'
     min?: number
     onChange: (value: string) => void
 }
 
-export function ProgrammeFormField({
+export function FormField({
     label,
     value,
     type = 'text',
     min,
     onChange,
-}: ProgrammeFormFieldProps) {
+}: FormFieldProps) {
     return (
-        <div className="programme-form-field">
+        <div className="form-field">
             <span>{label}</span>
 
             <input

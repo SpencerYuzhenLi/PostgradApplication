@@ -1,4 +1,5 @@
 import './ProgrammeRefereeSelect.css'
+import '../../shared/components/Form.css'
 import {
     useEffect,
     useRef,
@@ -115,7 +116,7 @@ export function ProgrammeRefereeSelect({
     }
 
     return (
-        <div className="programme-form-field">
+        <div className="form-field">
             <span>Referees</span>
 
             <div

@@ -10,6 +10,7 @@ interface RefereeAccessConfirmationProps {
 
     onCancel: () => void
     onConfirm: () => void
+    updating: boolean
 }
 
 export function RefereeAccessConfirmation({
@@ -17,6 +18,7 @@ export function RefereeAccessConfirmation({
     action,
     onCancel,
     onConfirm,
+    updating,
 }: RefereeAccessConfirmationProps) {
 
     const regenerate =
@@ -55,6 +57,7 @@ export function RefereeAccessConfirmation({
                         type="button"
                         className="neutral-action"
                         onClick={onCancel}
+                        disabled={updating}
                     >
                         Cancel
                     </button>
@@ -67,10 +70,15 @@ export function RefereeAccessConfirmation({
                                 : 'primary-destructive-action'
                         }
                         onClick={onConfirm}
+                        disabled={updating}
                     >
-                        {regenerate
-                            ? 'Generate new link'
-                            : 'Revoke access'}
+                        {updating
+                            ? regenerate
+                                ? 'Generating...'
+                                : 'Revoking...'
+                            : regenerate
+                                ? 'Generate new link'
+                                : 'Revoke access'}
                     </button>
                 </div>
             </section>

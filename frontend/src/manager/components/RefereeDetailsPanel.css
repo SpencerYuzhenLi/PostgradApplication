@@ -94,7 +94,16 @@
     padding: 0.75rem 0;
 }
 
+.referee-details-name-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
 .referee-details-name {
+    min-width: 0;
+
     color: var(--text-h);
 
     font-size: 1rem;
@@ -169,6 +178,42 @@
 }
 
 
+/* ---------- Edit ---------- */
+
+.referee-details-edit {
+    appearance: none;
+
+    flex: 0 0 auto;
+
+    margin-top: -0.2rem;
+    padding: 0.2rem 0.35rem;
+
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+
+    background: transparent;
+    color: var(--text);
+
+    font: inherit;
+    font-size: 0.8rem;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.referee-details-edit:hover {
+    border-color: var(--accent-border);
+    color: var(--accent);
+}
+
+.referee-details-edit:focus-visible {
+    border-color: var(--accent);
+
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+}
+
+
 /* ---------- Details ---------- */
 
 .referee-reference-list {
@@ -232,15 +277,6 @@
     min-width: 5.5rem;
 
     text-align: right;
-}
-
-.referee-access-actions {
-    margin-top: 0.5rem;
-
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 0.5rem;
 }
 
 

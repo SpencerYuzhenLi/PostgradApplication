@@ -118,7 +118,7 @@ export function RefereeProgrammeDetailsPanel({
             </section>
 
             {hasRefereeNotes && (
-                <section className="referee-programme-details-section referee-details-notes">
+                <section className="referee-programme-details-section referee-programme-details-notes">
                     <div className="referee-programme-details-divider" />
 
                     <h2>Referee notes</h2>

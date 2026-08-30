@@ -2,6 +2,8 @@ import './App.css'
 import './shared/components/StartupState.css'
 import './shared/components/HeaderActions.css'
 import './shared/components/Settings.css'
+import './shared/components/FormModal.css'
+import './shared/components/Form.css'
 import { useEffect, useRef, useState } from 'react'
 import { managerFetch } from './manager/utils/managerApi'
 import { SettingsSelect } from './shared/components/SettingsSelect'
@@ -16,6 +18,7 @@ import { RefereeTable } from './manager/components/RefereeTable'
 import { ProgrammeDetailsPanel } from './manager/components/ProgrammeDetailsPanel'
 import { RefereeDetailsPanel } from './manager/components/RefereeDetailsPanel'
 import { ProgrammeFormModal } from './manager/components/ProgrammeFormModal'
+import { RefereeFormModal } from './manager/components/RefereeFormModal'
 import { PlusIcon } from './shared/icons/PlusIcon'
 import { PencilIcon } from './shared/icons/PencilIcon'
 import { SettingsIcon } from './shared/icons/SettingsIcon'
@@ -45,6 +48,16 @@ type ProgrammeModalState =
     }
     | null
 
+type RefereeModalState =
+    | {
+        mode: 'add'
+    }
+    | {
+        mode: 'edit'
+        refereeId: number
+    }
+    | null
+
 function App() {
 
     useEffect(() => {
@@ -69,6 +82,28 @@ function App() {
         useState<ManagerView>(
             'programmes'
         )
+
+    async function loadReferees() {
+        const response =
+            await managerFetch(
+                '/api/referees'
+            )
+
+        if (!response.ok) {
+            throw new Error(
+                `Could not load referees (${response.status}).`
+            )
+        }
+
+        const data: ManagedReferee[] =
+            await response.json()
+
+        setReferees(
+            data.sort((a, b) =>
+                a.name.localeCompare(b.name)
+            )
+        )
+    }
 
     const [programmeDraft, setProgrammeDraft] =
         useState<ProgrammeFormValues | null>(() => {
@@ -148,6 +183,57 @@ function App() {
                 ?.focus()
 
             programmeModalTriggerRef.current =
+                null
+        })
+    }
+
+    const [refereeModal,setRefereeModal] =
+        useState<RefereeModalState>(null)
+
+    const refereeModalTriggerRef =
+        useRef<HTMLElement | null>(null)
+
+    const modalReferee =
+        refereeModal?.mode === 'edit'
+            ? referees.find(
+                referee =>
+                    referee.id ===
+                    refereeModal.refereeId
+            ) ?? null
+            : null
+
+    function openRefereeModal(
+        modal: Exclude<
+            RefereeModalState,
+            null
+        >
+    ) {
+        const activeElement =
+            document.activeElement
+
+        refereeModalTriggerRef.current =
+            activeElement instanceof HTMLElement
+                ? activeElement
+                : null
+
+        setRefereeModal(modal)
+    }
+
+    function closeRefereeModal() {
+        setRefereeModal(null)
+
+        requestAnimationFrame(() => {
+            const trigger =
+                refereeModalTriggerRef.current
+
+            if (
+                trigger &&
+                document.contains(trigger)
+            ) {
+                trigger.focus()
+            }
+
+            refereeModalTriggerRef.current =
                 null
         })
     }
@@ -459,7 +545,7 @@ function App() {
                         </div>
 
                         <div className="manager-view-actions">
-                            {managerView === 'programmes' && (
+                            {managerView === 'programmes' ? (
                                 <button
                                     type="button"
                                     className="page-action-button"
@@ -485,6 +571,22 @@ function App() {
                                     {programmeDraft
                                         ? 'Edit draft'
                                         : 'Add programme'}
+                                </button>
+                            ) : (
+                                <button
+                                    type="button"
+                                    className="page-action-button"
+                                    onClick={() =>
+                                        openRefereeModal({
+                                            mode: 'add',
+                                        })
+                                    }
+                                >
+                                    <PlusIcon
+                                        className="page-action-icon"
+                                    />
+
+                                    Add referee
                                 </button>
                             )}
                         </div>
@@ -548,6 +650,12 @@ function App() {
                         onClose={() =>
                             setSelectedRefereeId(null)
                         }
+                        onEdit={() =>
+                            openRefereeModal({
+                                mode: 'edit',
+                                refereeId: selectedReferee.id,
+                            })
+                        }
                     />
                 )}
             </main>
@@ -578,30 +686,149 @@ function App() {
                             ...current,
                             programme,
                         ])
+
                         setProgrammeDraft(null)
+
+                        void loadReferees()
                     }}
                     onUpdated={updatedProgramme => {
                         setProgrammes(current =>
                             current.map(programme =>
-                                programme.id === updatedProgramme.id
+                                programme.id ===
+                                updatedProgramme.id
                                     ? updatedProgramme
                                     : programme
                             )
                         )
+
+                        void loadReferees()
                     }}
                     onDeleted={programmeId => {
                         setProgrammes(current =>
                             current.filter(
                                 programme =>
-                                    programme.id !== programmeId
+                                    programme.id !==
+                                    programmeId
                             )
                         )
+
+                        void loadReferees()
                     }}
                     onSaveDraft={values => {
                         setProgrammeDraft(values)
                     }}
                     onDiscardDraft={() => {
                         setProgrammeDraft(null)
+                    }}
+                />
+            )}
+
+            {refereeModal &&
+                (
+                    refereeModal.mode === 'add' ||
+                    modalReferee
+                ) && (
+                <RefereeFormModal
+                    key={
+                        refereeModal.mode === 'edit'
+                            ? `edit-referee-${refereeModal.refereeId}`
+                            : 'add-referee'
+                    }
+                    mode={refereeModal.mode}
+                    referee={
+                        refereeModal.mode === 'edit'
+                            ? modalReferee ?? undefined
+                            : undefined
+                    }
+                    onClose={closeRefereeModal}
+                    onCreated={referee => {
+                        setReferees(current =>
+                            [...current, referee]
+                                .sort((a, b) =>
+                                    a.name.localeCompare(
+                                        b.name
+                                    )
+                                )
+                        )
+                    }}
+                    onUpdated={updatedReferee => {
+                        setReferees(current =>
+                            current
+                                .map(referee =>
+                                    referee.id ===
+                                    updatedReferee.id
+                                        ? updatedReferee
+                                        : referee
+                                )
+                                .sort((a, b) =>
+                                    a.name.localeCompare(
+                                        b.name
+                                    )
+                                )
+                        )
+
+                        setProgrammes(current =>
+                            current.map(programme => ({
+                                ...programme,
+
+                                referees:
+                                    programme.referees.map(
+                                        referee =>
+                                            referee.id ===
+                                            updatedReferee.id
+                                                ? {
+                                                    ...referee,
+                                                    name:
+                                                        updatedReferee.name,
+                                                    email:
+                                                        updatedReferee.email,
+                                                }
+                                                : referee
+                                    ),
+                            }))
+                        )
+                    }}
+                    onDeleted={refereeId => {
+                        setReferees(current =>
+                            current.filter(
+                                referee =>
+                                    referee.id !== refereeId
+                            )
+                        )
+
+                        setProgrammes(current =>
+                            current.map(programme => ({
+                                ...programme,
+
+                                referees:
+                                    programme.referees.filter(
+                                        referee =>
+                                            referee.id !== refereeId
+                                    ),
+                            }))
+                        )
+
+                        setSelectedRefereeId(
+                            current =>
+                                current === refereeId
+                                    ? null
+                                    : current
+                        )
+                    }}
+                    onAccessChanged={(
+                        refereeId,
+                        accessActive
+                    ) => {
+                        setReferees(current =>
+                            current.map(referee =>
+                                referee.id === refereeId
+                                    ? {
+                                        ...referee,
+                                        accessActive,
+                                    }
+                                    : referee
+                            )
+                        )
                     }}
                 />
             )}

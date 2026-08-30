@@ -1,24 +1,24 @@
 import { useState } from 'react'
 import type { ReactNode } from 'react'
-import { ChevronIcon } from '../../shared/icons/ChevronIcon'
+import { ChevronIcon } from '../icons/ChevronIcon'
 
-interface ProgrammeFormSectionProps {
+interface FormSectionProps {
     title: string
     children: ReactNode
     defaultOpen?: boolean
 }
 
-export function ProgrammeFormSection({
+export function FormSection({
     title,
     children,
     defaultOpen = false,
-}: ProgrammeFormSectionProps) {
+}: FormSectionProps) {
     const [open, setOpen] = useState(defaultOpen)
 
     return (
         <section
             className={[
-                'programme-form-section',
+                'form-section',
                 open ? 'open' : '',
             ]
                 .filter(Boolean)
@@ -26,29 +26,29 @@ export function ProgrammeFormSection({
         >
             <button
                 type="button"
-                className="programme-form-section-trigger"
+                className="form-section-trigger"
                 onClick={() =>
                     setOpen(current => !current)
                 }
                 aria-expanded={open}
             >
-                <span className="programme-form-section-title">
+                <span className="form-section-title">
                     {title}
                 </span>
 
                 <span
-                    className="programme-form-section-chevron-area"
+                    className="form-section-chevron-area"
                     aria-hidden="true"
                 >
                     <ChevronIcon
-                        className="programme-form-section-chevron"
+                        className="form-section-chevron"
                         direction={open ? 'up' : 'down'}
                     />
                 </span>
             </button>
 
             {open && (
-                <div className="programme-form-fields">
+                <div className="form-fields">
                     {children}
                 </div>
             )}

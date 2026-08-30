@@ -1,6 +1,6 @@
 import './ProgrammeLinksEditor.css'
 import type { ProgrammeLinkFormValue } from './ProgrammeForm'
-import { ProgrammeFormField } from './ProgrammeFormField'
+import { FormField } from '../../shared/components/FormField'
 
 interface ProgrammeLinksEditorProps {
     links: ProgrammeLinkFormValue[]
@@ -78,7 +78,7 @@ export function ProgrammeLinksEditor({
                     className="programme-link-editor"
                 >
 
-                    <ProgrammeFormField
+                    <FormField
                         label="Display name"
                         value={link.displayName}
                         onChange={value =>
@@ -88,7 +88,7 @@ export function ProgrammeLinksEditor({
                         }
                     />
 
-                    <ProgrammeFormField
+                    <FormField
                         label="URL"
                         value={link.url}
                         onChange={value =>

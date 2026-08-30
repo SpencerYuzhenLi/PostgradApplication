@@ -1,10 +1,9 @@
-import './ProgrammeForm.css'
 import { useEffect, useMemo } from 'react'
+import { FormSection } from '../../shared/components/FormSection'
+import { FormField } from '../../shared/components/FormField'
+import { FormSelect } from '../../shared/components/FormSelect'
+import { FormTextarea } from '../../shared/components/FormTextarea'
 import { ProgrammeLinksEditor } from './ProgrammeLinksEditor'
-import { ProgrammeFormSection } from './ProgrammeFormSection'
-import { ProgrammeFormField } from './ProgrammeFormField'
-import { ProgrammeFormSelect } from './ProgrammeFormSelect'
-import { ProgrammeFormTextarea } from './ProgrammeFormTextarea'
 import { ProgrammeRefereeSelect } from './ProgrammeRefereeSelect'
 import type { Degree, Region, Country, Status, Programme } from '../../shared/types/Programme'
 import type { Referee } from '../../shared/types/Referee'
@@ -364,19 +363,19 @@ export function ProgrammeForm({
     return (
         <form
             id="programme-form"
-            className="programme-form"
+            className="form"
             noValidate
             onSubmit={event => {
                 event.preventDefault()
                 handleSubmit()
             }}
         >
-            <ProgrammeFormSection
+            <FormSection
                 title="Programme"
                 defaultOpen
             >
 
-                <ProgrammeFormField
+                <FormField
                     label="Short name"
                     value={values.programmeShortName}
                     onChange={value =>
@@ -384,7 +383,7 @@ export function ProgrammeForm({
                     }
                 />
 
-                <ProgrammeFormField
+                <FormField
                     label="Institution"
                     value={values.institutionName}
                     onChange={value =>
@@ -392,7 +391,7 @@ export function ProgrammeForm({
                     }
                 />
 
-                <ProgrammeFormField
+                <FormField
                     label="Programme name"
                     value={values.programmeName}
                     onChange={value =>
@@ -400,7 +399,7 @@ export function ProgrammeForm({
                     }
                 />
 
-                <ProgrammeFormField
+                <FormField
                     label="Programme length"
                     value={values.programmeLength}
                     onChange={value =>
@@ -408,7 +407,7 @@ export function ProgrammeForm({
                     }
                 />
 
-                <ProgrammeFormSelect
+                <FormSelect
                     label="Degree"
                     value={values.degree}
                     options={degreeNames}
@@ -416,10 +415,10 @@ export function ProgrammeForm({
                         updateField('degree', value)
                     }
                 />
-            </ProgrammeFormSection>
+            </FormSection>
 
-            <ProgrammeFormSection title="Location">
-                <ProgrammeFormSelect
+            <FormSection title="Location">
+                <FormSelect
                     label="Region"
                     value={values.region}
                     options={regionNames}
@@ -428,7 +427,7 @@ export function ProgrammeForm({
                     }
                 />
 
-                <ProgrammeFormSelect
+                <FormSelect
                     label="Country"
                     value={values.country}
                     options={countryNames}
@@ -436,10 +435,10 @@ export function ProgrammeForm({
                         updateField('country', value)
                     }
                 />
-            </ProgrammeFormSection>
+            </FormSection>
 
-            <ProgrammeFormSection title="Rankings">
-                <ProgrammeFormField
+            <FormSection title="Rankings">
+                <FormField
                     label="QS"
                     type="number"
                     min={1}
@@ -449,7 +448,7 @@ export function ProgrammeForm({
                     }
                 />
 
-                <ProgrammeFormField
+                <FormField
                     label="US News"
                     type="number"
                     min={1}
@@ -459,7 +458,7 @@ export function ProgrammeForm({
                     }
                 />
 
-                <ProgrammeFormField
+                <FormField
                     label="THE"
                     type="number"
                     min={1}
@@ -469,7 +468,7 @@ export function ProgrammeForm({
                     }
                 />
 
-                <ProgrammeFormField
+                <FormField
                     label="ARWU"
                     type="number"
                     min={1}
@@ -478,10 +477,10 @@ export function ProgrammeForm({
                         updateField('arwuRanking', value)
                     }
                 />
-            </ProgrammeFormSection>
+            </FormSection>
 
-            <ProgrammeFormSection title="Application">
-                <ProgrammeFormSelect
+            <FormSection title="Application">
+                <FormSelect
                     label="Status"
                     value={values.status}
                     options={statusNames}
@@ -490,7 +489,7 @@ export function ProgrammeForm({
                     }
                 />
 
-                <ProgrammeFormField
+                <FormField
                     label="Application opens"
                     type="date"
                     value={values.applicationOpens}
@@ -499,7 +498,7 @@ export function ProgrammeForm({
                     }
                 />
 
-                <ProgrammeFormField
+                <FormField
                     label="Application deadline"
                     type="date"
                     value={values.applicationDeadline}
@@ -508,17 +507,17 @@ export function ProgrammeForm({
                     }
                 />
 
-                <ProgrammeFormField
+                <FormField
                     label="Application portal"
                     value={values.applicationPortalUrl}
                     onChange={value =>
                         updateField('applicationPortalUrl', value)
                     }
                 />
-            </ProgrammeFormSection>
+            </FormSection>
 
-            <ProgrammeFormSection title="Requirements">
-                <ProgrammeFormField
+            <FormSection title="Requirements">
+                <FormField
                     label="IELTS submission"
                     value={values.ieltsSubmission}
                     onChange={value =>
@@ -526,7 +525,7 @@ export function ProgrammeForm({
                     }
                 />
 
-                <ProgrammeFormField
+                <FormField
                     label="GRE Math"
                     value={values.greMathRequirement}
                     onChange={value =>
@@ -534,7 +533,7 @@ export function ProgrammeForm({
                     }
                 />
 
-                <ProgrammeFormField
+                <FormField
                     label="Institution ETS code"
                     value={values.institutionEtsCode}
                     onChange={value =>
@@ -542,17 +541,17 @@ export function ProgrammeForm({
                     }
                 />
 
-                <ProgrammeFormField
+                <FormField
                     label="Departmental ETS code"
                     value={values.departmentalEtsCode}
                     onChange={value =>
                         updateField('departmentalEtsCode', value)
                     }
                 />
-            </ProgrammeFormSection>
+            </FormSection>
 
-            <ProgrammeFormSection title="References">
-                <ProgrammeFormField
+            <FormSection title="References">
+                <FormField
                     label="Reference count"
                     type="number"
                     value={values.referenceCount}
@@ -569,7 +568,7 @@ export function ProgrammeForm({
                     }
                 />
 
-                <ProgrammeFormField
+                <FormField
                     label="Reference deadline"
                     type="date"
                     value={values.referenceDeadline}
@@ -578,7 +577,7 @@ export function ProgrammeForm({
                     }
                 />
 
-                <ProgrammeFormField
+                <FormField
                     label="Reference submission"
                     value={values.referenceSubmission}
                     onChange={value =>
@@ -586,7 +585,7 @@ export function ProgrammeForm({
                     }
                 />
 
-                <ProgrammeFormField
+                <FormField
                     label="Information for referees URL"
                     value={values.informationForRefereesUrl}
                     onChange={value =>
@@ -594,17 +593,17 @@ export function ProgrammeForm({
                     }
                 />
 
-                <ProgrammeFormTextarea
+                <FormTextarea
                     label="Referee notes"
                     value={values.refereeNotes}
                     onChange={value =>
                         updateField('refereeNotes', value)
                     }
                 />
-            </ProgrammeFormSection>
+            </FormSection>
 
-            <ProgrammeFormSection title="Finance">
-                <ProgrammeFormField
+            <FormSection title="Finance">
+                <FormField
                     label="Application fee"
                     value={values.applicationFee}
                     onChange={value =>
@@ -612,7 +611,7 @@ export function ProgrammeForm({
                     }
                 />
 
-                <ProgrammeFormField
+                <FormField
                     label="Annual tuition"
                     value={values.annualTuition}
                     onChange={value =>
@@ -620,7 +619,7 @@ export function ProgrammeForm({
                     }
                 />
 
-                <ProgrammeFormSelect<BooleanOption>
+                <FormSelect<BooleanOption>
                     label="Funding available"
                     value={
                         values.fundingAvailable === null
@@ -640,7 +639,7 @@ export function ProgrammeForm({
                     }
                 />
 
-                <ProgrammeFormSelect<BooleanOption>
+                <FormSelect<BooleanOption>
                     label="Funding guaranteed"
                     value={
                         values.fundingGuaranteed === null
@@ -659,26 +658,26 @@ export function ProgrammeForm({
                         )
                     }
                 />
-            </ProgrammeFormSection>
+            </FormSection>
 
-            <ProgrammeFormSection title="Links">
+            <FormSection title="Links">
                 <ProgrammeLinksEditor
                     links={values.links}
                     onChange={links =>
                         updateField('links', links)
                     }
                 />
-            </ProgrammeFormSection>
+            </FormSection>
 
-            <ProgrammeFormSection title="Notes">
-                <ProgrammeFormTextarea
+            <FormSection title="Notes">
+                <FormTextarea
                     label="Notes"
                     value={values.notes}
                     onChange={value =>
                         updateField('notes', value)
                     }
                 />
-            </ProgrammeFormSection>
+            </FormSection>
 
         </form>
     )

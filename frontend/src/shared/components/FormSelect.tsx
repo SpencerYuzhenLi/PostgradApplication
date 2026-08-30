@@ -1,18 +1,18 @@
-interface ProgrammeFormSelectProps<T extends string> {
+interface FormSelectProps<T extends string> {
     label: string
     value: T | null
     options: Record<T, string>
     onChange: (value: T | null) => void
 }
 
-export function ProgrammeFormSelect<T extends string>({
+export function FormSelect<T extends string>({
     label,
     value,
     options,
     onChange,
-}: ProgrammeFormSelectProps<T>) {
+}: FormSelectProps<T>) {
     return (
-        <div className="programme-form-field">
+        <div className="form-field">
             <span>{label}</span>
 
             <select

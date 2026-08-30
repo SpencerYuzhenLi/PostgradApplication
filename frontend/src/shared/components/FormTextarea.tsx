@@ -1,16 +1,16 @@
-interface ProgrammeFormTextareaProps {
+interface FormTextareaProps {
     label: string
     value: string
     onChange: (value: string) => void
 }
 
-export function ProgrammeFormTextarea({
+export function FormTextarea({
     label,
     value,
     onChange,
-}: ProgrammeFormTextareaProps) {
+}: FormTextareaProps) {
     return (
-        <label className="programme-form-field programme-form-textarea">
+        <label className="form-field form-textarea">
             <span>{label}</span>
 
             <textarea

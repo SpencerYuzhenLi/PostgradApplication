@@ -1,6 +1,6 @@
-import '../../shared/components/ConfirmationDialog.css'
+import './ConfirmationDialog.css'
 
-interface ProgrammeDiscardConfirmationProps {
+interface DiscardConfirmationProps {
     variant?: 'changes' | 'draft'
 
     allowSaveDraft?: boolean
@@ -11,14 +11,14 @@ interface ProgrammeDiscardConfirmationProps {
     onDiscard: () => void
 }
 
-export function ProgrammeDiscardConfirmation({
+export function DiscardConfirmation({
     variant = 'changes',
     allowSaveDraft = false,
     editingDraft = false,
     onSaveDraft,
     onCancel,
     onDiscard,
-}: ProgrammeDiscardConfirmationProps) {
+}: DiscardConfirmationProps) {
 
     const discardingDraft =
         variant === 'draft'
@@ -31,10 +31,8 @@ export function ProgrammeDiscardConfirmation({
     const message =
         discardingDraft
             ? 'The saved draft will be permanently removed.'
-            : allowSaveDraft
-                ? editingDraft
-                    ? 'Your changes to the draft have not been saved.'
-                    : 'Your unsaved programme has not been added.'
+            : editingDraft
+                ? 'Your changes to the draft have not been saved.'
                 : 'Your unsaved changes will be lost.'
 
     return (
@@ -66,27 +64,25 @@ export function ProgrammeDiscardConfirmation({
                             </button>
                         )}
 
-                    <div className="discard-confirmation-actions-end">
-                        <button
-                            type="button"
-                            className="neutral-action"
-                            onClick={onCancel}
-                        >
-                            {discardingDraft
-                                ? 'Cancel'
-                                : 'Keep editing'}
-                        </button>
+                    <button
+                        type="button"
+                        className="neutral-action"
+                        onClick={onCancel}
+                    >
+                        {discardingDraft
+                            ? 'Cancel'
+                            : 'Keep editing'}
+                    </button>
 
-                        <button
-                            type="button"
-                            className="primary-destructive-action"
-                            onClick={onDiscard}
-                        >
-                            {discardingDraft
-                                ? 'Discard draft'
-                                : 'Discard'}
-                        </button>
-                    </div>
+                    <button
+                        type="button"
+                        className="primary-destructive-action"
+                        onClick={onDiscard}
+                    >
+                        {discardingDraft
+                            ? 'Discard draft'
+                            : 'Discard'}
+                    </button>
                 </div>
             </section>
         </div>

@@ -1,6 +1,8 @@
-/* ---------- Modal backdrop ---------- */
+/* =========================================================
+   Form modal
+   ========================================================= */
 
-.programme-modal-backdrop {
+.form-modal-backdrop {
     position: fixed;
     inset: 0;
 
@@ -17,7 +19,7 @@
     overscroll-behavior: contain;
 }
 
-.programme-modal {
+.form-modal {
     width: min(40rem, 100%);
     max-height: calc(100dvh - 4rem);
 
@@ -35,13 +37,13 @@
     overflow: hidden;
 
     container-type: inline-size;
-    container-name: programme-modal;
+    container-name: form-modal;
 }
 
 
-/* ---------- Modal header ---------- */
+/* ---------- Header ---------- */
 
-.programme-modal-header {
+.form-modal-header {
     flex: 0 0 auto;
 
     padding: 0.75rem 1rem;
@@ -54,10 +56,11 @@
     border-bottom: 1px solid var(--text);
 }
 
-.programme-modal-header h2 {
+.form-modal-header h2 {
     margin: 0;
 
     color: var(--text);
+
     font-size: 0.7rem;
     font-weight: 700;
 
@@ -66,9 +69,9 @@
 }
 
 
-/* ---------- Modal body ---------- */
+/* ---------- Body ---------- */
 
-.programme-modal-body {
+.form-modal-body {
     position: relative;
 
     flex: 1 1 auto;
@@ -78,7 +81,7 @@
     overscroll-behavior: contain;
 }
 
-.programme-modal-body::before {
+.form-modal-body::before {
     content: '';
 
     position: sticky;
@@ -96,7 +99,7 @@
     pointer-events: none;
 }
 
-.programme-modal-body::after {
+.form-modal-body::after {
     content: '';
 
     position: sticky;
@@ -114,14 +117,14 @@
     pointer-events: none;
 }
 
-.programme-modal-body-content {
+.form-modal-body-content {
     padding: 1rem;
 }
 
 
-/* ---------- Modal footer ---------- */
+/* ---------- Footer ---------- */
 
-.programme-modal-footer {
+.form-modal-footer {
     flex: 0 0 auto;
 
     padding: 0.75rem 1rem;
@@ -134,50 +137,17 @@
     border-top: 1px solid var(--border);
 }
 
-.programme-modal-footer-start,
-.programme-modal-footer-end {
+.form-modal-footer-start,
+.form-modal-footer-end {
     display: flex;
     align-items: center;
     gap: 0.5rem;
 }
 
 
-/* ---------- Delete button ---------- */
-/*
-.programme-modal-delete {
-    appearance: none;
+/* ---------- Primary submit action ---------- */
 
-    padding: 0.25rem 0.45rem;
-
-    border: 1px solid transparent;
-    border-radius: 0.3rem;
-
-    background: transparent;
-    color: var(--danger);
-
-    font: inherit;
-    font-size: 0.8rem;
-    font-weight: 600;
-
-    cursor: pointer;
-}
-
-.programme-modal-delete:hover {
-    border-color: var(--danger-border);
-    background: var(--danger-bg);
-}
-
-.programme-modal-delete:focus-visible {
-    border-color: var(--danger);
-
-    outline: 2px solid var(--danger);
-    outline-offset: 1px;
-} */
-
-
-/* ---------- Submit buttons ---------- */
-
-.programme-modal-submit {
+.form-modal-submit {
     appearance: none;
 
     padding: 0.25rem 0.5rem;
@@ -193,46 +163,51 @@
     font-weight: 600;
 
     cursor: pointer;
+    white-space: nowrap;
 }
 
-.programme-modal-submit:hover {
+.form-modal-submit:hover {
     border-color: var(--accent);
 }
 
-.programme-modal-submit:focus-visible {
+.form-modal-submit:focus-visible {
     outline: 2px solid var(--accent);
     outline-offset: 1px;
 }
 
+.form-modal-submit:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
 
-
-.programme-modal-delete,
-.programme-modal-submit,
-.programme-modal-footer .neutral-action {
+.form-modal-footer .neutral-action,
+.form-modal-footer .destructive-action {
     white-space: nowrap;
 }
 
 
-/* ---------- Responsive behaviour ---------- */
+/* =========================================================
+   Responsive behaviour
+   ========================================================= */
 
-@container programme-modal (max-width: 25rem) {
-    .programme-modal-footer {
+@container form-modal (max-width: 25rem) {
+    .form-modal-footer {
         align-items: stretch;
         flex-direction: column;
         gap: 0.25rem;
     }
 
-    .programme-modal-footer-start {
+    .form-modal-footer-start {
         justify-content: flex-start;
     }
 
-    .programme-modal-footer-end {
+    .form-modal-footer-end {
         justify-content: flex-end;
     }
 }
 
 @media (max-width: 600px) {
-    .programme-modal-backdrop {
+    .form-modal-backdrop {
         padding: 0;
 
         align-items: stretch;
@@ -241,7 +216,7 @@
         background: var(--bg);
     }
 
-    .programme-modal {
+    .form-modal {
         width: 100%;
         max-width: none;
 
@@ -254,7 +229,7 @@
         box-shadow: none;
     }
 
-    .programme-modal-header {
+    .form-modal-header {
         padding-top:
             calc(
                 0.75rem +
@@ -262,7 +237,7 @@
             );
     }
 
-    .programme-modal-footer {
+    .form-modal-footer {
         padding-bottom:
             calc(
                 0.75rem +

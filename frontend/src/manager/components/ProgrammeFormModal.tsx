@@ -1,4 +1,3 @@
-import './ProgrammeFormModal.css'
 import { useEffect, useRef, useState } from 'react'
 import { managerFetch } from '../utils/managerApi'
 import type { Programme } from '../../shared/types/Programme'
@@ -7,8 +6,8 @@ import type { ProgrammeFormValues } from './ProgrammeForm'
 import { ProgrammeForm, getProgrammeFormValues } from './ProgrammeForm'
 import { toProgrammeWriteRequest } from '../types/ProgrammeWriteRequest'
 import { ProgrammeDeleteConfirmation } from './ProgrammeDeleteConfirmation'
-import { ProgrammeDiscardConfirmation } from './ProgrammeDiscardConfirmation'
-import { ProgrammeMessageDialog } from './ProgrammeMessageDialog'
+import { DiscardConfirmation } from '../../shared/components/DiscardConfirmation'
+import { MessageDialog } from '../../shared/components/MessageDialog'
 import { getResponseError } from '../../shared/utils/api'
 
 
@@ -363,17 +362,17 @@ export function ProgrammeFormModal({
 
     return (
         <div
-            className="programme-modal-backdrop"
+            className="form-modal-backdrop"
             role="presentation"
         >
             <section
                 ref={modalRef}
-                className="programme-modal"
+                className="form-modal"
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby="programme-modal-title"
             >
-                <header className="programme-modal-header">
+                <header className="form-modal-header">
                     <h2 id="programme-modal-title">
                         {title}
                     </h2>
@@ -389,8 +388,8 @@ export function ProgrammeFormModal({
                     </button>
                 </header>
 
-                <div className="programme-modal-body">
-                    <div className="programme-modal-body-content">
+                <div className="form-modal-body">
+                    <div className="form-modal-body-content">
                         <ProgrammeForm
                             values={values}
                             referees={referees}
@@ -408,8 +407,8 @@ export function ProgrammeFormModal({
                     </div>
                 </div>
 
-                <footer className="programme-modal-footer">
-                    <div className="programme-modal-footer-start">
+                <footer className="form-modal-footer">
+                    <div className="form-modal-footer-start">
                         {editingDraft ? (
                             <button
                                 type="button"
@@ -435,7 +434,7 @@ export function ProgrammeFormModal({
                         ) : null}
                     </div>
 
-                    <div className="programme-modal-footer-end">
+                    <div className="form-modal-footer-end">
                         <button
                             type="button"
                             className="neutral-action"
@@ -448,7 +447,7 @@ export function ProgrammeFormModal({
                         <button
                             type="submit"
                             form="programme-form"
-                            className="programme-modal-submit"
+                            className="form-modal-submit"
                             disabled={saving || deleting}
                         >
                             {saving
@@ -479,7 +478,7 @@ export function ProgrammeFormModal({
                 }
 
                 {discardConfirmationOpen && (
-                    <ProgrammeDiscardConfirmation
+                    <DiscardConfirmation
                         allowSaveDraft={mode === 'add'}
                         editingDraft={editingDraft}
                         onSaveDraft={
@@ -502,7 +501,7 @@ export function ProgrammeFormModal({
                 )}
 
                 {discardDraftConfirmationOpen && (
-                    <ProgrammeDiscardConfirmation
+                    <DiscardConfirmation
                         variant="draft"
                         onCancel={() =>
                             setDiscardDraftConfirmationOpen(false)
@@ -516,7 +515,7 @@ export function ProgrammeFormModal({
                 )}
 
                 {messageDialog && (
-                    <ProgrammeMessageDialog
+                    <MessageDialog
                         title={messageDialog.title}
                         message={messageDialog.message}
                         onClose={() =>
