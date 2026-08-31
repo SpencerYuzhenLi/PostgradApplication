@@ -128,8 +128,8 @@ export function RefereeHelpModal({
                 <div className="referee-help-content">
                     <p>
                         This page lists the postgraduate
-                        programmes for which I may ask for
-                        a reference, as well as any
+                        programmes for which I may ask you
+                        for a reference, as well as any
                         information relevant to references.
                         The information may be updated from
                         time to time.
@@ -142,6 +142,10 @@ export function RefereeHelpModal({
                             Select a programme to view its
                             reference details. Select a
                             column heading to sort the table.
+                            Select{' '}
+                            <strong>Outstanding</strong> or{' '}
+                            <strong>Submitted</strong> to switch
+                            the submission status of a reference.
                         </p>
                     </section>
 
